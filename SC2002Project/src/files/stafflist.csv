@@ -1,4 +1,4 @@
-Email,password,Name,Email,Faculty
+userID,password,name,email,faculty
 HUKUMAR,password,Madhukumar,HUKUMAR@NTU.EDU.SG,SCSE
 OURIN,password,Alexei ,OURIN@ntu.edu.sg,ADM
 UPAM,password,Chattopadhyay,UPAM@NTU.EDU.SG,EEE

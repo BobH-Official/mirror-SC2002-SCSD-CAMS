@@ -5,11 +5,10 @@ def generate_student_df(PATH):
 
     data_path = os.path.join(PATH, "initial_input", "student_list.xlsx")
     
-    # Set header to None to avoid using the first row as column headers
-    data = pd.read_excel(data_path, header=None)
+    # Skip the first row to avoid the original column names from the Excel file
+    data = pd.read_excel(data_path, skiprows=1, header=None)
 
-    # Assuming that the first row of your Excel contains column names, 
-    # we manually assign these column names for clarity
+    # Manually assign the column names for clarity
     columns = ["Name", "Email", "Faculty"]
     data.columns = columns
 
@@ -35,8 +34,8 @@ def generate_student_df(PATH):
         student_dict["email"].append(email)
         student_dict["faculty"].append(faculty)
 
-    # Ensure the columns of the dataframe are ordered correctly
+    # Ensure the columns of the dataframe are ordered and named correctly
     column_order = ["userID", "password", "name", "email", "faculty"]
-    student_df = pd.DataFrame(student_dict)[column_order]
+    student_df = pd.DataFrame(student_dict, columns=column_order)
     
-    student_df.to_csv(os.path.join(PATH, "studentlist.csv"), index=False, header=False)
+    student_df.to_csv(os.path.join(PATH, "studentlist.csv"), index=False, header=True)

@@ -1,4 +1,4 @@
-Email,password,Name,Email,Faculty
+userID,password,name,email,faculty
 YCHERN,password,CHERN ,YCHERN@e.ntu.edu.sg;,SCSE
 KOH1,password,KOH ,KOH1@e.ntu.edu.sg;,ADM
 BR015,password,BRANDON ,BR015@e.ntu.edu.sg;,EEE
