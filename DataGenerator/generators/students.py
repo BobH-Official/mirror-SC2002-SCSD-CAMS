@@ -35,6 +35,8 @@ def generate_student_df(PATH):
         student_dict["email"].append(email)
         student_dict["faculty"].append(faculty)
 
-    student_df = pd.DataFrame(student_dict)
-    student_df.to_csv(os.path.join(
-        PATH, "studentlist.csv"), index=False, header=False)
+    # Ensure the columns of the dataframe are ordered correctly
+    column_order = ["userID", "password", "name", "email", "faculty"]
+    student_df = pd.DataFrame(student_dict)[column_order]
+    
+    student_df.to_csv(os.path.join(PATH, "studentlist.csv"), index=False, header=False)

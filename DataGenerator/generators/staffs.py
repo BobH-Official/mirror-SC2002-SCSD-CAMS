@@ -35,6 +35,8 @@ def generate_staff_df(PATH):
         staff_dict["email"].append(email)
         staff_dict["faculty"].append(faculty)
 
-    staff_df = pd.DataFrame(staff_dict)
-    staff_df.to_csv(os.path.join(
-        PATH, "stafflist.csv"), index=False, header=False)
+    # Ensure the columns of the dataframe are ordered correctly
+    column_order = ["userID", "password", "name", "email", "faculty"]
+    staff_df = pd.DataFrame(staff_dict)[column_order]
+    
+    staff_df.to_csv(os.path.join(PATH, "stafflist.csv"), index=False, header=False)
