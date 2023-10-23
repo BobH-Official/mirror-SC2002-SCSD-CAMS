@@ -17,13 +17,19 @@ indent_size = 4
 ```
 
 Add Editor Config to your IDE.
+
 If you are using IntelliJ, just open and use.
+
 If you are using Eclipse:
+
 https://marketplace.eclipse.org/content/editorconfig-eclipse
+
 If you are using VSCode:
+
 https://marketplace.visualstudio.com/items?itemName=EditorConfig.EditorConfig
 
 for git, you should config:
+
 ```shell
 git config core.autocrlf = input
 git config core.eol = lf
