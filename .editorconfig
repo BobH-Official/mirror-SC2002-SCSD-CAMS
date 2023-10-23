@@ -1,8 +1,6 @@
-# SC2002-SCSD-CAMs
- 
-## Code Style:
+# EditorConfig is awesome: https://EditorConfig.org
+root = true
 
-```editorconfig
 [*]
 end_of_line = lf
 insert_final_newline = true
@@ -12,5 +10,3 @@ indent_size = 2
 
 [*.py]
 indent_size = 4
-
-```
