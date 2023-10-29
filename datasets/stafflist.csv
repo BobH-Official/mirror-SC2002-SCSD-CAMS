@@ -1,6 +1,3 @@
-userID,password,name,email,faculty
-HUKUMAR,password,Madhukumar,HUKUMAR@NTU.EDU.SG,SCSE
-OURIN,password,Alexei ,OURIN@ntu.edu.sg,ADM
-UPAM,password,Chattopadhyay,UPAM@NTU.EDU.SG,EEE
-ANWIT,password,Datta,ANWIT@NTU.EDU.SG,SCSE
-ARVI,password,Arvind ,ARVI@NTU.EDU.SG,NBS
+version https://git-lfs.github.com/spec/v1
+oid sha256:ff9121363547399a191cf5b9e40b471f6217daaf68cd0d311062bfa68d509047
+size 264
