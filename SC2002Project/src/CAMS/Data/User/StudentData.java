@@ -11,15 +11,18 @@ class StudentData extends CAMS.Data.UserData {
   }
 
 
-  // TODO: functions should be `private-level private`, ie no annotation
+  // TODO: functions should be `package-level private`, ie no annotation
   void setPassword(String passwd) {
     this.password = passwd;
   }
 
-  public String toString() {
+  void printSelf() {
     System.out.println("STUDENT  : ");
     System.out.println("  ID     : " + this.userID);
     System.out.println("  PASSWD : " + this.password);
+  }
+  public String toString() {
+//    printSelf()
     return "STUDENT  : \n  ID     : " + this.userID + "\n  PASSWD : " + this.password;
   }
 }
