@@ -6,12 +6,14 @@ import java.util.List;
 
 public class Database {
   static private List<CAMS.Data.StudentData> students = new ArrayList<>();
+  static private List<CAMS.Data.StudentData> staffs = new ArrayList<>();
   static private HashMap<String, CAMS.Data.Pair<CAMS.Data.UserType, Integer>> userMap = new HashMap<>();
 
 
   static public void initialize() {
     userMap = new HashMap<>();
     students = new ArrayList<>();
+    staffs = new ArrayList<>();
     readDatabaseFromCSV();
   }
 
@@ -21,6 +23,7 @@ public class Database {
     createStudent("EXPLSTU002", "ORIginalPass2222");
   }
 
+  // TODO: this code below is only for demonstration
   static void createStudent(String userID, String password) {
     students.addLast(new CAMS.Data.StudentData(userID, password));
     userMap.put(userID,
@@ -28,8 +31,19 @@ public class Database {
         students.size() - 1));
   }
 
-  static CAMS.Data.StudentData findStudent(String userID) {
-    return students.get(userMap.get(userID).getSecond());
+  static CAMS.Data.UserData find(String userID) {
+    CAMS.Data.Pair<CAMS.Data.UserType, Integer> result = userMap.get(userID);
+
+    switch (result.first()) {
+      case CAMS.Data.UserType.STUDENT -> {
+        return students.get(userMap.get(userID).second());
+      }
+      case CAMS.Data.UserType.STAFF -> {
+        return staffs.get(userMap.get(userID).second());
+      }
+    }
+
+    return null;
   }
 
   static public String studentToString() {

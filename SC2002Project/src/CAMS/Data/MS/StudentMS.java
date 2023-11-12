@@ -9,6 +9,9 @@ public class StudentMS extends UserMS {
 
   public void changePassword(String password) {
     // TODO: should use getter, this is only for demonstration
-    Database.findStudent(userID).setPassword(password);
+    CAMS.Data.UserData user = Database.find(userID);
+    if (user != null) {
+      ((CAMS.Data.StudentData) user).setPassword(password);
+    }
   }
 }
