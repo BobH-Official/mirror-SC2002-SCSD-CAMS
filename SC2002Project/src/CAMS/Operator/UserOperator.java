@@ -1,4 +1,9 @@
 package CAMS.Operator;
 
-public abstract class UserOperator{
+import CAMS.Data.Database;
+
+public abstract class UserOperator {
+  public boolean doOperation(Database database) {
+    return false;
+  }
 }
