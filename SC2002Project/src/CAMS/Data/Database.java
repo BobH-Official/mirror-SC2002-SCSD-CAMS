@@ -5,33 +5,34 @@ import java.util.HashMap;
 import java.util.List;
 
 public class Database {
-  private final List<CAMS.Data.StudentData> students;
-  private final HashMap<String, CAMS.Data.Pair<CAMS.Data.UserType, Integer>> userMap;
+  static private List<CAMS.Data.StudentData> students = new ArrayList<>();
+  static private HashMap<String, CAMS.Data.Pair<CAMS.Data.UserType, Integer>> userMap = new HashMap<>();
 
-  public Database() {
-    this.userMap = new HashMap<>();
-    this.students = new ArrayList<>();
-    this.readDatabaseFromCSV();
+
+  static public void initialize() {
+    userMap = new HashMap<>();
+    students = new ArrayList<>();
+    readDatabaseFromCSV();
   }
 
-  void readDatabaseFromCSV() {
+  static void readDatabaseFromCSV() {
     // TODO: this code below is only for demonstration
-    this.createStudent("EXPLSTU001", "ORIginalPass1111");
-    this.createStudent("EXPLSTU002", "ORIginalPass2222");
+    createStudent("EXPLSTU001", "ORIginalPass1111");
+    createStudent("EXPLSTU002", "ORIginalPass2222");
   }
 
-  void createStudent(String userID, String password) {
-    this.students.addLast(new CAMS.Data.StudentData(userID, password));
-    this.userMap.put(userID,
+  static void createStudent(String userID, String password) {
+    students.addLast(new CAMS.Data.StudentData(userID, password));
+    userMap.put(userID,
       new CAMS.Data.Pair<>(CAMS.Data.UserType.STUDENT,
-        this.students.size() - 1));
+        students.size() - 1));
   }
 
-  CAMS.Data.StudentData findStudent(String userID) {
-    return this.students.get(this.userMap.get(userID).getSecond());
+  static CAMS.Data.StudentData findStudent(String userID) {
+    return students.get(userMap.get(userID).getSecond());
   }
 
-  public String studentToString() {
+  static public String studentToString() {
     String str = "";
     for (CAMS.Data.StudentData student : students) {
       str = str.concat(student.toString() + "\n");

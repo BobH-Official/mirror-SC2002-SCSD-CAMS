@@ -1,14 +1,14 @@
 package CAMS.Data;
 
-public class StudentMS {
-  private final String userID;
+import CAMS.Data.MS.UserMS;
 
+public class StudentMS extends UserMS {
   public StudentMS(String id) {
-    userID = id;
+    super(id);
   }
 
-
-  public void changePassword(Database database, String password) {
-    database.findStudent(this.userID).setPassword(password);
+  public void changePassword(String password) {
+    // TODO: should use getter, this is only for demonstration
+    Database.findStudent(userID).setPassword(password);
   }
 }
