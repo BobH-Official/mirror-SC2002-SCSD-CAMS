@@ -8,17 +8,18 @@ public class StudentOperator extends UserOperator {
   private final StudentMS studentMS;
 
   public StudentOperator(String id) {
+
     studentMS = new StudentMS(id);
 
   }
 
   @Override
-  public boolean doOperation(Database database) {
+  public boolean doOperation() {
     int choice = 0;
     switch (choice) {
 
       case 0 -> {
-        studentMS.changePassword(database, "new pass");
+        studentMS.changePassword( "new pass");
         return true;
       }
 
