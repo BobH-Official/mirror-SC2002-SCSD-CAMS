@@ -1,6 +1,5 @@
 package CAMS.Operator;
 
-import CAMS.Data.Database;
 import CAMS.Data.StudentMS;
 
 public class StudentOperator extends UserOperator {
@@ -19,7 +18,7 @@ public class StudentOperator extends UserOperator {
     switch (choice) {
 
       case 0 -> {
-        studentMS.changePassword( "new pass");
+        studentMS.changePassword("new pass");
         return true;
       }
 

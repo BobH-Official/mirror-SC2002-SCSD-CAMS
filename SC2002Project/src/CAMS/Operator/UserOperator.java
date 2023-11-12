@@ -1,7 +1,5 @@
 package CAMS.Operator;
 
-import CAMS.Data.Database;
-
 public abstract class UserOperator {
 
 

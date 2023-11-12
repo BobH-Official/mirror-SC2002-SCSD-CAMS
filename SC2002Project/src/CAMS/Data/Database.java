@@ -5,11 +5,11 @@ import java.util.HashMap;
 import java.util.List;
 
 public class Database {
-  static private  List<CAMS.Data.StudentData> students= new ArrayList<>();
-  static private  HashMap<String, CAMS.Data.Pair<CAMS.Data.UserType, Integer>> userMap= new HashMap<>();
+  static private List<CAMS.Data.StudentData> students = new ArrayList<>();
+  static private HashMap<String, CAMS.Data.Pair<CAMS.Data.UserType, Integer>> userMap = new HashMap<>();
 
 
-  static public  void initialize() {
+  static public void initialize() {
     userMap = new HashMap<>();
     students = new ArrayList<>();
     readDatabaseFromCSV();
