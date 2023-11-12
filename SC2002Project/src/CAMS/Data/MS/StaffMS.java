@@ -1,4 +1,9 @@
 package CAMS.Data;
 
-public class StaffMS {
+import CAMS.Data.MS.UserMS;
+
+public class StaffMS extends UserMS {
+  public StaffMS(String id) {
+    super(id);
+  }
 }
