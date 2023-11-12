@@ -1,4 +1,4 @@
 package CAMS.Operator;
 
-public class CommitteeMemberOperator extends UserOperator{
+public class CommitteeMemberOperator extends UserOperator {
 }
