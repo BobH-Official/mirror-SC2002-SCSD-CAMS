@@ -17,5 +17,6 @@ public class CampRequestList {
 
     // Method to get the request list
     public List<RequestData> getCampRequestList() {
-        return new ArrayList<>(campRequestList); // Return a copy of the list to protect encapsulation
+        return new ArrayList<>(campRequestList); 
+        // Return a copy of the list to protect encapsulation
     }

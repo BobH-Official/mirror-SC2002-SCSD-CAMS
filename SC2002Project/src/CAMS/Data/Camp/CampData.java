@@ -6,33 +6,33 @@ import java.util.List;
 public class CampData {
     private String campName;
     private boolean visible;
-    private StaffData staffInCharge;
+    private StaffData campStaffInCharge;
     private CampInformation campInformation;
     private CampStudentList campAttendeeList;
-    private CampStudentList campWaitlist;
-    private CampBlackList campBlacklist;
-    private CampCommitteeList campCommitteeList;
-    private CampRequestList campRequests;
+    private CampStudentList campCommitteeList;
+    private CampBlackList campWithdrawBlackList;
+    private CampRequestList campRequest;
     private CampRequestList campEnquiries;
     private CampRequestList campSuggestions;
 
     public CampData(StaffData staffInCharge, boolean visible, String campName,
-                    CampInformation campInformation, CampStudentList campAttendeeList,
-                    CampStudentList campWaitlist, CampBlackList campBlacklist,
-                    CampCommitteeList campCommitteeList, CampRequestList campRequests,
-                    CampRequestList campEnquiries, CampRequestList campSuggestions) {
-
-        this.staffInCharge = staffInCharge;
+                    Date campStartDate, Date campEndDate, Date campRegistrationClosingDate,
+                    String campUserGroup, String campLocation, int campTotalSlots,
+                    int campCommitteeSlots, String campDescription) {
+        this.campStaffInCharge = staffInCharge;
         this.visible = visible;
         this.campName = campName;
-        this.campInformation = campInformation;
-        this.campAttendeeList = campAttendeeList;
-        this.campWaitlist = campWaitlist;
-        this.campBlacklist = campBlacklist;
-        this.campCommitteeList = campCommitteeList;
-        this.campRequests = campRequests;
-        this.campEnquiries = campEnquiries;
-        this.campSuggestions = campSuggestions;
+        
+        this.campInformation = new CampInformation(campStartDate, campEndDate, 
+            campRegistrationClosingDate, campUserGroup, campLocation, 
+            campTotalSlots, campCommitteeSlots, campDescription);
+        
+        this.campAttendeeList = new CampStudentList();
+        this.campCommitteeList = new CampStudentList();
+        this.campWithdrawBlackList = new CampBlackList();
+        this.campRequest = new CampRequestList();
+        this.campEnquiries = new CampRequestList();
+        this.campSuggestions = new CampRequestList();
     }
 
     protected String getCampName(){
@@ -66,6 +66,5 @@ public class CampData {
     protected CampRequestList getCampEnquiries() {
         return this.campEnquiries;
     }
-
 
 }
