@@ -21,8 +21,10 @@ class StudentData extends CAMS.Data.UserData {
     System.out.println("  ID     : " + this.userID);
     System.out.println("  PASSWD : " + this.password);
   }
+
   public String toString() {
-//    printSelf()
-    return "STUDENT  : \n  ID     : " + this.userID + "\n  PASSWD : " + this.password;
+    //    printSelf()
+    return "STUDENT  : \n  ID     : " + this.userID + "\n  PASSWD : " +
+      this.password;
   }
 }
