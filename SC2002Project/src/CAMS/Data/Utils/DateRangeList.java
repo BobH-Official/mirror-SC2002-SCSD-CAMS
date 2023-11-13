@@ -12,6 +12,17 @@ class DateRangeList {
     this.dates = dates;
   }
 
+  void addDateRange(CAMS.Data.DateRange range) throws Exception {
+    if (this.isNotClashing(range)) {
+      this.dates.add(range);
+    } else {
+      throw new Exception("Dates Clashing");
+    }
+  }
+  void removeDateRange(CAMS.Data.DateRange range) {
+    dates.remove(range);
+  }
+
   boolean isClashing(CAMS.Data.DateRange range) {
     for (CAMS.Data.DateRange rg : this.dates) {
       if (rg.isClashing(range)) {
@@ -31,7 +42,20 @@ class DateRangeList {
   }
 
   boolean isClashing(Date date) {
+    for (CAMS.Data.DateRange rg : this.dates) {
+      if (rg.isClashing(date)) {
+        return true;
+      }
+    }
     return false;
   }
 
+  boolean isNotClashing(Date date)  {
+    for (CAMS.Data.DateRange rg : this.dates) {
+      if (rg.isNotClashing(date)) {
+        return true;
+      }
+    }
+    return false;
+  }
 }
