@@ -7,7 +7,8 @@ import java.util.List;
 public class Database {
   static private List<CAMS.Data.StudentData> students = new ArrayList<>();
   static private List<CAMS.Data.StudentData> staffs = new ArrayList<>();
-  static private HashMap<String, CAMS.Data.Pair<CAMS.Data.UserType, Integer>> userMap = new HashMap<>();
+  static private HashMap<String, CAMS.Data.Pair<CAMS.Data.UserType, Integer>>
+    userMap = new HashMap<>();
 
 
   static public void initialize() {
