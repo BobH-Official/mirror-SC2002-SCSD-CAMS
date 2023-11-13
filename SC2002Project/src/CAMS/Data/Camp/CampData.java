@@ -3,68 +3,133 @@ package CAMS.Data;
 import java.util.Date;
 import java.util.List;
 
-public class CampData {
+class CampData {
     private String campName;
     private boolean visible;
-    private StaffData campStaffInCharge;
+    private String staff;
     private CampInformation campInformation;
     private CampStudentList campAttendeeList;
     private CampStudentList campCommitteeList;
-    private CampBlackList campWithdrawBlackList;
-    private CampRequestList campRequest;
+    private CampBlackList campBlackList;
+    private CampRequestList campRequests;
     private CampRequestList campEnquiries;
     private CampRequestList campSuggestions;
 
-    public CampData(StaffData staffInCharge, boolean visible, String campName,
+    public CampData(String staff, boolean visible, String campName,
                     Date campStartDate, Date campEndDate, Date campRegistrationClosingDate,
                     String campUserGroup, String campLocation, int campTotalSlots,
                     int campCommitteeSlots, String campDescription) {
-        this.campStaffInCharge = staffInCharge;
+        this.staff = staff;
         this.visible = visible;
         this.campName = campName;
-        
+
         this.campInformation = new CampInformation(campStartDate, campEndDate, 
             campRegistrationClosingDate, campUserGroup, campLocation, 
             campTotalSlots, campCommitteeSlots, campDescription);
-        
-        this.campAttendeeList = new CampStudentList();
-        this.campCommitteeList = new CampStudentList();
-        this.campWithdrawBlackList = new CampBlackList();
-        this.campRequest = new CampRequestList();
+
+        this.campAttendeeList = new CampStudentList(campTotalSlots); // Assuming CampStudentList takes the total slots as a parameter
+        this.campCommitteeList = new CampStudentList(campCommitteeSlots); // Assuming the same here for committee slots
+        this.campBlackList = new CampBlackList();
         this.campEnquiries = new CampRequestList();
         this.campSuggestions = new CampRequestList();
     }
 
-    protected String getCampName(){
+
+    void addAttendee(String userID) throws IllegalStateException{
+        // Check if the user is on the blacklist.
+        if (campBlackList.contains(userID)) {
+            throw new IllegalStateException("Cannot add attendee. User is on the blacklist.");
+        }
+        // Check if the user is already a committee member.
+        if (campCommitteeList.contains(userID)) {
+            throw new IllegalStateException("Cannot add attendee. User is a committee member.");
+        }
+        // If checks pass, add the user as an attendee.
+        campAttendeeList.addMember(userID);
+    }
+    
+    void addCommitteeMember(String userID) throws IllegalStateException{
+        // Check if the user is on the blacklist.
+        if (campBlackList.contains(userID)) {
+            throw new IllegalStateException("Cannot add committee member. User is on the blacklist.");
+        }
+        // Check if the user is already an attendee.
+        if (campAttendeeList.contains(userID)) {
+            throw new IllegalStateException("Cannot add committee member. User is an attendee.");
+        }
+        // If checks pass, add the user as a committee member.
+        campCommitteeList.addMember(userID);
+    }
+    
+    void withdrawAttendee(String userID) throws IllegalStateException{
+        // Check if the user is an attendee before attempting to remove.
+        if (!campAttendeeList.contains(userID)) {
+            throw new IllegalStateException("Cannot withdraw attendee. User is not an attendee.");
+        }
+        // If the check passes, remove the user from the attendee list.
+        campAttendeeList.withdrawMember(userID);
+    }
+    
+
+    String getCampName(){
         return this.campName;
     }
 
-    protected boolean isVisible(){
+    boolean isVisible(){
         return this.visible;
     }
 
-    protected StaffData getStaff(){
-        return this.staffInCharge;
+    String getStaff(){
+        return this.staff;
     }
 
-    protected CampInformation getCampInformation() {
+    CampInformation getCampInformation() {
         return this.campInformation;
     }
 
-    protected CampStudentList getStudentList() {
+    CampStudentList getStudentList() {
         return this.campAttendeeList;
     }
 
-    protected CampBlackList getWithdrawBlacklist() {
-        return this.campBlacklist;
+    CampStudentList getCommitteeMembers() {
+        return campCommitteeList;
     }
 
-    protected CampRequestList getCampRequest() {
-        return this.campRequests;
+    CampBlackList getBlacklist() {
+        return this.campBlackList;
     }
 
-    protected CampRequestList getCampEnquiries() {
-        return this.campEnquiries;
+    CampRequestList getRequests() {
+        return campRequests;
     }
+
+    CampRequestList getEnquiries() {
+        return campEnquiries;
+    }
+
+    CampRequestList getSuggestions() {
+        return campSuggestions;
+    }
+
+    void printSelf(){
+        System.out.println(this.toString());
+    }
+
+    @Override
+    public String toString() {
+        return "CampData:\n" +
+            "  campName='" + this.campName + "'\n" +
+            "  visible=" + this.visible + "\n" +
+            "  staff='" + this.staff + "'\n" +
+            "  campInformation=" + this.campInformation + "\n" +
+            "  campAttendeeList=" + this.campAttendeeList + "\n" +
+            "  campCommitteeList=" + this.campCommitteeList + "\n" +
+            "  campBlackList=" + this.campBlackList + "\n" +
+            "  campRequests=" + this.campRequests + "\n" +
+            "  campEnquiries=" + this.campEnquiries + "\n" +
+            "  campSuggestions=" + this.campSuggestions + "\n";
+}
+
+
 
 }

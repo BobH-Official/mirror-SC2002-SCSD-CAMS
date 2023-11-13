@@ -3,20 +3,38 @@ package CAMS.Data;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CampRequestList {
-    private List<RequestData> campRequestList;
+class CampRequestList {
+    private List<String> campRequestList;
 
     public CampRequestList() {
         this.campRequestList = new ArrayList<>();
     }
 
     // Method to add a request to the list
-    public void addCampRequest(RequestData request) {
+    void addCampRequest(String request) {
         campRequestList.add(request);
     }
 
     // Method to get the request list
-    public List<RequestData> getCampRequestList() {
+    List<String> getCampRequestList() {
         return new ArrayList<>(campRequestList); 
         // Return a copy of the list to protect encapsulation
     }
+
+    void printSelf(){
+        System.out.println(this.toString());
+    }
+
+    public String toString() {
+        StringBuilder sb = new StringBuilder("CampRequestList:\n");
+        for (String request : campRequestList) {
+            sb.append("  - ").append(request).append("\n");
+        }
+        return sb.toString();
+    }
+
+
+
+
+
+}
