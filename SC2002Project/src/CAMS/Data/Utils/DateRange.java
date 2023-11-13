@@ -40,4 +40,9 @@ class DateRange {
     return !((this.start.getTime() <= date.getTime()) &&
       (this.end.getTime() >= date.getTime()));
   }
+
+  @Override
+  public String toString() {
+    return "DateRange: " + this.start + " to " + this.end;
+  }
 }
