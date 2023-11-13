@@ -5,36 +5,23 @@ enum SuggestionStatus implements CAMS.Data.RequestStatus {
   PENDING, APPROVED, REJECTED;
 
   void printSelf() {
-    switch (this) {
-      case PENDING -> {
-        System.out.println("Status: PENDING");
-      }
-      case APPROVED -> {
-        System.out.println("Status: APPROVED");
-      }
-      case REJECTED -> {
-        System.out.println("Status: REJECTED");
-      }
-      default -> {
-        System.out.println("Status: UNKNOWN");
-      }
-    }
+    System.out.println("Suggestion Status: " + this);
   }
 
   @Override
   public String toString() {
     switch (this) {
       case PENDING -> {
-        return "Status: PENDING";
+        return "PENDING";
       }
       case APPROVED -> {
-        return "Status: APPROVED";
+        return "APPROVED";
       }
       case REJECTED -> {
-        return "Status: REJECTED";
+        return "REJECTED";
       }
       default -> {
-        return "Status: UNKNOWN";
+        return "UNKNOWN";
       }
     }
   }

@@ -5,30 +5,20 @@ enum EnquiryStatus implements CAMS.Data.RequestStatus {
   PENDING, REPLIED;
 
   void printSelf() {
-    switch (this) {
-      case PENDING -> {
-        System.out.println("Status: PENDING");
-      }
-      case REPLIED -> {
-        System.out.println("Status: REPLIED");
-      }
-      default -> {
-        System.out.println("Status: UNKNOWN");
-      }
-    }
+    System.out.println("Enquiry Status: " + this);
   }
 
   @Override
   public String toString() {
     switch (this) {
       case PENDING -> {
-        return "Status: PENDING";
+        return "PENDING";
       }
       case REPLIED -> {
-        return "Status: REPLIED";
+        return "REPLIED";
       }
       default -> {
-        return "Status: UNKNOWN";
+        return "UNKNOWN";
       }
     }
   }
