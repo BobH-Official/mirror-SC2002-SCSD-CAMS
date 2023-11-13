@@ -19,6 +19,7 @@ class DateRangeList {
       throw new Exception("Dates Clashing");
     }
   }
+
   void removeDateRange(CAMS.Data.DateRange range) {
     dates.remove(range);
   }
@@ -50,7 +51,7 @@ class DateRangeList {
     return false;
   }
 
-  boolean isNotClashing(Date date)  {
+  boolean isNotClashing(Date date) {
     for (CAMS.Data.DateRange rg : this.dates) {
       if (rg.isNotClashing(date)) {
         return true;
