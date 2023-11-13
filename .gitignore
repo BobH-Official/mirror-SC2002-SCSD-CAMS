@@ -1,5 +1,5 @@
-/out
-SC2002Project/src/**/test.java
+out/
+localtest.java
 # Created by https://www.toptal.com/developers/gitignore/api/intellij,intellij+iml,intellij+all,webstorm,webstorm+all,webstorm+iml,pycharm,pycharm+iml,pycharm+all,visualstudio,visualstudiocode,vim,eclipse,netbeans,java,python,macos,linux,windows,codeblocks,xcode,jetbrains+all,jetbrains+iml,jetbrains,jenv,venv,direnv,dotenv,virtualenv,git,tortoisegit,gitbook
 # Edit at https://www.toptal.com/developers/gitignore?templates=intellij,intellij+iml,intellij+all,webstorm,webstorm+all,webstorm+iml,pycharm,pycharm+iml,pycharm+all,visualstudio,visualstudiocode,vim,eclipse,netbeans,java,python,macos,linux,windows,codeblocks,xcode,jetbrains+all,jetbrains+iml,jetbrains,jenv,venv,direnv,dotenv,virtualenv,git,tortoisegit,gitbook
 
