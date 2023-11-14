@@ -8,9 +8,9 @@ abstract class RequestData<T extends CAMS.Data.RequestStatus> {
   // TODO: functions should be `protected`
   private final String id;
   private final String sender;
+  private final String camp;
   private T status;
   private String message;
-  private final String camp;
 
 
   protected RequestData(T status, String sender, String message, String camp) {
@@ -73,7 +73,7 @@ abstract class RequestData<T extends CAMS.Data.RequestStatus> {
 
   @Override
   public String toString() {
-    return "REQUEST:\n"+("sender: " + this.sender + ";\ncamp: " +
+    return "REQUEST:\n" + ("sender: " + this.sender + ";\ncamp: " +
       this.camp + ";\nstatus: " + this.status.toString() +
       ";\nmessage: " + this.message()).indent(4);
   }
