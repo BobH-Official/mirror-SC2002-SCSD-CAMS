@@ -41,6 +41,10 @@ class DateRange {
       (this.end.getTime() >= date.getTime()));
   }
 
+  void printSelf() {
+    System.out.println(this);
+  }
+
   @Override
   public String toString() {
     return "DateRange: " + this.start + " to " + this.end;

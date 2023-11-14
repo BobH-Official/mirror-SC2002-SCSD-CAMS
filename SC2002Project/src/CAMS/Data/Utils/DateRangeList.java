@@ -59,4 +59,18 @@ class DateRangeList {
     }
     return false;
   }
+
+  void printSelf() {
+    System.out.println(this);
+  }
+
+  @Override
+  public String toString() {
+    String str = "";
+    for (CAMS.Data.DateRange date : this.dates) {
+      str = str.concat(date.toString()).concat("\n");
+    }
+
+    return ("DATE RANGE:\n" + str.indent(4)).strip();
+  }
 }
