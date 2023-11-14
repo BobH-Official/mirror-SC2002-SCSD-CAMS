@@ -4,7 +4,6 @@ import java.util.Date;
 
 class CampData {
   private final String name;
-  private boolean visibility;
   private final String staff;
   private final CAMS.Data.CampInformation information;
   private final CAMS.Data.CampStudentList attendees;
@@ -12,6 +11,7 @@ class CampData {
   private final CAMS.Data.CampBlackList blacklist;
   private final CAMS.Data.RequestList enquiries;
   private final CAMS.Data.RequestList suggestions;
+  private boolean visibility;
 
   CampData(String name, String staff, String userGroup, boolean visibility,
            String description, Date startDate, Date endDate,

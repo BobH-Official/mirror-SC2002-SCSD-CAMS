@@ -6,8 +6,8 @@ import java.util.List;
 
 public class CampStudentList {
   private final List<String> members;
-  private int remainingSlots;
   private final int slotLimit;
+  private int remainingSlots;
 
   // Constructor with slot limit parameter
   CampStudentList(int slotLimit) {
