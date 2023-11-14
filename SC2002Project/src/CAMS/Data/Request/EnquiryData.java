@@ -2,28 +2,27 @@ package CAMS.Data;
 
 class EnquiryData extends CAMS.Data.RequestData<CAMS.Data.EnquiryStatus> {
 
-  private String reply;
+  private String replyMessage;
 
   EnquiryData(String sender, String message, String camp) {
     super(CAMS.Data.EnquiryStatus.PENDING, sender, message, camp);
-    this.reply = "";
+    this.replyMessage = "";
   }
 
-  String reply() {
-    return this.reply;
+  String replyMessage() {
+    return this.replyMessage;
   }
 
-  void setReply(String reply) {
+  void reply(String msg) {
     this.setStatus(CAMS.Data.EnquiryStatus.REPLIED);
-    this.reply = reply;
+    this.replyMessage = msg;
   }
 
   @Override
   public String toString() {
-    return "Suggestion:\n    sender: " + this.sender() + ";\n    camp: " +
-      this.camp() + ";\n    status: " + this.status().toString() +
-      ";\n    message: " + this.message() +
+    return (super.toString().replace("REQUEST", "ENQUIRY") +
       (this.status() == CAMS.Data.EnquiryStatus.PENDING
-        ? "\n    There is no reply." : ";\n    reply: " + this.reply);
+        ? "\n    There is no reply."
+        : ";\n    reply: " + this.replyMessage)).strip();
   }
 }

@@ -68,6 +68,13 @@ abstract class RequestData<T extends CAMS.Data.RequestStatus> {
   }
 
   protected void printSelf() {
-    System.out.println(this);
+    System.out.print(this);
+  }
+
+  @Override
+  public String toString() {
+    return "REQUEST:\n"+("sender: " + this.sender + ";\ncamp: " +
+      this.camp + ";\nstatus: " + this.status.toString() +
+      ";\nmessage: " + this.message()).indent(4);
   }
 }

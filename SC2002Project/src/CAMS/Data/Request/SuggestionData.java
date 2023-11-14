@@ -15,8 +15,6 @@ class SuggestionData extends CAMS.Data.RequestData<CAMS.Data.SuggestionStatus> {
 
   @Override
   public String toString() {
-    return "Suggestion:\n    sender: " + this.sender() + ";\n    camp: " +
-      this.camp() + ";\n    status: " + this.status().toString() +
-      ";\n    message: " + this.message();
+    return super.toString().replace("REQUEST", "SUGGESTION");
   }
 }
