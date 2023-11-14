@@ -1,15 +1,33 @@
 package CAMS.Data;
 
 import java.util.Date;
+import static java.lang.StringTemplate.STR;
 
 class DateRange {
   // TODO: functions should be `private-level private`, ie no annotation
-  private final Date start;
-  private final Date end;
+  private Date start;
+  private Date end;
 
   DateRange(Date start, Date end) {
     this.start = start;
     this.end = end;
+  }
+
+
+  Date start() {
+    return this.start;
+  }
+
+  void setStart(Date date) {
+    this.start = date;
+  }
+
+  Date end() {
+    return this.end;
+  }
+
+  void setEnd(Date date) {
+    this.end = date;
   }
 
   @Override
@@ -47,6 +65,7 @@ class DateRange {
 
   @Override
   public String toString() {
-    return "DateRange: " + this.start + " to " + this.end;
+//    return "DateRange: " + this.start + " to " + this.end;
+    return  STR."DateRange: \{this.start} to \{this.end}";
   }
 }

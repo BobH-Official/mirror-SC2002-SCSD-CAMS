@@ -1,123 +1,111 @@
 package CAMS.Data;
+
 import java.util.Date;
-import CAMS.Data.DataRange;
 
 class CampInformation {
-    private DateRange campDates;
-    private Date registerCloseDate;
-    private String userGroup;
-    private String location;
-    private int totalSlots;
-    private int committeeSlots;
-    private String description;
+  private final CAMS.Data.DateRange dates;
+  private Date registrationClosingDate;
+  private String userGroup;
+  private String location;
+  private int totalSlots;
+  private int committeeSlots;
+  private String description;
 
-    public void CampInformation(Date campStartDate, Date campEndDate, Date campRegistrationClosingDate,
-    String campUserGroup, String campLocation, int campTotalSlots,int campCommitteeSlots, String campDescription) {
-    this.campDates = new DateRange(campStartDate, campEndDate);
-    this.registerCloseDate = campRegistrationClosingDate;
-    this.userGroup = campUserGroup;
-    this.location = campLocation;
-    this.totalSlots = campTotalSlots;
-    this.committeeSlots = campCommitteeSlots;
-    this.description = campDescription;
-}
+  CampInformation(Date startDate, Date endDate, Date registrationClosingDate,
+                  String userGroup, String location, int totalSlots,
+                  int committeeSlots, String description) {
+    this.dates = new CAMS.Data.DateRange(startDate, endDate);
+    this.registrationClosingDate = registrationClosingDate;
+    this.userGroup = userGroup;
+    this.location = location;
+    this.totalSlots = totalSlots;
+    this.committeeSlots = committeeSlots;
+    this.description = description;
+  }
 
-    //Getters & Setters : campDates
-protected void setCampStartDate(Date campStartDate){
-    this.campDates.setStartDate(campStartDate);
-}
+  //Getters & Setters : campDates
+  void setStartDate(Date date) {
+    this.dates.setStart(date);
+  }
 
-protected Date CampStartDate(){
-    return this.campDates.getStartDate();
-}
+  Date startDate() {
+    return this.dates.start();
+  }
 
-protected void setCampEndDate(Date campEndDate){
-    this.campDates.setEndDate(campEndDate);
-}
+  void setEndDate(Date date) {
+    this.dates.setEnd(date);
+  }
 
-protected Date CampEndDate(){
-    return this.campDates.getEndDate();
-}
+  Date endDate() {
+    return this.dates.end();
+  }
 
-//Getters & Setters : campRegistrationClosingDate
-protected void setCampRegistrationClosingDate(Date campRegistrationClosingDate) {
-    this.campRegistrationClosingDate = campRegistrationClosingDate;
-}
+  //Getters & Setters : campRegistrationClosingDate
+  void setRegistrationClosingDate(Date date) {
+    this.registrationClosingDate = date;
+  }
 
-protected Date CampRegistrationClosingDate() {
-    return this.campRegistrationClosingDate;
-}
+  Date registrationClosingDate() {
+    return this.registrationClosingDate;
+  }
 
-// Getters & Setters : campUserGroup
-protected void setUserGroup(String campUserGroup) {
-    this.campUserGroup = campUserGroup;
-}
+  // Getters & Setters : campUserGroup
+  void setUserGroup(String userGroup) {
+    this.userGroup = userGroup;
+  }
 
-protected String UserGroup() {
-    return this.campUserGroup;
-}
+  String userGroup() {
+    return this.userGroup;
+  }
 
-// Getters & Setters : campLocation
-protected void setCampLocation(String campLocation) {
-    this.campLocation = campLocation;
-}
+  // Getters & Setters : campLocation
+  void setLocation(String location) {
+    this.location = location;
+  }
 
-protected String CampLocation() {
-    return this.campLocation;
-}
+  String location() {
+    return this.location;
+  }
 
-// Getters and Setters for campTotalSlots
-protected void setCampTotalSlots(int campTotalSlots) {
-    this.campTotalSlots = campTotalSlots;
-}
+  // Getters and Setters for campTotalSlots
+  void setTotalSlots(int slots) {
+    this.totalSlots = slots;
+  }
 
-protected int CampTotalSlots() {
-    return this.campTotalSlots;
-}
+  int totalSlots() {
+    return this.totalSlots;
+  }
 
-// Getters and Setters for campCommitteeSlots
-protected void setCampCommitteeSlots(int campCommitteeSlots) {
-    this.campCommitteeSlots = campCommitteeSlots;
-}
+  // Getters and Setters for campCommitteeSlots
+  void setCommitteeSlots(int slots) {
+    this.committeeSlots = slots;
+  }
 
-protected int CampCommitteeSlots() {
-    return this.campCommitteeSlots;
-}
+  int committeeSlots() {
+    return this.committeeSlots;
+  }
 
-// Getters & Setters: campDescription
-protected void setCampDescription(String campDescription) {
-    this.campDescription = campDescription;
-}
+  // Getters & Setters: campDescription
+  void setDescription(String description) {
+    this.description = description;
+  }
 
-protected String Description() {
-    return this.campDescription;
-}
+  String description() {
+    return this.description;
+  }
 
-// Additional methods
-void printSelf() {
+  // Additional methods
+  void printSelf() {
     System.out.println(this);
-}
+  }
 
-@Override
-public String toString() {
-    StringBuilder stringBuilder = new StringBuilder();
-    stringBuilder.append("StaffData:\n");
-    stringBuilder.append("    name: ").append(this.name).append(";\n");
-    stringBuilder.append("    email: ").append(this.email).append(";\n");
-    stringBuilder.append("    userID: ").append(this.userID).append(";\n");
-    stringBuilder.append("    password: ").append(this.password).append(";\n");
-    stringBuilder.append("    faculty: ").append(this.faculty).append(";\n");
-    stringBuilder.append("    campInCharge:\n");
-
-    if (this.campInCharge != null && !this.campInCharge.isEmpty()) {
-        for (int i = 0; i < this.campInCharge.size(); i++) {
-            stringBuilder.append("        ").append(i + 1).append(". ").append(this.campInCharge.get(i)).append("\n");
-        }
-    } else {
-        stringBuilder.append("        No camps assigned.\n");
-    }
-
-    return stringBuilder.toString();
-}
-
+  @Override
+  public String toString() {
+    return ("CAMP_INFORMATION:\n    dates: " + this.dates +
+      "\n    registration closing date: " + this.registrationClosingDate +
+      "\n    user group: " + this.userGroup + "\n    location: " +
+      this.location + "\n    attendee slots limit: " + this.totalSlots +
+      "\n    committee slots limit: " + this.committeeSlots +
+      "\n    description: " + this.description).strip();
+  }
 }
