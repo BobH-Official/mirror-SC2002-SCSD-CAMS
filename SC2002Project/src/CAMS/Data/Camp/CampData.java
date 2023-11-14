@@ -67,6 +67,7 @@ class CampData {
         }
         // If the check passes, remove the user from the attendee list.
         campAttendeeList.withdrawMember(userID);
+        campBlackList.addMember(userID);
     }
 
     void addEnquiry(String enquiry){
