@@ -11,11 +11,10 @@ class CampData {
     private CampStudentList campAttendeeList;
     private CampStudentList campCommitteeList;
     private CampBlackList campBlackList;
-    private CampRequestList campRequests;
-    private CampRequestList campEnquiries;
-    private CampRequestList campSuggestions;
+    private RequestList campEnquiries;
+    private RequestList campSuggestions;
 
-    public CampData(String staff, boolean visible, String campName,
+    CampData(String staff, boolean visible, String campName,
                     Date campStartDate, Date campEndDate, Date campRegistrationClosingDate,
                     String campUserGroup, String campLocation, int campTotalSlots,
                     int campCommitteeSlots, String campDescription) {
@@ -69,6 +68,14 @@ class CampData {
         // If the check passes, remove the user from the attendee list.
         campAttendeeList.withdrawMember(userID);
     }
+
+    void addEnquiry(String enquiry){
+        campEnquiries.addCampRequest(enquiry);
+    }
+
+    void addSuggestion(String suggestion){
+        campSuggestions.addCampRequest(suggestion);
+    }
     
 
     String getCampName(){
@@ -96,38 +103,34 @@ class CampData {
     }
 
     CampBlackList getBlacklist() {
-        return this.campBlackList;
+        return campBlackList;
     }
 
-    CampRequestList getRequests() {
-        return campRequests;
-    }
-
-    CampRequestList getEnquiries() {
+    RequestList getEnquiries() {
         return campEnquiries;
     }
 
-    CampRequestList getSuggestions() {
+    RequestList getSuggestions() {
         return campSuggestions;
     }
 
     void printSelf(){
-        System.out.println(this.toString());
+        System.out.println(this);
     }
 
     @Override
     public String toString() {
-        return "CampData:\n" +
-            "  campName='" + this.campName + "'\n" +
-            "  visible=" + this.visible + "\n" +
-            "  staff='" + this.staff + "'\n" +
-            "  campInformation=" + this.campInformation + "\n" +
-            "  campAttendeeList=" + this.campAttendeeList + "\n" +
-            "  campCommitteeList=" + this.campCommitteeList + "\n" +
-            "  campBlackList=" + this.campBlackList + "\n" +
-            "  campRequests=" + this.campRequests + "\n" +
-            "  campEnquiries=" + this.campEnquiries + "\n" +
-            "  campSuggestions=" + this.campSuggestions + "\n";
+        return ("CampData:\n" +
+            "campName='" + this.campName + "'\n" +
+            "visible=" + this.visible + "\n" +
+            "staff='" + this.staff + "'\n" +
+            "campInformation=" + this.campInformation + "\n" +
+            "campAttendeeList=" + this.campAttendeeList + "\n" +
+            "campCommitteeList=" + this.campCommitteeList + "\n" +
+            "campBlackList=" + this.campBlackList + "\n" +
+            "campEnquiries=" + this.campEnquiries + "\n" +
+            "campSuggestions=" + this.campSuggestions + "\n")
+            .indent(4); // Add 4 spaces of indentation to each line
 }
 
 

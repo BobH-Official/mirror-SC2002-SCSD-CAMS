@@ -10,7 +10,7 @@ public class CampStudentList {
     private final int slotLimit;
 
     // Constructor with slot limit parameter
-    public CampStudentList(int slotLimit) {
+    CampStudentList(int slotLimit) {
         this.slotLimit = slotLimit;
         this.members = new ArrayList<>();
         this.remainingSlots = this.slotLimit;
@@ -48,7 +48,7 @@ public class CampStudentList {
     }
 
     void printSelf() {
-        System.out.println(this.toString());
+        System.out.println(this);
     }
 
     @Override
@@ -60,7 +60,7 @@ public class CampStudentList {
         for (String member : members) {
             sb.append("    - ").append(member).append("\n");
         }
-        return sb.toString();
+        return sb.toString().indent(4);
     }
 
 }

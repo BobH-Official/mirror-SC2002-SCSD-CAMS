@@ -3,10 +3,10 @@ package CAMS.Data;
 import java.util.ArrayList;
 import java.util.List;
 
-class CampRequestList {
+class RequestList {
     private List<String> campRequestList;
 
-    public CampRequestList() {
+    RequestList() {
         this.campRequestList = new ArrayList<>();
     }
 
@@ -16,13 +16,13 @@ class CampRequestList {
     }
 
     // Method to get the request list
-    List<String> getCampRequestList() {
+    List<String> requests() {
         return new ArrayList<>(campRequestList); 
         // Return a copy of the list to protect encapsulation
     }
 
     void printSelf(){
-        System.out.println(this.toString());
+        System.out.println(this);
     }
 
     public String toString() {
@@ -30,7 +30,7 @@ class CampRequestList {
         for (String request : campRequestList) {
             sb.append("  - ").append(request).append("\n");
         }
-        return sb.toString();
+        return sb.toString().indent(4);
     }
 
 
