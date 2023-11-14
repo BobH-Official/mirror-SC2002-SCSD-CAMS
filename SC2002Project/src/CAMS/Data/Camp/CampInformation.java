@@ -1,107 +1,123 @@
 package CAMS.Data;
 import java.util.Date;
-import Utils.DataRange;
+import CAMS.Data.DataRange;
 
-public class CampInformation {
+class CampInformation {
     private DateRange campDates;
-    private Date campRegistrationClosingDate;
-    private String campUserGroup;
-    private String campLocation;
-    private int campTotalSlots;
-    private int campCommitteeSlots;
-    private String campDescription;
+    private Date registerCloseDate;
+    private String userGroup;
+    private String location;
+    private int totalSlots;
+    private int committeeSlots;
+    private String description;
 
     public void CampInformation(Date campStartDate, Date campEndDate, Date campRegistrationClosingDate,
     String campUserGroup, String campLocation, int campTotalSlots,int campCommitteeSlots, String campDescription) {
     this.campDates = new DateRange(campStartDate, campEndDate);
-    this.campRegistrationClosingDate = campRegistrationClosingDate;
-    this.campUserGroup = campUserGroup;
-    this.campLocation = campLocation;
-    this.campTotalSlots = campTotalSlots;
-    this.campCommitteeSlots = campCommitteeSlots;
-    this.campDescription = campDescription;
+    this.registerCloseDate = campRegistrationClosingDate;
+    this.userGroup = campUserGroup;
+    this.location = campLocation;
+    this.totalSlots = campTotalSlots;
+    this.committeeSlots = campCommitteeSlots;
+    this.description = campDescription;
 }
 
     //Getters & Setters : campDates
-public void setCampStartDate(Date campStartDate){
+protected void setCampStartDate(Date campStartDate){
     this.campDates.setStartDate(campStartDate);
 }
 
-public Date getCampStartDate(){
+protected Date CampStartDate(){
     return this.campDates.getStartDate();
 }
 
-public void setCampEndDate(Date campEndDate){
+protected void setCampEndDate(Date campEndDate){
     this.campDates.setEndDate(campEndDate);
 }
 
-public Date getCampEndDate(){
+protected Date CampEndDate(){
     return this.campDates.getEndDate();
 }
 
 //Getters & Setters : campRegistrationClosingDate
-public void setCampRegistrationClosingDate(Date campRegistrationClosingDate) {
+protected void setCampRegistrationClosingDate(Date campRegistrationClosingDate) {
     this.campRegistrationClosingDate = campRegistrationClosingDate;
 }
 
-public Date getCampRegistrationClosingDate() {
+protected Date CampRegistrationClosingDate() {
     return this.campRegistrationClosingDate;
 }
 
 // Getters & Setters : campUserGroup
-public void setUserGroup(String campUserGroup) {
+protected void setUserGroup(String campUserGroup) {
     this.campUserGroup = campUserGroup;
 }
 
-public String getUserGroup() {
+protected String UserGroup() {
     return this.campUserGroup;
 }
 
 // Getters & Setters : campLocation
-public void setCampLocation(String campLocation) {
+protected void setCampLocation(String campLocation) {
     this.campLocation = campLocation;
 }
 
-public String getCampLocation() {
+protected String CampLocation() {
     return this.campLocation;
 }
 
 // Getters and Setters for campTotalSlots
-public void setCampTotalSlots(int campTotalSlots) {
+protected void setCampTotalSlots(int campTotalSlots) {
     this.campTotalSlots = campTotalSlots;
 }
 
-public int getCampTotalSlots() {
+protected int CampTotalSlots() {
     return this.campTotalSlots;
 }
 
 // Getters and Setters for campCommitteeSlots
-public void setCampCommitteeSlots(int campCommitteeSlots) {
+protected void setCampCommitteeSlots(int campCommitteeSlots) {
     this.campCommitteeSlots = campCommitteeSlots;
 }
 
-public int getCampCommitteeSlots() {
+protected int CampCommitteeSlots() {
     return this.campCommitteeSlots;
 }
 
 // Getters & Setters: campDescription
-public void setCampDescription(String campDescription) {
+protected void setCampDescription(String campDescription) {
     this.campDescription = campDescription;
 }
 
-public String getDescription() {
+protected String Description() {
     return this.campDescription;
 }
 
 // Additional methods
-public void printSelf() {
-    
+void printSelf() {
+    System.out.println(this);
 }
 
 @Override
 public String toString() {
-    // Implement toString() method
-    return super.toString();
-}
+    StringBuilder stringBuilder = new StringBuilder();
+    stringBuilder.append("StaffData:\n");
+    stringBuilder.append("    name: ").append(this.name).append(";\n");
+    stringBuilder.append("    email: ").append(this.email).append(";\n");
+    stringBuilder.append("    userID: ").append(this.userID).append(";\n");
+    stringBuilder.append("    password: ").append(this.password).append(";\n");
+    stringBuilder.append("    faculty: ").append(this.faculty).append(";\n");
+    stringBuilder.append("    campInCharge:\n");
+
+    if (this.campInCharge != null && !this.campInCharge.isEmpty()) {
+        for (int i = 0; i < this.campInCharge.size(); i++) {
+            stringBuilder.append("        ").append(i + 1).append(". ").append(this.campInCharge.get(i)).append("\n");
+        }
+    } else {
+        stringBuilder.append("        No camps assigned.\n");
+    }
+
+    return stringBuilder.toString();
 }
 
+}
