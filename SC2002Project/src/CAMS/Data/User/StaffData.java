@@ -3,22 +3,23 @@ package CAMS.Data;
 import java.util.List;
 import java.util.ArrayList;
 
-class StaffData extends UserData {
-    private List<String> campsUnderManagement;
+class StaffData extends CAMS.Data.UserData {
+    private final List<String> campsUnderManagement;
 
     // Constructor
-    StaffData(String name, String email, String faculty, List<String> campsUnderManagement) {
-        super(name, email, faculty);
+    StaffData(String name, String email, String faculty,String password,
+              List<String> campsUnderManagement) {
+        super(name, email, faculty, password);
         this.campsUnderManagement = new ArrayList<>(campsUnderManagement);
     }
 
     // Methods
-    boolean isinChargeOf(String campID) {
+    boolean isInChargeOf(String campID) {
         return campsUnderManagement.contains(campID);
     }
 
     void addCampToManagement(String campID) {
-        if (!isinChargeOf(campID)) {
+        if (!campsUnderManagement.contains(campID)) {
             campsUnderManagement.add(campID);
         }
     }

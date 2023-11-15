@@ -1,5 +1,6 @@
 package CAMS.Data;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -10,6 +11,10 @@ class DateRangeList {
 
   DateRangeList(List<CAMS.Data.DateRange> dates) {
     this.dates = dates;
+  }
+
+  DateRangeList( ) {
+    this.dates = new ArrayList<>();
   }
 
   void addDateRange(CAMS.Data.DateRange range) throws Exception {
