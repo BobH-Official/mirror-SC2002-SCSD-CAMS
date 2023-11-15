@@ -15,13 +15,13 @@ abstract class RequestData<T extends CAMS.Data.RequestStatus> {
 
   protected RequestData(T status, String sender, String message, String camp) {
     String id1;
-
+    Random random = new Random();
     try {
-      id1 = new String(MessageDigest.getInstance("SHA-256")
-        .digest((sender + message + camp).getBytes(StandardCharsets.UTF_8)),
-        StandardCharsets.UTF_8);
+      id1 = new String(MessageDigest.getInstance(/*algorithm*/"SHA-256").digest(
+        (sender + message + camp +
+          random.nextInt(/*origin*/1000, /*bound*/10000)).getBytes(
+          StandardCharsets.UTF_8)), StandardCharsets.UTF_8);
     } catch (Exception e) {
-      Random random = new Random();
       id1 = "" + random.nextInt(10000000, 99999999) +
         random.nextInt(10000000, 99999999) +
         random.nextInt(10000000, 99999999) +
@@ -73,8 +73,8 @@ abstract class RequestData<T extends CAMS.Data.RequestStatus> {
 
   @Override
   public String toString() {
-    return "REQUEST:\n" + ("sender: " + this.sender + ";\ncamp: " +
-      this.camp + ";\nstatus: " + this.status.toString() +
-      ";\nmessage: " + this.message()).indent(4);
+    return "REQUEST:\n" +
+      ("sender: " + this.sender + ";\ncamp: " + this.camp + ";\nstatus: " +
+        this.status.toString() + ";\nmessage: " + this.message()).indent(4);
   }
 }
