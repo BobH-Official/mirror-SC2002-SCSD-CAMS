@@ -25,6 +25,15 @@ class DateRangeList {
     }
   }
 
+  boolean isNotClashing(CAMS.Data.DateRange range) {
+    for (CAMS.Data.DateRange rg : this.dates) {
+      if (rg.isNotClashing(range)) {
+        return true;
+      }
+    }
+    return false;
+  }
+
   void removeDateRange(CAMS.Data.DateRange range) {
     dates.remove(range);
   }
@@ -32,15 +41,6 @@ class DateRangeList {
   boolean isClashing(CAMS.Data.DateRange range) {
     for (CAMS.Data.DateRange rg : this.dates) {
       if (rg.isClashing(range)) {
-        return true;
-      }
-    }
-    return false;
-  }
-
-  boolean isNotClashing(CAMS.Data.DateRange range) {
-    for (CAMS.Data.DateRange rg : this.dates) {
-      if (rg.isNotClashing(range)) {
         return true;
       }
     }

@@ -1,4 +1,3 @@
-import CAMS.Data.Database;
 import CAMS.Operator.NoLogin;
 import CAMS.Operator.StudentOperator;
 import CAMS.Operator.UserOperator;
