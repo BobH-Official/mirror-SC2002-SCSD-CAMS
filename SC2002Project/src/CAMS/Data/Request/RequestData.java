@@ -73,8 +73,15 @@ abstract class RequestData<T extends CAMS.Data.RequestStatus> {
 
   @Override
   public String toString() {
-    return "REQUEST:\n" +
-      ("sender: " + this.sender + ";\ncamp: " + this.camp + ";\nstatus: " +
-        this.status.toString() + ";\nmessage: " + this.message()).indent(4);
+    return STR."""
+      REQUEST:
+          sender: \{this.sender}
+          camp: \{this.camp}
+          status: \{this.status.toString()}
+          message: \{this.message()}
+      """.strip();
+//    return "REQUEST:\n" +
+//      ("sender: " + this.sender + ";\ncamp: " + this.camp + ";\nstatus: " +
+//        this.status.toString() + ";\nmessage: " + this.message()).indent(4);
   }
 }

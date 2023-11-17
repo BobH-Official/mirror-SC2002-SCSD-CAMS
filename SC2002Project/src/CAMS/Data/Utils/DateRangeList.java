@@ -13,7 +13,7 @@ class DateRangeList {
     this.dates = dates;
   }
 
-  DateRangeList( ) {
+  DateRangeList() {
     this.dates = new ArrayList<>();
   }
 

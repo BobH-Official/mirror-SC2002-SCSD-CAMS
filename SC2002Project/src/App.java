@@ -7,14 +7,14 @@ public class App {
   public static void main(String[] args) {
     System.out.println("Hello World!");
 
-    Database.initialize();
+//    Database.initialize();
     UserOperator operator = new NoLogin();
 
     operator = new StudentOperator("EXPLSTU001");
 
-    Database.studentToString();
+//    Database.studentToString();
     operator.doOperation();
-    Database.studentToString();
+//    Database.studentToString();
   }
 }
 

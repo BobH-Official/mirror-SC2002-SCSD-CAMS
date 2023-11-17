@@ -11,7 +11,7 @@ public class StudentMS extends UserMS {
     // TODO: should use getter, this is only for demonstration
     CAMS.Data.UserData user = Database.findUser(userID).second();
     if (user != null) {
-      ((CAMS.Data.UserData) user).setPassword(password);
+      user.setPassword(password);
     }
   }
 }

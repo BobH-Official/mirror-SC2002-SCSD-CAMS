@@ -3,22 +3,25 @@ package CAMS.Data;
 import java.util.ArrayList;
 import java.util.List;
 
-public class StudentData extends CAMS.Data.UserData {
-  private List<String> campAttendee;
-  private List<String> ownEnquiry; // Assuming integer IDs for enquiries
-  private CAMS.Data.DateRangeList datesOccupied; // Assuming DataRangeList is a defined class
-  private boolean isCommitteeMember;
-  private String campAsCommitteeMember; // Assuming camp ID is a string
+class StudentData extends CAMS.Data.UserData {
+  private final List<String> campAttendee;
+  private final List<String> ownEnquiry; // Assuming integer IDs for enquiries
+  private final CAMS.Data.DateRangeList datesOccupied;
+  // Assuming DataRangeList is a defined class
+  private final boolean isCommitteeMember;
+  private final String campAsCommitteeMember; // Assuming camp ID is a string
+  private final List<String> ownSuggestions;
   private int pointsForGivingSuggestions;
   private int pointsForApprovedSuggestion;
   private int pointsForReplyingEnquiry;
-  private List<String> ownSuggestions; // Assuming integer IDs for suggestions
+  // Assuming integer IDs for suggestions
 
   StudentData(String name, String email, String faculty, String password) {
     super(name, email, faculty, password);
     this.campAttendee = new ArrayList<>();
     this.ownEnquiry = new ArrayList<>();
-    this.datesOccupied = new CAMS.Data.DateRangeList(); // Assuming default constructor
+    this.datesOccupied =
+      new CAMS.Data.DateRangeList(); // Assuming default constructor
     this.isCommitteeMember = false;
     this.campAsCommitteeMember = "";
     this.pointsForGivingSuggestions = 0;
@@ -27,75 +30,76 @@ public class StudentData extends CAMS.Data.UserData {
     this.ownSuggestions = new ArrayList<>();
   }
 
-  public boolean isCommitteeMember() {
+  boolean isCommitteeMember() {
     return isCommitteeMember;
   }
 
-  public String inCampCommittee() {
+  String campCommittee() {
     // Assuming there's a class CampManager with a method findCampById
     return this.campAsCommitteeMember;
   }
 
 
-  public void increasePointsForGivingSuggestions() {
+  void increasePointsForGivingSuggestions() {
     this.pointsForGivingSuggestions++;
   }
 
-  public void increasePointsForApprovedSuggestions() {
+  void increasePointsForApprovedSuggestions() {
     this.pointsForApprovedSuggestion++;
   }
 
-  public void increasePointsForReplyingEnquiry() {
+  void increasePointsForReplyingEnquiry() {
     this.pointsForReplyingEnquiry++;
   }
 
-  public int getPointsForGivingSuggestions() {
+  int pointsForGivingSuggestions() {
     return pointsForGivingSuggestions;
   }
 
-  public int getPointsForApprovedSuggestions() {
+  int pointsForApprovedSuggestions() {
     return pointsForApprovedSuggestion;
   }
 
-  public int getPointsForReplyingEnquiry() {
+  int pointsForReplyingEnquiry() {
     return pointsForReplyingEnquiry;
   }
 
-  public List<CampData> getCampAsAttendee() {
+  List<String> getCampAsAttendee() {
     return campAttendee;
   }
 
-  public List<String> getOwnEnquiries() {
+  List<String> getOwnEnquiries() {
     return ownEnquiry;
   }
 
-  public CAMS.Data.DateRangeList getDatesOccupied() {
+  CAMS.Data.DateRangeList getDatesOccupied() {
     return datesOccupied;
   }
 
-  public List<String> getOwnSuggestions() {
+  List<String> getOwnSuggestions() {
     return ownSuggestions;
   }
 
-  public void joinAsAttendeeOf(CampData camp) {
+  void joinAsAttendeeOf(String camp) {
     this.campAttendee.add(camp);
   }
 
-  public void withdrawFrom(CampData camp) {
+  void withdrawFrom(String camp) {
     this.campAttendee.remove(camp);
   }
 
-  public void addEnquiry(int enquiryId) {
+  void addEnquiry(String enquiryId) {
     this.ownEnquiry.add(enquiryId);
   }
 
-  public void addSuggestion(int suggestionId) {
+  void addSuggestion(String suggestionId) {
     this.ownSuggestions.add(suggestionId);
   }
 
 
   @Override
   public String toString() {
-    return (super.toString() + "Committee Member: " + isCommitteeMember).indent(4);
+    return (super.toString() + "Committee Member: " + isCommitteeMember).indent(
+      4);
   }
 }

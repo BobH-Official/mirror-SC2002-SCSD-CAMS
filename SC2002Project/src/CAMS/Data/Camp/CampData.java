@@ -127,22 +127,40 @@ class CampData {
     System.out.println(this);
   }
 
-  @Override /*target*//*replacement*/ public String toString() {
-    return ("CAMP_DATA:\n" +
-      ("name: " + this.name + "\nvisibility: " + this.visibility + "\nstaff: " +
-        this.staff + "\n" + this.information.toString()
-        .replace(/*target*/"CAMP_INFORMATION", /*replacement*/"information")
-        .indent(4).strip() + "\n" + this.attendees.toString()
-        .replace(/*target*/"CAMP_STUDENT_LIST", /*replacement*/"attendees")
-        .indent(4).strip() + "\n" + this.committeeMembers.toString()
-        .replace(/*target*/"CAMP_STUDENT_LIST", /*replacement*/
-          "committeeMembers").indent(4).strip() + "\n" +
-        this.blacklist.toString().replace(/*target*/
-          "BLACKLIST", /*replacement*/"blacklist").indent(4).strip() + "\n" +
-        this.enquiries.toString()
-          .replace(/*target*/"REQUEST_LIST", /*replacement*/
-            "enquiries").indent(4).strip() + "\n" + this.suggestions.toString()
-        .replace(/*target*/"REQUEST_LIST", /*replacement*/"suggestions")
-        .indent(4).strip()).indent(4)).strip();
+  @Override
+  public String toString() {
+    return STR. """
+      \033[1CAMP_DATA\033[1:
+          name: \{ this.name }
+          visibility: \{ this.visibility }
+          staff: \{ this.staff }
+      \{ this.information.toString().replace("CAMP_INFORMATION", "information")
+      .indent(4).strip() }
+      \{ this.attendees.toString().replace("CAMP_STUDENT_LIST", "attendees")
+      .indent(4).strip() }
+      \{ this.committeeMembers.toString()
+      .replace("CAMP_STUDENT_LIST", "committeeMembers").indent(4).strip() }
+      \{ this.blacklist.toString().replace("BLACKLIST", "blacklist").indent(4)
+      .strip() }
+      \{ this.enquiries.toString().replace("REQUEST_LIST", "enquiries")
+      .indent(4).strip() }
+      \{ this.suggestions.toString().replace("REQUEST_LIST", "suggestions")
+      .indent(4).strip() }
+      """ .indent(4).strip();
+//    return ("CAMP_DATA:\n" +
+//      ("name: " + this.name + "\nvisibility: " + this.visibility + "\nstaff: " +
+//        this.staff + "\n" +
+//        this.information.toString().replace("CAMP_INFORMATION", "information")
+//          .indent(4).strip() + "\n" +
+//        this.attendees.toString().replace("CAMP_STUDENT_LIST", "attendees")
+//          .indent(4).strip() + "\n" + this.committeeMembers.toString()
+//        .replace("CAMP_STUDENT_LIST", "committeeMembers").indent(4).strip() +
+//        "\n" +
+//        this.blacklist.toString().replace("BLACKLIST", "blacklist").indent(4)
+//          .strip() + "\n" +
+//        this.enquiries.toString().replace("REQUEST_LIST", "enquiries").indent(4)
+//          .strip() + "\n" +
+//        this.suggestions.toString().replace("REQUEST_LIST", "suggestions")
+//          .indent(4).strip()).indent(4)).strip();
   }
 }

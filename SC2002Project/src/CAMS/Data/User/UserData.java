@@ -2,47 +2,51 @@ package CAMS.Data;
 
 abstract class UserData {
 
-    private  String name;
-    private String email;
-    private  String id;
-    private  String password;
-    private final String faculty;
+  private final String faculty;
+  private final String name;
+  private final String email;
+  private final String id;
+  private String password;
 
-    protected  UserData(String userName, String email, String faculty, String password){
-        this.name = userName;
-        this.email = email;
-        this.faculty = faculty;
-        this.id = email.split("@", 2)[0];
-        this.password = password;
-    }
+  protected UserData(String userName, String email, String faculty,
+                     String password) {
+    this.name = userName;
+    this.email = email;
+    this.faculty = faculty;
+    this.id = email.split("@", 2)[0];
+    this.password = password;
+  }
 
-    boolean isPasswordCorrect(String passwd){
-        return this.password.equals(passwd);
-    }
-    void setPassword(String password){
-        this.password = password;
-    }
+  boolean isPasswordCorrect(String passwd) {
+    return this.password.equals(passwd);
+  }
 
-    String id(){
-        return this.id;
-    }
-    String faculty(){
-        return this.faculty;
-    }
-    String email(){
-        return this.email;
-    }
-    String name(){
-        return this.name;
-    }
+  void setPassword(String password) {
+    this.password = password;
+  }
 
-    void printSelf() {
-        System.out.println("STUDENT  : ");
-        System.out.println("  ID     : " + this.id);
+  String id() {
+    return this.id;
+  }
 
-        System.out.println("  NAME : " + this.name);
-    }
+  String faculty() {
+    return this.faculty;
+  }
 
+  String email() {
+    return this.email;
+  }
+
+  String name() {
+    return this.name;
+  }
+
+  void printSelf() {
+    System.out.println("STUDENT  : ");
+    System.out.println("  ID     : " + this.id);
+
+    System.out.println("  NAME : " + this.name);
+  }
 
 
 }
