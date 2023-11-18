@@ -1,5 +1,6 @@
 package CAMS.Data;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -12,12 +13,25 @@ class DateRangeList {
     this.dates = dates;
   }
 
+  DateRangeList() {
+    this.dates = new ArrayList<>();
+  }
+
   void addDateRange(CAMS.Data.DateRange range) throws Exception {
     if (this.isNotClashing(range)) {
       this.dates.add(range);
     } else {
       throw new Exception("Dates Clashing");
     }
+  }
+
+  boolean isNotClashing(CAMS.Data.DateRange range) {
+    for (CAMS.Data.DateRange rg : this.dates) {
+      if (rg.isNotClashing(range)) {
+        return true;
+      }
+    }
+    return false;
   }
 
   void removeDateRange(CAMS.Data.DateRange range) {
@@ -27,15 +41,6 @@ class DateRangeList {
   boolean isClashing(CAMS.Data.DateRange range) {
     for (CAMS.Data.DateRange rg : this.dates) {
       if (rg.isClashing(range)) {
-        return true;
-      }
-    }
-    return false;
-  }
-
-  boolean isNotClashing(CAMS.Data.DateRange range) {
-    for (CAMS.Data.DateRange rg : this.dates) {
-      if (rg.isNotClashing(range)) {
         return true;
       }
     }

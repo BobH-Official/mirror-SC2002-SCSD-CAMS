@@ -38,6 +38,12 @@ class DateRange {
       this.end.getTime() == ((DateRange) o).end.getTime();
   }
 
+  @Override
+  public String toString() {
+    //    return "DateRange: " + this.start + " to " + this.end;
+    return STR. "DateRange: \{ this.start } to \{ this.end }" ;
+  }
+
   boolean isClashing(CAMS.Data.DateRange range) {
     return (this.start.getTime() <= range.end.getTime()) &&
       (this.end.getTime() >= range.start.getTime());
@@ -60,11 +66,5 @@ class DateRange {
 
   void printSelf() {
     System.out.println(this);
-  }
-
-  @Override
-  public String toString() {
-    //    return "DateRange: " + this.start + " to " + this.end;
-    return STR. "DateRange: \{ this.start } to \{ this.end }" ;
   }
 }
