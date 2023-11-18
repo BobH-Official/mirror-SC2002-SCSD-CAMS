@@ -2,22 +2,22 @@ package CAMS.Data;
 
 public class CommitteeSuggestionMS {
     private String userID;
+    private String campName;
+    //added attribute campName to use
+    //Database.createSuggestion
 
     // Constructor
-    public CommitteeSuggestionMS(String userID) {
+    public CommitteeSuggestionMS(String userID, String campName) {
         this.userID = userID;
+        this.campName = campName;
     }
 
-    // Method to submit a suggestion and return the suggestion ID
     public String submitSuggestion(String suggestionDescription) {
-        // Create a new suggestion data object and add it to the suggestion map in Database
-        Database.createSuggestion(this.userID, suggestionDescription, "Default Camp");
-        //made temproary module getLastInsertedSuggestionID cuz there's no way to obtain the ID
-        // of the suggestion cuz the database doesn't return the ID in any circumstances
-        // but accoridng to the ULM, this module is supposed to return the ID.
-        String suggestionID = Database.getLastInsertedSuggestionID();
-        return suggestionID;
+        // Call the returnSuggestionID method which creates the suggestion and returns the suggestion ID
+        String suggestionID = Database.returnSuggestionID(this.userID, suggestionDescription, this.campName);
+        return suggestionID; // Return the ID of the new suggestion
     }
+
 
     // Method to view own suggestion details
     public int viewOwnSuggestion(String suggestionID) {
@@ -54,9 +54,6 @@ public class CommitteeSuggestionMS {
         SuggestionData suggestion = Database.findSuggestion(suggestionID);
         // Check if the suggestion exists and belongs to the user
         if (suggestion != null && suggestion.sender().equals(this.userID)) {
-            // made temporary module Database.deleteSuggestion exists to delete the suggestion
-            // there's only deleteEnuiry in the Student operator
-            //nothing about deleting suggestion in Student or Committee Operator
             Database.deleteSuggestion(suggestionID);
             return 0; // success
         } else {
