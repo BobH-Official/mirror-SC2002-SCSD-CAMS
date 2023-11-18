@@ -92,6 +92,10 @@ class StudentData extends CAMS.Data.UserData {
     this.ownEnquiry.add(enquiryId);
   }
 
+  void removeEnquiry(String enquiryId) {
+    this.ownEnquiry.remove(enquiryId);
+  }
+
   void addSuggestion(String suggestionId) {
     this.ownSuggestions.add(suggestionId);
   }

@@ -11,8 +11,12 @@ class RequestList {
   }
 
   // Method to add a request to the list
-  void addCampRequest(String request) {
+  void add(String request) {
     requests.add(request);
+  }
+
+  void delete(String request) {
+    requests.remove(request);
   }
 
   // Method to get the request list

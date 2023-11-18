@@ -5,7 +5,7 @@ import java.util.Date;
 class CampInformation {
   private final CAMS.Data.DateRange dates;
   private Date registrationClosingDate;
-  private String userGroup;
+  private String faculty;
   private String location;
   private int totalSlots;
   private int committeeSlots;
@@ -16,7 +16,7 @@ class CampInformation {
                   int committeeSlots, String description) {
     this.dates = new CAMS.Data.DateRange(startDate, endDate);
     this.registrationClosingDate = registrationClosingDate;
-    this.userGroup = userGroup;
+    this.faculty = userGroup;
     this.location = location;
     this.totalSlots = totalSlots;
     this.committeeSlots = committeeSlots;
@@ -50,12 +50,12 @@ class CampInformation {
   }
 
   // Getters & Setters : campUserGroup
-  void setUserGroup(String userGroup) {
-    this.userGroup = userGroup;
+  void setFaculty(String faculty) {
+    this.faculty = faculty;
   }
 
-  String userGroup() {
-    return this.userGroup;
+  String faculty() {
+    return this.faculty;
   }
 
   // Getters & Setters : campLocation
@@ -103,7 +103,7 @@ class CampInformation {
   public String toString() {
     return ("CAMP_INFORMATION:\n    dates: " + this.dates +
       "\n    registration closing date: " + this.registrationClosingDate +
-      "\n    user group: " + this.userGroup + "\n    location: " +
+      "\n    user group: " + this.faculty + "\n    location: " +
       this.location + "\n    attendee slots limit: " + this.totalSlots +
       "\n    committee slots limit: " + this.committeeSlots +
       "\n    description: " + this.description).strip();

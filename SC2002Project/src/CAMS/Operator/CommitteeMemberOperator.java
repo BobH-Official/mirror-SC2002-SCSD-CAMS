@@ -1,7 +1,8 @@
 package CAMS.Operator;
 
 public class CommitteeMemberOperator extends UserOperator {
-  public CommitteeMemberOperator() {
+  public CommitteeMemberOperator(String id) {
+    super(id);
 
   }
 }

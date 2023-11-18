@@ -1,7 +1,7 @@
 package CAMS.Data;
 
 public class StudentMS extends CAMS.Data.UserMS {
-  StudentMS(String id) {
+  public StudentMS(String id) {
     super(id);
   }
 
@@ -14,4 +14,9 @@ public class StudentMS extends CAMS.Data.UserMS {
       user.second().setPassword(password);
     }
   }
+
+  public boolean addEnquiry(String id) {
+    return true;
+  }
+
 }
