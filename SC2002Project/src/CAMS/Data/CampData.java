@@ -75,12 +75,20 @@ class CampData {
     blacklist.addMember(userID);
   }
 
-  void addEnquiry(String enquiry) {
-    enquiries.addCampRequest(enquiry);
+  void addEnquiry(String id) {
+    enquiries.add(id);
   }
 
-  void addSuggestion(String suggestion) {
-    suggestions.addCampRequest(suggestion);
+  void deleteEnquiry(String id) {
+    enquiries.delete(id);
+  }
+
+  void addSuggestion(String id) {
+    suggestions.add(id);
+  }
+
+  void deleteSuggestion(String id) {
+    enquiries.delete(id);
   }
 
   String name() {

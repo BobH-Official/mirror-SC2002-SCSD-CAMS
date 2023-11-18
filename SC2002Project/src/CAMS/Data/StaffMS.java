@@ -1,6 +1,6 @@
 package CAMS.Data;
 
-import CAMS.Data.MS.UserMS;
+import CAMS.Data.UserMS;
 
 public class StaffMS extends UserMS {
   public StaffMS(String id) {

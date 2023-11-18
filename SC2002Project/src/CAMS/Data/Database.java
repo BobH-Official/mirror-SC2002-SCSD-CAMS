@@ -7,45 +7,45 @@ import java.util.*;
 public class Database {
 
   // Static maps
-  private static final HashMap<String, CAMS.Data.UserData> userMap =
+  private static final HashMap<String, UserData> userMap = new HashMap<>();
+  private static final HashMap<String, EnquiryData> enquiryMap =
     new HashMap<>();
-  private static final HashMap<String, CAMS.Data.EnquiryData> enquiryMap =
+  private static final HashMap<String, SuggestionData> suggestionMap =
     new HashMap<>();
-  private static final HashMap<String, CAMS.Data.SuggestionData> suggestionMap =
-    new HashMap<>();
-  private static final HashMap<String, CAMS.Data.CampData> campMap =
-    new HashMap<>();
+  private static final HashMap<String, CampData> campMap = new HashMap<>();
 
-  // Static methods to create instances of data classes and then add them into
-  // their respective hashmaps
+  public static void initialize() {
+    Database.createStudent(/*name*/"Example Student", /*email*/
+      "STUDENT001@e.ntu.edu.sg", "SCSE", "password");
+  }
 
   static void createStudent(String name, String email, String faculty,
                             String password) {
     // create a new student data object and then add it into the user hashmap
-    CAMS.Data.StudentData studentData =
-      new CAMS.Data.StudentData(name, email, faculty, password);
+    StudentData studentData = new StudentData(name, email, faculty, password);
     userMap.put(studentData.id(), studentData);
   }
+
+  // Static methods to create instances of data classes and then add them into
+  // their respective hashmaps
 
   static void createStaff(String name, String email, String faculty,
                           String password, List<String> camps) {
     // create a new staff data object and then add it into the user hashmap
-    CAMS.Data.StaffData staffData =
-      new CAMS.Data.StaffData(name, email, faculty, password, camps);
+    StaffData staffData = new StaffData(name, email, faculty, password, camps);
     userMap.put(staffData.id(), staffData);
   }
 
-  static void createEnquiry(String sender, String message, String camp) {
+  static String createEnquiry(String sender, String message, String camp) {
     // Create an enquiry data object and then add it into the enquiry hashmap
-    CAMS.Data.EnquiryData enquiryData =
-      new CAMS.Data.EnquiryData(sender, message, camp);
+    EnquiryData enquiryData = new EnquiryData(sender, message, camp);
     enquiryMap.put(enquiryData.id(), enquiryData);
+    return enquiryData.id();
   }
 
   static void createSuggestion(String sender, String message, String camp) {
     // Create a suggestion data object and then add it into the enquiry hashmap
-    CAMS.Data.SuggestionData suggestionData =
-      new CAMS.Data.SuggestionData(sender, message, camp);
+    SuggestionData suggestionData = new SuggestionData(sender, message, camp);
     suggestionMap.put(suggestionData.id(), suggestionData);
   }
 
@@ -56,14 +56,61 @@ public class Database {
                          int committeeSlots) {
 
     // Create a camp data object and then add it into the camp hashmap
-    CAMS.Data.CampData campData =
-      new CAMS.Data.CampData(name, staff, userGroup, visibility, description,
-        startDate, endDate, registrationClosingDate, location, campTotalSlots,
+    CampData campData =
+      new CampData(name, staff, userGroup, visibility, description, startDate,
+        endDate, registrationClosingDate, location, campTotalSlots,
         committeeSlots);
     campMap.put(campData.name(), campData);
   }
 
-  // Static methods to get camp data
+  public static void deleteEnquiry(String id) {
+    enquiryMap.remove(id);
+  }
+
+  public static void deleteRequestForCamp(String id) {
+
+    if (enquiryMap.containsKey(id)) {
+      String camp = Database.findEnquiry(id).camp();
+      Database.findCamp(camp).deleteEnquiry(id);
+    }
+    if (suggestionMap.containsKey(id)) {
+      String camp = Database.findSuggestion(id).camp();
+      Database.findCamp(camp).deleteSuggestion(id);
+    }
+  }
+
+  static EnquiryData findEnquiry(String id) {
+    // Check if the enquiryMap contains the specified id
+    // Return the corresponding EnquiryData object
+    // Enquiry not found, return null
+    return enquiryMap.getOrDefault(id, null);
+  }
+
+  static CampData findCamp(String id) {
+    // Check if the enquiryMap contains the specified id
+    // Return the corresponding EnquiryData object
+    // Enquiry not found, return null
+    return campMap.getOrDefault(id, null);
+  }
+
+  static SuggestionData findSuggestion(String id) {
+    // Check if the suggestionMap contains the specified id
+    // Return the corresponding SuggestionData object
+    // Suggestion not found, return null
+    return suggestionMap.getOrDefault(id, null);
+  }
+
+  public static void deleteSuggestion(String id) {
+    if (!suggestionMap.containsKey(id)) {
+      suggestionMap.remove(id);
+    }
+  }
+
+  public static void deleteCamp(String id) {
+    if (!campMap.containsKey(id)) {
+      campMap.remove(id);
+    }
+  }
 
   static List<String> getCampsList() {
     // Implementation for getting the list of camp names
@@ -71,10 +118,11 @@ public class Database {
     return new ArrayList<>(campMap.keySet());
   }
 
+  // Static methods to get camp data
   static List<String> getCampListByFaculty(String faculty) {
     List<String> camps = new ArrayList<>();
-    for (CAMS.Data.CampData camp : campMap.values()) {
-      if (Objects.equals(camp.information().userGroup(), faculty)) {
+    for (CampData camp : campMap.values()) {
+      if (Objects.equals(camp.information().faculty(), faculty)) {
         camps.add(camp.name());
       }
     }
@@ -86,16 +134,64 @@ public class Database {
 
     System.out.println("Camps in Faculty:");
 
-    for (CAMS.Data.CampData camp : campMap.values()) {
-      if (Objects.equals(camp.information().userGroup(), faculty)) {
+    for (CampData camp : campMap.values()) {
+      if (Objects.equals(camp.information().faculty(), faculty)) {
         System.out.println("    Camp: " + camp.name());
       }
     }
   }
 
+  static void printCampsForStudent(String id) {
+    // Implementation for printing camps by faculty
+    System.out.println("Camps:");
+    String faculty = Objects.requireNonNull(Database.findStudent(id)).faculty();
+
+    int index = 0;
+    for (CampData camp : campMap.values()) {
+      if (Objects.equals(camp.information().faculty(), "NTU") &&
+        camp.isVisible()) {
+        System.out.println(STR. "    \{ index }: " + camp.name());
+      }
+    }
+
+    for (CampData camp : campMap.values()) {
+      if (Objects.equals(camp.information().faculty(), faculty) &&
+        camp.isVisible()) {
+        System.out.println(STR. "    \{ index }: " + camp.name());
+      }
+    }
+  }
+
+
   // Static methods to find data from the hashmaps
 
-  static CAMS.Data.Utils.Pair<CAMS.Data.UserType, CAMS.Data.UserData> findUser(
+  static StudentData findStudent(String id) {
+    if (!userMap.containsKey(id)) {
+      return null;
+    }
+
+    UserData user = userMap.get(id);
+
+    if (user instanceof StudentData) {
+      return (StudentData) user;
+    }
+
+    return null;
+  }
+
+  static String facultyOf(String id) {
+    if (userMap.containsKey(id)) {
+      UserData data = Database.userMap.get(id);
+      return data.faculty();
+    }
+    if (campMap.containsKey(id)) {
+      CampData data = Database.campMap.get(id);
+      return data.information().faculty();
+    }
+    return null;
+  }
+
+  static CAMS.Data.Utils.Pair<CAMS.Data.UserType, UserData> findUser(
     String id) {
     if (!userMap.containsKey(id)) {
       // Return the corresponding UserData object
@@ -103,56 +199,30 @@ public class Database {
       return null;
     }
 
-    CAMS.Data.UserData user = userMap.get(id);
+    UserData user = userMap.get(id);
 
-    if (user instanceof CAMS.Data.StudentData) {
+    if (user instanceof StudentData) {
       return new CAMS.Data.Utils.Pair<>(CAMS.Data.UserType.STUDENT, user);
     }
 
-    if (user instanceof CAMS.Data.StaffData) {
+    if (user instanceof StaffData) {
       return new CAMS.Data.Utils.Pair<>(CAMS.Data.UserType.STAFF, user);
     }
 
     return null;
   }
 
-  static CAMS.Data.StudentData findStudent(String id) {
-    if (!userMap.containsKey(id)) {
-      return null;
-    }
-
-    CAMS.Data.UserData user = userMap.get(id);
-
-    if (user instanceof CAMS.Data.StudentData) {
-      return (CAMS.Data.StudentData) user;
-    }
-
-    return null;
-  }
-
-  static CAMS.Data.StaffData findStaff(String userID) {
+  static StaffData findStaff(String userID) {
     // Check if the userMap contains the specified userID
     if (userMap.containsKey(userID) &&
-      userMap.get(userID) instanceof CAMS.Data.StaffData) {
+      userMap.get(userID) instanceof StaffData) {
       // Return the corresponding StaffData object
-      return (CAMS.Data.StaffData) userMap.get(userID);
+      return (StaffData) userMap.get(userID);
     } else {
       // Staff not found or not of the correct type, return null
       return null;
     }
   }
 
-  static CAMS.Data.EnquiryData findEnquiry(String id) {
-    // Check if the enquiryMap contains the specified id
-    // Return the corresponding EnquiryData object
-    // Enquiry not found, return null
-    return enquiryMap.getOrDefault(id, null);
-  }
 
-  static CAMS.Data.SuggestionData findSuggestion(String id) {
-    // Check if the suggestionMap contains the specified id
-    // Return the corresponding SuggestionData object
-    // Suggestion not found, return null
-    return suggestionMap.getOrDefault(id, null);
-  }
 }
