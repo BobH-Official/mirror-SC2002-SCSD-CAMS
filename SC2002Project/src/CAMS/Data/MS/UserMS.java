@@ -1,4 +1,4 @@
-package CAMS.Data.MS;
+package CAMS.Data;
 
 public abstract class UserMS {
 

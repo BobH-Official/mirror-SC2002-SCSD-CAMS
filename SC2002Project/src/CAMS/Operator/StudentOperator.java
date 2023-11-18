@@ -4,7 +4,7 @@ import CAMS.Data.StudentMS;
 
 public class StudentOperator extends UserOperator {
 
-  private final StudentMS studentMS;
+  private final CAMS.Data.StudentMS studentMS;
 
   public StudentOperator(String id) {
 

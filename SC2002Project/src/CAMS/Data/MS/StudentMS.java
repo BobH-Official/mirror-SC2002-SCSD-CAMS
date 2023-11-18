@@ -1,17 +1,17 @@
 package CAMS.Data;
 
-import CAMS.Data.MS.UserMS;
-
-public class StudentMS extends UserMS {
-  public StudentMS(String id) {
+public class StudentMS extends CAMS.Data.UserMS {
+  StudentMS(String id) {
     super(id);
   }
 
   public void changePassword(String password) {
     // TODO: should use getter, this is only for demonstration
-    CAMS.Data.UserData user = Database.findUser(userID).second();
+
+    CAMS.Data.Utils.Pair<CAMS.Data.UserType, CAMS.Data.UserData> user =
+      Database.findUser(userID);
     if (user != null) {
-      user.setPassword(password);
+      user.second().setPassword(password);
     }
   }
 }
