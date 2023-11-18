@@ -1,6 +1,6 @@
 package CAMS.Data;
 
-class EnquiryData extends CAMS.Data.RequestData<CAMS.Data.EnquiryStatus>  {
+class EnquiryData extends CAMS.Data.RequestData<CAMS.Data.EnquiryStatus> {
 
   private String replyMessage;
 

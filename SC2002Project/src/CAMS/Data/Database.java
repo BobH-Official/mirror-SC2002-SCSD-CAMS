@@ -20,7 +20,32 @@ public class Database {
     Database.createStudent(/*name*/"Example Student", /*email*/
       "STUDENT001@e.ntu.edu.sg", "SCSE", "password");
 
-    Database.createCamp("Camp1", "STAFF001", "SCSE", true, "Camp one one one",
+    Database.createCamp("Camp1", "STAFF001", "NTU", true, "Camp one one one",
+      DateHelper.get(2023, 12, 11), DateHelper.get(2023, 12, 13),
+      DateHelper.get(2023, 12, 10), "Block N4", 10, 40);
+
+    Database.createCamp("Camp2", "STAFF001", "SCSE", true, "Camp one one one",
+      DateHelper.get(2023, 12, 11), DateHelper.get(2023, 12, 13),
+      DateHelper.get(2023, 12, 10), "Block N4", 10, 40);
+    Database.createCamp("Camp3", "STAFF001", "SCSE", true, "Camp one one one",
+      DateHelper.get(2023, 12, 11), DateHelper.get(2023, 12, 13),
+      DateHelper.get(2023, 12, 10), "Block N4", 10, 40);
+    Database.createCamp("Camp4", "STAFF001", "NTU", true, "Camp one one one",
+      DateHelper.get(2023, 12, 11), DateHelper.get(2023, 12, 13),
+      DateHelper.get(2023, 12, 10), "Block N4", 10, 40);
+    Database.createCamp("Camp5", "STAFF001", "NTU", true, "Camp one one one",
+      DateHelper.get(2023, 12, 11), DateHelper.get(2023, 12, 13),
+      DateHelper.get(2023, 12, 10), "Block N4", 10, 40);
+    Database.createCamp("Camp6", "STAFF001", "EEE", true, "Camp one one one",
+      DateHelper.get(2023, 12, 11), DateHelper.get(2023, 12, 13),
+      DateHelper.get(2023, 12, 10), "Block N4", 10, 40);
+    Database.createCamp("Camp7", "STAFF001", "SCSE", true, "Camp one one one",
+      DateHelper.get(2023, 12, 11), DateHelper.get(2023, 12, 13),
+      DateHelper.get(2023, 12, 10), "Block N4", 10, 40);
+    Database.createCamp("Camp8", "STAFF001", "SCSE", true, "Camp one one one",
+      DateHelper.get(2023, 12, 11), DateHelper.get(2023, 12, 13),
+      DateHelper.get(2023, 12, 10), "Block N4", 10, 40);
+    Database.createCamp("Camp9", "STAFF001", "SCSE", true, "Camp one one one",
       DateHelper.get(2023, 12, 11), DateHelper.get(2023, 12, 13),
       DateHelper.get(2023, 12, 10), "Block N4", 10, 40);
   }
@@ -35,18 +60,23 @@ public class Database {
   // Static methods to create instances of data classes and then add them into
   // their respective hashmaps
 
-  static void createCamp(String name, String staff, String userGroup,
-                         boolean visibility, String description, Date startDate,
-                         Date endDate, Date registrationClosingDate,
-                         String location, int campTotalSlots,
-                         int committeeSlots) {
+  static boolean createCamp(String name, String staff, String userGroup,
+                            boolean visibility, String description,
+                            Date startDate, Date endDate,
+                            Date registrationClosingDate, String location,
+                            int campTotalSlots, int committeeSlots) {
 
+    if (campMap.containsKey(name)) {
+      System.out.println("Camp Already Exists");
+      return false;
+    }
     // Create a camp data object and then add it into the camp hashmap
     CampData campData =
       new CampData(name, staff, userGroup, visibility, description, startDate,
         endDate, registrationClosingDate, location, campTotalSlots,
         committeeSlots);
     campMap.put(campData.name(), campData);
+    return true;
   }
 
   static void createStaff(String name, String email, String faculty,
@@ -152,20 +182,30 @@ public class Database {
     System.out.println("Camps:");
     String faculty = Objects.requireNonNull(Database.findStudent(id)).faculty();
 
-    int index = 0;
+    int index = 1;
+    System.out.print(STR."    ");
     for (CampData camp : campMap.values()) {
       if (Objects.equals(camp.information().faculty(), "NTU") &&
         camp.isVisible()) {
-        System.out.println(STR. "    \{ index }: " + camp.name());
+        if (index % 5 == 0) {
+          System.out.print(STR."\n    ");
+        }
+        System.out.print(STR. "\{ camp.name() } " );
+        index += 1;
       }
     }
 
     for (CampData camp : campMap.values()) {
       if (Objects.equals(camp.information().faculty(), faculty) &&
         camp.isVisible()) {
-        System.out.println(STR. "    \{ index }: " + camp.name());
+        if (index % 5 == 0) {
+          System.out.print(STR."\n    ");
+        }
+        System.out.print(STR. "\{ camp.name() } " );
+        index += 1;
       }
     }
+    System.out.println();
   }
 
 

@@ -31,17 +31,11 @@ public class StudentOperator extends UserOperator {
     String choice = console.readLine(STR."""
       Choose your operation:
           1. create enquiry.
-          2. logout
-      Enter your choice:
-      """).strip();
+          100. logout
+      Enter your choice:\s""").strip();
 
 
     switch (choice) {
-
-      case "0" -> {
-        userMS.changePassword("new pass");
-        return true;
-      }
 
       case "1" -> {
         String enquiry = enquiryMS.createEnquiry();
@@ -62,6 +56,9 @@ public class StudentOperator extends UserOperator {
         }
 
         return true;
+      }
+      case "100" -> {
+        return false;
       }
 
       default -> {
