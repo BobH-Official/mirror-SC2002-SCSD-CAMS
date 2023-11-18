@@ -17,6 +17,16 @@ class CampData {
            String description, Date startDate, Date endDate,
            Date registrationClosingDate, String location, int campTotalSlots,
            int committeeSlots) {
+    if (campTotalSlots > 10 || campTotalSlots <= 0) {
+      System.out.println(
+        "Camp Total Slots input is invalid, using default value 10.");
+      campTotalSlots = 10;
+    }
+    if (committeeSlots > 40 || committeeSlots <= 0) {
+      System.out.println(
+        "Committee Total Slots input is invalid, using default value 10.");
+      committeeSlots = 40;
+    }
     this.name = name;
     this.staff = staff;
     this.visibility = visibility;

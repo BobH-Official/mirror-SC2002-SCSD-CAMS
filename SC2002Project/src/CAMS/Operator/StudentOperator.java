@@ -35,7 +35,7 @@ public class StudentOperator extends UserOperator {
       Enter your choice:
       """).strip();
 
-    
+
     switch (choice) {
 
       case "0" -> {
@@ -46,6 +46,7 @@ public class StudentOperator extends UserOperator {
       case "1" -> {
         String enquiry = enquiryMS.createEnquiry();
         if (enquiry == null) {
+
           return true;
         }
         if (!campMS.addEnquiry(enquiry)) {

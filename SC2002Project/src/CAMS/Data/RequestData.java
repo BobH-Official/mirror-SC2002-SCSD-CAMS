@@ -1,7 +1,7 @@
 package CAMS.Data;
 
-import java.nio.charset.StandardCharsets;
-import java.security.MessageDigest;
+import CAMS.Data.Utils.HashingHelper;
+
 import java.util.Random;
 
 abstract class RequestData<T extends CAMS.Data.RequestStatus> {
@@ -14,25 +14,10 @@ abstract class RequestData<T extends CAMS.Data.RequestStatus> {
 
 
   protected RequestData(T status, String sender, String message, String camp) {
-    String id1;
     Random random = new Random();
-    try {
-      id1 = new String(MessageDigest.getInstance(/*algorithm*/"SHA-256").digest(
-        (sender + message + camp +
-          random.nextInt(/*origin*/1000, /*bound*/10000)).getBytes(
-          StandardCharsets.UTF_8)), StandardCharsets.UTF_8);
-    } catch (Exception e) {
-      id1 = "" + random.nextInt(10000000, 99999999) +
-        random.nextInt(10000000, 99999999) +
-        random.nextInt(10000000, 99999999) +
-        random.nextInt(10000000, 99999999) +
-        random.nextInt(10000000, 99999999) +
-        random.nextInt(10000000, 99999999) +
-        random.nextInt(10000000, 99999999) + /*\n*/
-        random.nextInt(10000000, 99999999);
-    }
 
-    this.id = id1;
+    this.id = HashingHelper.sha256(
+      (sender + message + camp + random.nextInt(1000, 10000)));
     this.sender = sender;
     this.status = status;
     this.message = message;

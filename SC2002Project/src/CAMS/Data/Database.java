@@ -2,6 +2,8 @@ package CAMS.Data;
 
 //importing the relevant database java classes
 
+import CAMS.Data.Utils.DateHelper;
+
 import java.util.*;
 
 public class Database {
@@ -17,6 +19,10 @@ public class Database {
   public static void initialize() {
     Database.createStudent(/*name*/"Example Student", /*email*/
       "STUDENT001@e.ntu.edu.sg", "SCSE", "password");
+
+    Database.createCamp("Camp1", "STAFF001", "SCSE", true, "Camp one one one",
+      DateHelper.get(2023, 12, 11), DateHelper.get(2023, 12, 13),
+      DateHelper.get(2023, 12, 10), "Block N4", 10, 40);
   }
 
   static void createStudent(String name, String email, String faculty,
@@ -28,6 +34,20 @@ public class Database {
 
   // Static methods to create instances of data classes and then add them into
   // their respective hashmaps
+
+  static void createCamp(String name, String staff, String userGroup,
+                         boolean visibility, String description, Date startDate,
+                         Date endDate, Date registrationClosingDate,
+                         String location, int campTotalSlots,
+                         int committeeSlots) {
+
+    // Create a camp data object and then add it into the camp hashmap
+    CampData campData =
+      new CampData(name, staff, userGroup, visibility, description, startDate,
+        endDate, registrationClosingDate, location, campTotalSlots,
+        committeeSlots);
+    campMap.put(campData.name(), campData);
+  }
 
   static void createStaff(String name, String email, String faculty,
                           String password, List<String> camps) {
@@ -47,20 +67,6 @@ public class Database {
     // Create a suggestion data object and then add it into the enquiry hashmap
     SuggestionData suggestionData = new SuggestionData(sender, message, camp);
     suggestionMap.put(suggestionData.id(), suggestionData);
-  }
-
-  static void createCamp(String name, String staff, String userGroup,
-                         boolean visibility, String description, Date startDate,
-                         Date endDate, Date registrationClosingDate,
-                         String location, int campTotalSlots,
-                         int committeeSlots) {
-
-    // Create a camp data object and then add it into the camp hashmap
-    CampData campData =
-      new CampData(name, staff, userGroup, visibility, description, startDate,
-        endDate, registrationClosingDate, location, campTotalSlots,
-        committeeSlots);
-    campMap.put(campData.name(), campData);
   }
 
   public static void deleteEnquiry(String id) {

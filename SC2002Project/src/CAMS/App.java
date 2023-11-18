@@ -13,8 +13,12 @@ public class App {
 
     operator = new StudentOperator("STUDENT001");
 
+    boolean result = true;
 //    Database.studentToString();
-    operator.doOperation();
+    while (result) {
+      result = operator.doOperation();
+    }
+    System.out.println("Program exit...");
 //    Database.studentToString();
   }
 }
