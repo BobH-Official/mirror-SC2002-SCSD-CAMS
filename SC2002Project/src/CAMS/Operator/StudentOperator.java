@@ -31,7 +31,8 @@ public class StudentOperator extends UserOperator {
     String choice = console.readLine(STR."""
       Choose your operation:
           1. create enquiry.
-          100. logout
+          5. logout
+          q. exit
       Enter your choice:\s""").strip();
 
 

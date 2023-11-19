@@ -3,8 +3,16 @@ package CAMS.Data;
 //importing the relevant database java classes
 
 import CAMS.Data.Utils.DateHelper;
+import CAMS.Data.Utils.Pair;
 
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Paths;
 import java.util.*;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 
 public class Database {
 
@@ -57,9 +65,6 @@ public class Database {
     userMap.put(studentData.id(), studentData);
   }
 
-  // Static methods to create instances of data classes and then add them into
-  // their respective hashmaps
-
   static boolean createCamp(String name, String staff, String userGroup,
                             boolean visibility, String description,
                             Date startDate, Date endDate,
@@ -93,11 +98,43 @@ public class Database {
     return enquiryData.id();
   }
 
-  static void createSuggestion(String sender, String message, String camp) {
+  static String createSuggestion(String sender, String message, String camp) {
     // Create a suggestion data object and then add it into the enquiry hashmap
     SuggestionData suggestionData = new SuggestionData(sender, message, camp);
     suggestionMap.put(suggestionData.id(), suggestionData);
+    return suggestionData.id();
   }
+
+
+  public static void storeDB(String path) {
+    try (final FileOutputStream fos = new FileOutputStream(path)) {
+      ZipOutputStream zipOut = new ZipOutputStream(fos);
+//      ZipEntry zipEntry = ;
+      zipOut.setLevel(9);
+      zipOut.putNextEntry(new ZipEntry("mimetype"));
+      zipOut.write("application/camsdb+zip".getBytes(StandardCharsets.UTF_8));
+      zipOut.putNextEntry(new ZipEntry("META-INF/container.xml"));
+      zipOut.write("""
+        <?xml version="1.0" encoding="UTF-8"?>
+        <container version="1.0" xmlns="ntu:sc2002:cams:xmlns:container">
+          <files>
+            <file full-path="staff.csv" media-type="text/csv" />
+            <file full-path="student.csv" media-type="text/csv" />
+            <file full-path="camp.csv" media-type="text/csv" />
+            <file full-path="request.csv" media-type="text/csv" />
+          </files>
+        </container>
+        """.strip().getBytes(StandardCharsets.UTF_8));
+      zipOut.close();
+    } catch (IOException e) {
+      System.err.println(e.getLocalizedMessage());
+    }
+  }
+
+  static CAMS.Data.Utils.Pair<String, String> toCsvUsers() {
+    return new CAMS.Data.Utils.Pair<>("", "");
+  }
+
 
   public static void deleteEnquiry(String id) {
     enquiryMap.remove(id);
