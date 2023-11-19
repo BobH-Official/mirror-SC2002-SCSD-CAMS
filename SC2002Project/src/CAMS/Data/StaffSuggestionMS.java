@@ -9,35 +9,32 @@ public class StaffSuggestionMS {
     }
 
     // Method to view details of a Suggestion
-    public void viewSuggestion(String suggestionID) {
+    public boolean viewSuggestion(String suggestionID) {
         SuggestionData suggestion = Database.findSuggestion(suggestionID);
-        if (suggestion != null) {
-            System.out.println("Suggestion Details: " + suggestion);
-        } else {
-            System.out.println("Suggestion not found for ID: " + suggestionID);
+        if (suggestion == null) {
+            return false;
         }
+        System.out.println("Suggestion Details: " + suggestion);
+        return true;
     }
 
     // Method to approve a Suggestion
     public void approveSuggestion(String suggestionID) {
         SuggestionData suggestion = Database.findSuggestion(suggestionID);
-        if (suggestion != null) {
-            suggestion.approve();
-            System.out.println("Suggestion approved for ID: " + suggestionID);
-        } else {
-            System.out.println("Suggestion not found for ID: " + suggestionID);
+        if (suggestion == null) {
+            return;
         }
+        suggestion.approve();
+        System.out.println("Suggestion approved for ID: " + suggestionID);
     }
 
     // Method to reject a Suggestion
     public void rejectSuggestion(String suggestionID) {
         SuggestionData suggestion = Database.findSuggestion(suggestionID);
-        if (suggestion != null) {
-            suggestion.reject();
-            System.out.println("Suggestion rejected for ID: " + suggestionID);
-        } else {
-            System.out.println("Suggestion not found for ID: " + suggestionID);
+        if (suggestion == null) {
+            return;
         }
+        suggestion.reject();
+        System.out.println("Suggestion rejected for ID: " + suggestionID);
     }
 }
-

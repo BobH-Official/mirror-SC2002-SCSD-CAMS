@@ -1,64 +1,79 @@
 package CAMS.Data;
 
+import java.io.Console;
+
 public class CommitteeSuggestionMS {
     private String userID;
-    private String campName;
-    //added attribute campName to use
-    //Database.createSuggestion
+    private Console console;
 
     // Constructor
-    public CommitteeSuggestionMS(String userID, String campName) {
+    public CommitteeSuggestionMS(String userID) {
         this.userID = userID;
-        this.campName = campName;
+        this.console = System.console();
     }
 
-    public String submitSuggestion(String suggestionDescription) {
-        // Call the returnSuggestionID method which creates the suggestion and returns the suggestion ID
-        String suggestionID = Database.returnSuggestionID(this.userID, suggestionDescription, this.campName);
-        return suggestionID; // Return the ID of the new suggestion
-    }
-
-
-    // Method to view own suggestion details
-    public int viewOwnSuggestion(String suggestionID) {
-        // Retrieve the suggestion using its ID
-        SuggestionData suggestion = Database.findSuggestion(suggestionID);
-        // Check if the suggestion exists and belongs to the user
-        if (suggestion != null && suggestion.sender().equals(this.userID)) {
-            System.out.println("Suggestion Details: " + suggestion);
-            return 0; // success
-        } else {
-            System.out.println("Suggestion not found or access denied.");
-            return 1; // failure or no permission
+    public boolean createSuggestion() {
+        System.out.print("Enter the name of the camp for your suggestion: ");
+        String campName = console.readLine();
+        if (campName == null || campName.trim().isEmpty()) {
+            System.err.println("Camp name cannot be empty.");
+            return false;
         }
+
+        System.out.print("Enter your suggestion description: ");
+        String description = console.readLine();
+        if (description == null || description.trim().isEmpty()) {
+            System.err.println("Description cannot be empty.");
+            return false;
+        }
+
+        Database.createSuggestion(this.userID, description, campName);
+        System.out.println("Suggestion created successfully.");
+        return true;
     }
 
-    // Method to edit own suggestion
-    public int editOwnSuggestion(String suggestionID, String newMessage) {
-        // Retrieve the suggestion using its ID
+    public boolean viewOwnSuggestion() {
+        System.out.print("Enter the ID of your suggestion to view: ");
+        String suggestionID = console.readLine();
         SuggestionData suggestion = Database.findSuggestion(suggestionID);
-        // Check if the suggestion exists and belongs to the user
-        if (suggestion != null && suggestion.sender().equals(this.userID)) {
-            suggestion.setMessage(newMessage);
-            Database.updateSuggestion(suggestionID, suggestion);
-            return 0; // success
-        } else {
-            System.out.println("Suggestion not found or access denied.");
-            return 1; // failure or no permission
+        if (suggestion == null || !suggestion.sender().equals(this.userID)) {
+            System.err.println("Suggestion not found or access denied.");
+            return false;
         }
+        System.out.println("Suggestion Details: " + suggestion);
+        return true;
     }
 
-    // Method to delete own suggestion
-    public int deleteOwnSuggestion(String suggestionID) {
-        // Retrieve the suggestion using its ID
+    public boolean editOwnSuggestion() {
+        System.out.print("Enter the ID of your suggestion to edit: ");
+        String suggestionID = console.readLine();
         SuggestionData suggestion = Database.findSuggestion(suggestionID);
-        // Check if the suggestion exists and belongs to the user
-        if (suggestion != null && suggestion.sender().equals(this.userID)) {
-            Database.deleteSuggestion(suggestionID);
-            return 0; // success
-        } else {
-            System.out.println("Suggestion not found or access denied.");
-            return 1; // failure or no permission
+        if (suggestion == null || !suggestion.sender().equals(this.userID)) {
+            System.err.println("Suggestion not found or access denied.");
+            return false;
         }
+
+        System.out.print("Enter the new message for your suggestion: ");
+        String newMessage = console.readLine();
+        if (newMessage == null || newMessage.trim().isEmpty()) {
+            System.err.println("New message cannot be empty.");
+            return false;
+        }
+
+        suggestion.setMessage(newMessage); // Assuming SuggestionData has a setMessage method.
+        return true;
+    }
+
+    public boolean deleteOwnSuggestion() {
+        System.out.print("Enter the ID of your suggestion to delete: ");
+        String suggestionID = console.readLine();
+        SuggestionData suggestion = Database.findSuggestion(suggestionID);
+        if (suggestion == null || !suggestion.sender().equals(this.userID)) {
+            System.err.println("Suggestion not found or access denied.");
+            return false;
+        }
+
+        Database.deleteSuggestion(suggestionID);
+        return true;
     }
 }

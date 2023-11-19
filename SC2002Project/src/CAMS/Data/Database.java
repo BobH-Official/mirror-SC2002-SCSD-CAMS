@@ -135,22 +135,6 @@ public class Database {
     // Suggestion not found, return null
     return suggestionMap.getOrDefault(id, null);
   }
-  
-  // Inside the Database class:
-  static String returnSuggestionID(String sender, String message, String camp) {
-    // Create a suggestion data object and then add it into the suggestion hashmap
-    SuggestionData suggestionData = new SuggestionData(sender, message, camp);
-    suggestionMap.put(suggestionData.id(), suggestionData);
-    return suggestionData.id(); // Return the ID of the newly created suggestion
-  }
-
-// Inside the CommitteeSuggestionMS class:
-public String submitSuggestion(String suggestionDescription) {
-  // Call the returnSuggestionID method which creates the suggestion and returns the suggestion ID
-  String suggestionID = Database.returnSuggestionID(this.userID, suggestionDescription, this.campName);
-  return suggestionID; // Return the ID of the new suggestion
-}
-
 
   public static void deleteSuggestion(String id) {
     if (!suggestionMap.containsKey(id)) {
