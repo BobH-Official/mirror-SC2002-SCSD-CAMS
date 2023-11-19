@@ -102,7 +102,6 @@ public class Database {
     return suggestionData.id();
   }
 
-
   public static void storeDB(String path) {
     try (final FileOutputStream fos = new FileOutputStream(path)) {
       ZipOutputStream zipOut = new ZipOutputStream(fos);
@@ -186,51 +185,17 @@ public class Database {
     return str.strip();
   }
 
-
-  public static void deleteEnquiry(String id) {
+  static void deleteEnquiry(String id) {
     enquiryMap.remove(id);
   }
 
-  public static void deleteRequestForCamp(String id) {
-
-    if (enquiryMap.containsKey(id)) {
-      String camp = Database.findEnquiry(id).camp();
-      Database.findCamp(camp).deleteEnquiry(id);
-    }
-    if (suggestionMap.containsKey(id)) {
-      String camp = Database.findSuggestion(id).camp();
-      Database.findCamp(camp).deleteSuggestion(id);
-    }
-  }
-
-  static EnquiryData findEnquiry(String id) {
-    // Check if the enquiryMap contains the specified id
-    // Return the corresponding EnquiryData object
-    // Enquiry not found, return null
-    return enquiryMap.getOrDefault(id, null);
-  }
-
-  static CampData findCamp(String id) {
-    // Check if the enquiryMap contains the specified id
-    // Return the corresponding EnquiryData object
-    // Enquiry not found, return null
-    return campMap.getOrDefault(id, null);
-  }
-
-  static SuggestionData findSuggestion(String id) {
-    // Check if the suggestionMap contains the specified id
-    // Return the corresponding SuggestionData object
-    // Suggestion not found, return null
-    return suggestionMap.getOrDefault(id, null);
-  }
-
-  public static void deleteSuggestion(String id) {
+  static void deleteSuggestion(String id) {
     if (!suggestionMap.containsKey(id)) {
       suggestionMap.remove(id);
     }
   }
 
-  public static void deleteCamp(String id) {
+  static void deleteCamp(String id) {
     if (!campMap.containsKey(id)) {
       campMap.remove(id);
     }
@@ -296,9 +261,6 @@ public class Database {
     System.out.println();
   }
 
-
-  // Static methods to find data from the hashmaps
-
   static StudentData findStudent(String id) {
     if (!userMap.containsKey(id)) {
       return null;
@@ -313,6 +275,90 @@ public class Database {
     return null;
   }
 
+  static <T extends RequestStatus> List<RequestData<T>> getCampRequestList(
+    String camp, RequestType type) {
+    List<String> requestIds;
+    List<RequestData<T>> requests = new ArrayList<>();
+    switch (type) {
+      case ENQUIRY -> {
+        requestIds = Database.findCamp(camp).enquiries().requests();
+        for (String id : requestIds) {
+          EnquiryData data = Database.findEnquiry(id);
+          requests.add((RequestData<T>) data);
+        }
+      }
+      case SUGGESTION -> {
+        requestIds = Database.findCamp(camp).suggestions().requests();
+        for (String id : requestIds) {
+          SuggestionData data = Database.findSuggestion(id);
+          requests.add((RequestData<T>) data);
+        }
+      }
+    }
+    return requests;
+  }
+
+  static CampData findCamp(String id) {
+    // Check if the enquiryMap contains the specified id
+    // Return the corresponding EnquiryData object
+    // Enquiry not found, return null
+    if (!campMap.containsKey(id)) {
+      System.err.println("Error: Camp not found. ID: " + id);
+    }
+    return campMap.getOrDefault(id, null);
+  }
+
+  static EnquiryData findEnquiry(String id) {
+    // Check if the enquiryMap contains the specified id
+    // Return the corresponding EnquiryData object
+    // Enquiry not found, return null
+    if (!enquiryMap.containsKey(id)) {
+      System.err.println("Error: Enquiry not found. ID: " + id);
+    }
+    return enquiryMap.getOrDefault(id, null);
+  }
+
+  static SuggestionData findSuggestion(String id) {
+    // Check if the suggestionMap contains the specified id
+    // Return the corresponding SuggestionData object
+    // Suggestion not found, return null
+    if (!suggestionMap.containsKey(id)) {
+      System.err.println("Error: Suggestion not found. ID: " + id);
+    }
+    return suggestionMap.getOrDefault(id, null);
+  }
+
+  static void printCampsForStaff(String id) {
+    System.out.println("Camps:");
+    List<String> camps =
+      Objects.requireNonNull(Database.findStaff(id)).getCampsUnderManagement();
+    int index = 1;
+    System.out.print(STR."    ");
+    for (String camp : camps) {
+
+      if (index % 5 == 0) {
+        System.out.print(STR."\n    ");
+      }
+      System.out.print(STR. "\{ camp } " );
+      index += 1;
+    }
+  }
+
+
+  // Static methods to find data from the hashmaps
+
+  static StaffData findStaff(String userID) {
+    // Check if the userMap contains the specified userID
+    if (userMap.containsKey(userID) &&
+      userMap.get(userID) instanceof StaffData) {
+      // Return the corresponding StaffData object
+      return (StaffData) userMap.get(userID);
+    } else {
+      // Staff not found or not of the correct type, return null
+      return null;
+    }
+  }
+
   static String facultyOf(String id) {
     if (userMap.containsKey(id)) {
       UserData data = Database.userMap.get(id);
@@ -322,6 +368,15 @@ public class Database {
       CampData data = Database.campMap.get(id);
       return data.information().faculty();
     }
+    if (enquiryMap.containsKey(id)) {
+      EnquiryData data = Database.enquiryMap.get(id);
+      return data.camp();
+    }
+    if (suggestionMap.containsKey(id)) {
+      SuggestionData data = Database.suggestionMap.get(id);
+      return data.camp();
+    }
+    System.err.println("No such object in database: " + id);
     return null;
   }
 
@@ -346,17 +401,8 @@ public class Database {
     return null;
   }
 
-  static StaffData findStaff(String userID) {
-    // Check if the userMap contains the specified userID
-    if (userMap.containsKey(userID) &&
-      userMap.get(userID) instanceof StaffData) {
-      // Return the corresponding StaffData object
-      return (StaffData) userMap.get(userID);
-    } else {
-      // Staff not found or not of the correct type, return null
-      return null;
-    }
+  enum RequestType {
+    ENQUIRY, SUGGESTION,
+
   }
-
-
 }

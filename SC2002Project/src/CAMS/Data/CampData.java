@@ -96,16 +96,16 @@ class CampData {
     enquiries.add(id);
   }
 
-  void deleteEnquiry(String id) {
-    enquiries.delete(id);
+  boolean deleteEnquiry(String id) {
+    return enquiries.delete(id);
   }
 
   void addSuggestion(String id) {
     suggestions.add(id);
   }
 
-  void deleteSuggestion(String id) {
-    enquiries.delete(id);
+  boolean deleteSuggestion(String id) {
+    return enquiries.delete(id);
   }
 
   String name() {
