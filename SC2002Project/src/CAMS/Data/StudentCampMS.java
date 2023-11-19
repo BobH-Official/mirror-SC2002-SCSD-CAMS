@@ -8,6 +8,17 @@ public class StudentCampMS {
   }
 
   public boolean addEnquiry(String id) {
+
+    String camp = Database.findEnquiry(id).camp();
+    Database.findCamp(camp).addEnquiry(id);
     return true;
+  }
+
+  public boolean deleteEnquiry(String id) {
+    if (Database.facultyOf(id) == null) {
+      return false;
+    }
+    String camp = Database.facultyOf(id);
+    return Database.findCamp(camp).deleteEnquiry(id);
   }
 }

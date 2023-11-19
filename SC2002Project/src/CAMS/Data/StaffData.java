@@ -13,6 +13,16 @@ class StaffData extends CAMS.Data.UserData {
     this.campsUnderManagement = new ArrayList<>(campsUnderManagement);
   }
 
+  @Override
+  String toCsv() {
+    return STR. "\{ super.toCsv().strip() },\{ String.join("&",
+      campsUnderManagement) }" ;
+  }
+
+  void printSelf() {
+    System.out.println(this);
+  }
+
   // Methods
   boolean isInChargeOf(String campID) {
     return campsUnderManagement.contains(campID);
@@ -31,10 +41,6 @@ class StaffData extends CAMS.Data.UserData {
   // Getters
   List<String> getCampsUnderManagement() {
     return new ArrayList<>(campsUnderManagement); // Return a copy of the list
-  }
-
-  void printSelf() {
-    System.out.println(this);
   }
 
   @Override

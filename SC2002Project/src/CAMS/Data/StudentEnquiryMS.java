@@ -1,6 +1,7 @@
 package CAMS.Data;
 
 import java.io.Console;
+import java.util.Objects;
 
 public class StudentEnquiryMS {
 
@@ -27,7 +28,6 @@ public class StudentEnquiryMS {
     String faculty = Database.facultyOf(camp);
 
     if (faculty == null) {
-      System.out.println("No such a Camp: " + camp);
       return null;
     } else if (!faculty.equals(Database.facultyOf(userID)) &&
       !(faculty.equals("NTU"))) {
@@ -37,8 +37,7 @@ public class StudentEnquiryMS {
 
     String msg = console.readLine(STR. """
       What message do you want to send to \{ camp }?
-      message:
-      """ ).strip();
+      message:\s""" ).strip();
 
     String enquiry = Database.createEnquiry(userID, msg, camp);
 
@@ -49,4 +48,14 @@ public class StudentEnquiryMS {
 
     return enquiry;
   }
+
+  public void deleteEnquiry(String id) {
+    String sender = Database.findEnquiry(id).sender();
+    if (!(Objects.equals(sender, this.userID))) {
+      System.err.println(
+        STR. "Error: User \{ this.userID }: do not have access to the data, failed to delete." );
+    }
+    Database.deleteEnquiry(id);
+  }
+
 }

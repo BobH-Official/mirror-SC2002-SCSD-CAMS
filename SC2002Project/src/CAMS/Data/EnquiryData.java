@@ -9,6 +9,19 @@ class EnquiryData extends CAMS.Data.RequestData<CAMS.Data.EnquiryStatus> {
     this.replyMessage = "";
   }
 
+  @Override
+  String toCsv() {
+    return STR. "\{ super.toCsv().strip() },\{ this.replyMessage }\n" ;
+  }
+
+  @Override
+  public String toString() {
+    return (super.toString().replace("REQUEST", "ENQUIRY") +
+      (this.status() == CAMS.Data.EnquiryStatus.PENDING ?
+        "\n    There is no reply." :
+        ";\n    reply: " + this.replyMessage)).strip();
+  }
+
   String replyMessage() {
     return this.replyMessage;
   }
@@ -16,13 +29,5 @@ class EnquiryData extends CAMS.Data.RequestData<CAMS.Data.EnquiryStatus> {
   void reply(String msg) {
     this.setStatus(CAMS.Data.EnquiryStatus.REPLIED);
     this.replyMessage = msg;
-  }
-
-  @Override
-  public String toString() {
-    return (super.toString().replace("REQUEST", "ENQUIRY") +
-      (this.status() == CAMS.Data.EnquiryStatus.PENDING
-        ? "\n    There is no reply."
-        : ";\n    reply: " + this.replyMessage)).strip();
   }
 }

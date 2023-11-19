@@ -10,6 +10,10 @@ class CampBlackList {
     this.members = new ArrayList<>();
   }
 
+  String toCsv() {
+    return String.join("&", members);
+  }
+
   // Method to add a student to blacklist
   void addMember(String userID) throws IllegalStateException {
     if (!contains(userID)) {

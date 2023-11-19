@@ -43,6 +43,13 @@ class CampData {
     this.suggestions = new CAMS.Data.RequestList();
   }
 
+  String toCsv() {
+    return STR. "\{ this.name },\{ this.staff },\{ this.visibility }," +
+      STR. "\{ this.information.toCsv() },\{ this.attendees.toCsv() }," +
+      STR. "\{ this.committeeMembers.toCsv() },\{ this.blacklist.toCsv() }," +
+      STR. "\{ this.enquiries.toCsv() },\{ suggestions.toCsv() }\n" ;
+  }
+
 
   void addAttendee(String userID) throws IllegalStateException {
     // Check if the user is on the blacklist.
@@ -89,16 +96,16 @@ class CampData {
     enquiries.add(id);
   }
 
-  void deleteEnquiry(String id) {
-    enquiries.delete(id);
+  boolean deleteEnquiry(String id) {
+    return enquiries.delete(id);
   }
 
   void addSuggestion(String id) {
     suggestions.add(id);
   }
 
-  void deleteSuggestion(String id) {
-    enquiries.delete(id);
+  boolean deleteSuggestion(String id) {
+    return enquiries.delete(id);
   }
 
   String name() {
@@ -144,6 +151,7 @@ class CampData {
   void printSelf() {
     System.out.println(this);
   }
+
 
   @Override
   public String toString() {

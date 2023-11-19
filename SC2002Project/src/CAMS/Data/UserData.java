@@ -41,6 +41,15 @@ abstract class UserData {
     return this.name;
   }
 
+  String password() {
+    return this.password;
+  }
+
+  String toCsv() {
+    return STR. "\{ this.id },\{ this.password },\{ this.name }," +
+      STR. "\{ this.email },\{ this.faculty }\n" ;
+  }
+
   void printSelf() {
     System.out.println("STUDENT  : ");
     System.out.println("  ID     : " + this.id);

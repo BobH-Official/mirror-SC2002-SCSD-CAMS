@@ -4,7 +4,12 @@ package CAMS.Data;
 
 import CAMS.Data.Utils.DateHelper;
 
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.*;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 
 public class Database {
 
@@ -57,9 +62,6 @@ public class Database {
     userMap.put(studentData.id(), studentData);
   }
 
-  // Static methods to create instances of data classes and then add them into
-  // their respective hashmaps
-
   static boolean createCamp(String name, String staff, String userGroup,
                             boolean visibility, String description,
                             Date startDate, Date endDate,
@@ -93,56 +95,107 @@ public class Database {
     return enquiryData.id();
   }
 
-  static void createSuggestion(String sender, String message, String camp) {
+  static String createSuggestion(String sender, String message, String camp) {
     // Create a suggestion data object and then add it into the enquiry hashmap
     SuggestionData suggestionData = new SuggestionData(sender, message, camp);
     suggestionMap.put(suggestionData.id(), suggestionData);
+    return suggestionData.id();
   }
 
-  public static void deleteEnquiry(String id) {
+  public static void storeDB(String path) {
+    try (final FileOutputStream fos = new FileOutputStream(path)) {
+      ZipOutputStream zipOut = new ZipOutputStream(fos);
+//      ZipEntry zipEntry = ;
+      zipOut.setLevel(9);
+      zipOut.putNextEntry(new ZipEntry("mimetype"));
+      zipOut.write("application/camsdb+zip".getBytes(StandardCharsets.UTF_8));
+      zipOut.putNextEntry(new ZipEntry("META-INF/container.xml"));
+      zipOut.write("""
+        <?xml version="1.0" encoding="UTF-8"?>
+        <container version="1.0" xmlns="ntu:sc2002:cams:xmlns:container">
+          <files>
+            <file full-path="staff.csv" media-type="text/csv" />
+            <file full-path="student.csv" media-type="text/csv" />
+            <file full-path="camp.csv" media-type="text/csv" />
+            <file full-path="enquiry.csv" media-type="text/csv" />
+            <file full-path="suggestion.csv" media-type="text/csv" />
+          </files>
+        </container>
+        """.strip().getBytes(StandardCharsets.UTF_8));
+      zipOut.putNextEntry(new ZipEntry("staff.csv"));
+      zipOut.write(
+        Database.getCsvUsers().strip().getBytes(StandardCharsets.UTF_8));
+      zipOut.close();
+    } catch (IOException e) {
+      System.err.println(e.getLocalizedMessage());
+    }
+  }
+
+  static String getCsvUsers() {
+    String str = "userID,password,name,email,faculty\n";
+    for (UserData user : userMap.values()) {
+      str = str.concat(user.toCsv());
+    }
+    return str.strip();
+  }
+
+  static String getCsvStaff() {
+    String str = "userID,password,name,email,faculty,camps\n";
+    for (UserData user : userMap.values()) {
+      if (Objects.requireNonNull(user) instanceof StaffData staff) {
+        str = str.concat(staff.toCsv());
+      }
+    }
+    return str.strip();
+  }
+
+  static String getCsvStudent() {
+    String str = "userID,password,name,email,faculty\n";
+    for (UserData user : userMap.values()) {
+      if (Objects.requireNonNull(user) instanceof StudentData student) {
+        str = str.concat(student.toCsv());
+      }
+    }
+    return str.strip();
+  }
+
+  static String getCsvCamp() {
+    String str = "name,staff,visibility,start,end,closingRegistration," +
+      "faculty,location,totalSlots,committeeSlots,description,attendee," +
+      "committeeMembers,blacklist,enquiries,suggestions\n";
+    for (CampData camp : campMap.values()) {
+      str = str.concat(camp.toCsv());
+    }
+    return str.strip();
+  }
+
+  static String getCsvSuggestions() {
+    String str = "id,sender,camp,status,message";
+    for (SuggestionData suggestion : suggestionMap.values()) {
+      str = str.concat(suggestion.toCsv());
+    }
+    return str.strip();
+  }
+
+  static String getCsvSEnquiries() {
+    String str = "id,sender,camp,status,message,reply";
+    for (EnquiryData enquiries : enquiryMap.values()) {
+      str = str.concat(enquiries.toCsv());
+    }
+    return str.strip();
+  }
+
+  static void deleteEnquiry(String id) {
     enquiryMap.remove(id);
   }
 
-  public static void deleteRequestForCamp(String id) {
-
-    if (enquiryMap.containsKey(id)) {
-      String camp = Database.findEnquiry(id).camp();
-      Database.findCamp(camp).deleteEnquiry(id);
-    }
-    if (suggestionMap.containsKey(id)) {
-      String camp = Database.findSuggestion(id).camp();
-      Database.findCamp(camp).deleteSuggestion(id);
-    }
-  }
-
-  static EnquiryData findEnquiry(String id) {
-    // Check if the enquiryMap contains the specified id
-    // Return the corresponding EnquiryData object
-    // Enquiry not found, return null
-    return enquiryMap.getOrDefault(id, null);
-  }
-
-  static CampData findCamp(String id) {
-    // Check if the enquiryMap contains the specified id
-    // Return the corresponding EnquiryData object
-    // Enquiry not found, return null
-    return campMap.getOrDefault(id, null);
-  }
-
-  static SuggestionData findSuggestion(String id) {
-    // Check if the suggestionMap contains the specified id
-    // Return the corresponding SuggestionData object
-    // Suggestion not found, return null
-    return suggestionMap.getOrDefault(id, null);
-  }
-
-  public static void deleteSuggestion(String id) {
+  static void deleteSuggestion(String id) {
     if (!suggestionMap.containsKey(id)) {
       suggestionMap.remove(id);
     }
   }
 
-  public static void deleteCamp(String id) {
+  static void deleteCamp(String id) {
     if (!campMap.containsKey(id)) {
       campMap.remove(id);
     }
@@ -208,9 +261,6 @@ public class Database {
     System.out.println();
   }
 
-
-  // Static methods to find data from the hashmaps
-
   static StudentData findStudent(String id) {
     if (!userMap.containsKey(id)) {
       return null;
@@ -225,6 +275,90 @@ public class Database {
     return null;
   }
 
+  static <T extends RequestStatus> List<RequestData<T>> getCampRequestList(
+    String camp, RequestType type) {
+    List<String> requestIds;
+    List<RequestData<T>> requests = new ArrayList<>();
+    switch (type) {
+      case ENQUIRY -> {
+        requestIds = Database.findCamp(camp).enquiries().requests();
+        for (String id : requestIds) {
+          EnquiryData data = Database.findEnquiry(id);
+          requests.add((RequestData<T>) data);
+        }
+      }
+      case SUGGESTION -> {
+        requestIds = Database.findCamp(camp).suggestions().requests();
+        for (String id : requestIds) {
+          SuggestionData data = Database.findSuggestion(id);
+          requests.add((RequestData<T>) data);
+        }
+      }
+    }
+    return requests;
+  }
+
+  static CampData findCamp(String id) {
+    // Check if the enquiryMap contains the specified id
+    // Return the corresponding EnquiryData object
+    // Enquiry not found, return null
+    if (!campMap.containsKey(id)) {
+      System.err.println("Error: Camp not found. ID: " + id);
+    }
+    return campMap.getOrDefault(id, null);
+  }
+
+  static EnquiryData findEnquiry(String id) {
+    // Check if the enquiryMap contains the specified id
+    // Return the corresponding EnquiryData object
+    // Enquiry not found, return null
+    if (!enquiryMap.containsKey(id)) {
+      System.err.println("Error: Enquiry not found. ID: " + id);
+    }
+    return enquiryMap.getOrDefault(id, null);
+  }
+
+  static SuggestionData findSuggestion(String id) {
+    // Check if the suggestionMap contains the specified id
+    // Return the corresponding SuggestionData object
+    // Suggestion not found, return null
+    if (!suggestionMap.containsKey(id)) {
+      System.err.println("Error: Suggestion not found. ID: " + id);
+    }
+    return suggestionMap.getOrDefault(id, null);
+  }
+
+  static void printCampsForStaff(String id) {
+    System.out.println("Camps:");
+    List<String> camps =
+      Objects.requireNonNull(Database.findStaff(id)).getCampsUnderManagement();
+    int index = 1;
+    System.out.print(STR."    ");
+    for (String camp : camps) {
+
+      if (index % 5 == 0) {
+        System.out.print(STR."\n    ");
+      }
+      System.out.print(STR. "\{ camp } " );
+      index += 1;
+    }
+  }
+
+
+  // Static methods to find data from the hashmaps
+
+  static StaffData findStaff(String userID) {
+    // Check if the userMap contains the specified userID
+    if (userMap.containsKey(userID) &&
+      userMap.get(userID) instanceof StaffData) {
+      // Return the corresponding StaffData object
+      return (StaffData) userMap.get(userID);
+    } else {
+      // Staff not found or not of the correct type, return null
+      return null;
+    }
+  }
+
   static String facultyOf(String id) {
     if (userMap.containsKey(id)) {
       UserData data = Database.userMap.get(id);
@@ -234,6 +368,15 @@ public class Database {
       CampData data = Database.campMap.get(id);
       return data.information().faculty();
     }
+    if (enquiryMap.containsKey(id)) {
+      EnquiryData data = Database.enquiryMap.get(id);
+      return data.camp();
+    }
+    if (suggestionMap.containsKey(id)) {
+      SuggestionData data = Database.suggestionMap.get(id);
+      return data.camp();
+    }
+    System.err.println("No such object in database: " + id);
     return null;
   }
 
@@ -258,17 +401,8 @@ public class Database {
     return null;
   }
 
-  static StaffData findStaff(String userID) {
-    // Check if the userMap contains the specified userID
-    if (userMap.containsKey(userID) &&
-      userMap.get(userID) instanceof StaffData) {
-      // Return the corresponding StaffData object
-      return (StaffData) userMap.get(userID);
-    } else {
-      // Staff not found or not of the correct type, return null
-      return null;
-    }
+  enum RequestType {
+    ENQUIRY, SUGGESTION,
+
   }
-
-
 }

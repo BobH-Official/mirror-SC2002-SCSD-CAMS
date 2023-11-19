@@ -1,6 +1,5 @@
 package CAMS.Operator;
 
-import CAMS.Data.Database;
 import CAMS.Data.StudentEnquiryMS;
 import CAMS.Data.StudentMS;
 
@@ -25,45 +24,60 @@ public class StudentOperator extends UserOperator {
     this.campMS = new CAMS.Data.StudentCampMS(id);
   }
 
+  private boolean editEnquiry() {
+    return true;
+  }
+
+  private boolean joinCamp() {
+    return true;
+  }
+
+  private boolean joinCampAsCM() {
+    return true;
+  }
+
   @Override
   public boolean doOperation() {
     Console console = System.console();
     String choice = console.readLine(STR."""
       Choose your operation:
           1. create enquiry.
-          100. logout
+          5. logout
+          q. exit
       Enter your choice:\s""").strip();
 
 
     switch (choice) {
 
       case "1" -> {
-        String enquiry = enquiryMS.createEnquiry();
-        if (enquiry == null) {
-
-          return true;
-        }
-        if (!campMS.addEnquiry(enquiry)) {
-
-          Database.deleteEnquiry(enquiry);
-          return true;
-        }
-
-        if (!userMS.addEnquiry(enquiry)) {
-          Database.deleteEnquiry(enquiry);
-          Database.deleteRequestForCamp(enquiry);
-          return true;
-        }
-
+        createEnquiry();
         return true;
       }
-      case "100" -> {
-        return false;
+      case "100", "q" -> {
+        return quitProgram();
       }
-
       default -> {
         return false;
       }
     }
+  }
+
+  private void createEnquiry() {
+    String enquiry = enquiryMS.createEnquiry();
+    if (enquiry == null) {
+      return;
+    }
+    if (!campMS.addEnquiry(enquiry)) {
+      enquiryMS.deleteEnquiry(enquiry);
+      return;
+    }
+    if (!userMS.addEnquiry(enquiry)) {
+      enquiryMS.deleteEnquiry(enquiry);
+      campMS.deleteEnquiry(enquiry);
+    }
+  }
+
+  private boolean quitProgram() {
+    return false;
   }
 }

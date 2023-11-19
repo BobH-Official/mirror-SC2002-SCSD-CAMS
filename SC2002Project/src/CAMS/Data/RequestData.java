@@ -24,6 +24,11 @@ abstract class RequestData<T extends CAMS.Data.RequestStatus> {
     this.camp = camp;
   }
 
+  String toCsv() {
+    return STR. "\{ this.id },\{ this.sender },\{ this.camp }," +
+      STR. "\{ this.status.toString() },\{ this.message }\n" ;
+  }
+
   protected String id() {
     return this.id;
   }

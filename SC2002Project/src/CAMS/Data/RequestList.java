@@ -10,13 +10,17 @@ class RequestList {
     this.requests = new ArrayList<>();
   }
 
+  String toCsv() {
+    return String.join("&", requests);
+  }
+
   // Method to add a request to the list
   void add(String request) {
     requests.add(request);
   }
 
-  void delete(String request) {
-    requests.remove(request);
+  boolean delete(String request) {
+    return requests.remove(request);
   }
 
   // Method to get the request list
