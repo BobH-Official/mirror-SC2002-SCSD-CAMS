@@ -16,6 +16,10 @@ public class CampStudentList {
     this.remainingSlots = this.slotLimit;
   }
 
+  String toCsv() {
+    return String.join("&", members);
+  }
+
   // Method to add a student to the list, throws IllegalStateException if the operation is not possible
   void addMember(String userID) throws IllegalStateException {
     if (remainingSlots <= 0) {

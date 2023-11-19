@@ -3,13 +3,10 @@ package CAMS.Data;
 //importing the relevant database java classes
 
 import CAMS.Data.Utils.DateHelper;
-import CAMS.Data.Utils.Pair;
 
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Paths;
 import java.util.*;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
@@ -121,18 +118,72 @@ public class Database {
             <file full-path="staff.csv" media-type="text/csv" />
             <file full-path="student.csv" media-type="text/csv" />
             <file full-path="camp.csv" media-type="text/csv" />
-            <file full-path="request.csv" media-type="text/csv" />
+            <file full-path="enquiry.csv" media-type="text/csv" />
+            <file full-path="suggestion.csv" media-type="text/csv" />
           </files>
         </container>
         """.strip().getBytes(StandardCharsets.UTF_8));
+      zipOut.putNextEntry(new ZipEntry("staff.csv"));
+      zipOut.write(
+        Database.getCsvUsers().strip().getBytes(StandardCharsets.UTF_8));
       zipOut.close();
     } catch (IOException e) {
       System.err.println(e.getLocalizedMessage());
     }
   }
 
-  static CAMS.Data.Utils.Pair<String, String> toCsvUsers() {
-    return new CAMS.Data.Utils.Pair<>("", "");
+  static String getCsvUsers() {
+    String str = "userID,password,name,email,faculty\n";
+    for (UserData user : userMap.values()) {
+      str = str.concat(user.toCsv());
+    }
+    return str.strip();
+  }
+
+  static String getCsvStaff() {
+    String str = "userID,password,name,email,faculty,camps\n";
+    for (UserData user : userMap.values()) {
+      if (Objects.requireNonNull(user) instanceof StaffData staff) {
+        str = str.concat(staff.toCsv());
+      }
+    }
+    return str.strip();
+  }
+
+  static String getCsvStudent() {
+    String str = "userID,password,name,email,faculty\n";
+    for (UserData user : userMap.values()) {
+      if (Objects.requireNonNull(user) instanceof StudentData student) {
+        str = str.concat(student.toCsv());
+      }
+    }
+    return str.strip();
+  }
+
+  static String getCsvCamp() {
+    String str = "name,staff,visibility,start,end,closingRegistration," +
+      "faculty,location,totalSlots,committeeSlots,description,attendee," +
+      "committeeMembers,blacklist,enquiries,suggestions\n";
+    for (CampData camp : campMap.values()) {
+      str = str.concat(camp.toCsv());
+    }
+    return str.strip();
+  }
+
+  static String getCsvSuggestions() {
+    String str = "id,sender,camp,status,message";
+    for (SuggestionData suggestion : suggestionMap.values()) {
+      str = str.concat(suggestion.toCsv());
+    }
+    return str.strip();
+  }
+
+  static String getCsvSEnquiries() {
+    String str = "id,sender,camp,status,message,reply";
+    for (EnquiryData enquiries : enquiryMap.values()) {
+      str = str.concat(enquiries.toCsv());
+    }
+    return str.strip();
   }
 
 

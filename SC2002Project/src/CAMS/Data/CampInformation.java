@@ -23,6 +23,15 @@ class CampInformation {
     this.description = description;
   }
 
+  String toCsv() {
+    return STR. "\{ String.format("%1$tY-%1$tm-%1$td", dates.start()) }," +
+      STR. "\{ String.format("%1$tY-%1$tm-%1$td", dates.end()) }," +
+      STR. "\{ String.format("%1$tY-%1$tm-%1$td",
+        this.registrationClosingDate) }," +
+      STR. "\{ this.faculty },\{ this.location },\{ this.totalSlots }," +
+      STR. "\{ this.committeeSlots },\{ this.description }" ;
+  }
+
   //Getters & Setters : campDates
   void setStartDate(Date date) {
     this.dates.setStart(date);
@@ -103,8 +112,8 @@ class CampInformation {
   public String toString() {
     return ("CAMP_INFORMATION:\n    dates: " + this.dates +
       "\n    registration closing date: " + this.registrationClosingDate +
-      "\n    user group: " + this.faculty + "\n    location: " +
-      this.location + "\n    attendee slots limit: " + this.totalSlots +
+      "\n    user group: " + this.faculty + "\n    location: " + this.location +
+      "\n    attendee slots limit: " + this.totalSlots +
       "\n    committee slots limit: " + this.committeeSlots +
       "\n    description: " + this.description).strip();
   }

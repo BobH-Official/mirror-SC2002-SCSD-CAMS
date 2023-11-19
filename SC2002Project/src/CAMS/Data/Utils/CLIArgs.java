@@ -5,17 +5,38 @@ import java.util.List;
 public class CLIArgs {
   private final String staff;
   private final String camp;
-  private final String request;
+  private final String enquiry;
+  private final String suggestion;
   private final String db;
   private final String student;
   private final String storeTo;
 
   public CLIArgs(List<String> args) {
+    if (args.contains("--help") || args.contains("-h")) {
+      System.out.println(STR."""
+        This is Camp Management System.
+        To use this app, you must input student data and staff data.
+        Arguments:
+            --student, -s        input student csv file
+            --staff, -t          input staff csv file
+            --camp, -c           input camp csv file
+            --enquiry, -e        input enquiry csv file
+            --suggestion, -g     input suggestion csv file
+            --db, -d             input database file
+            --output, -o         the path of output database file
+            --help, -h           print this message
+        If arguments contains "--help" or "-h", program will always print this message,
+        The program will read the last input arguments.
+        ie, when input "-s student1.csv -s student2.csv",
+        program will recognize "student2.csv"
+        """.strip());
+    }
     int type = 0;
     String student1 = "";
     String staff1 = "";
     String camp1 = "";
-    String request1 = "";
+    String enquiry1 = "";
+    String suggestion1 = "";
     String db1 = "";
     String store1 = "data.camsdb";
     for (String arg : args) {
@@ -33,12 +54,15 @@ public class CLIArgs {
               camp1 = arg;
             }
             case 4 -> {
-              request1 = arg;
+              enquiry1 = arg;
             }
             case 5 -> {
-              db1 = arg;
+              suggestion1 = arg;
             }
             case 6 -> {
+              db1 = arg;
+            }
+            case 7 -> {
               store1 = arg;
             }
             default -> {
@@ -63,14 +87,17 @@ public class CLIArgs {
         case "--camp", "-c" -> {
           type = 3;
         }
-        case "--request", "-q" -> {
+        case "--enquiry", "-e" -> {
           type = 4;
         }
-        case "--db", "-d" -> {
+        case "--suggestion", "-g" -> {
           type = 5;
         }
-        case "--output", "-o" -> {
+        case "--db", "-d" -> {
           type = 6;
+        }
+        case "--output", "-o" -> {
+          type = 7;
         }
         default -> {
           System.err.println("Cannot parse argument.");
@@ -81,7 +108,8 @@ public class CLIArgs {
     this.student = student1;
     this.staff = staff1;
     this.camp = camp1;
-    this.request = request1;
+    this.enquiry = enquiry1;
+    this.suggestion = suggestion1;
     this.db = db1;
     this.storeTo = store1;
   }
@@ -98,8 +126,12 @@ public class CLIArgs {
     return camp;
   }
 
-  public String request() {
-    return request;
+  public String enquiry() {
+    return enquiry;
+  }
+
+  public String suggestion() {
+    return suggestion;
   }
 
   public String db() {

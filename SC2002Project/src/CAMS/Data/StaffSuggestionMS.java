@@ -4,8 +4,8 @@ public class StaffSuggestionMS {
     private String userID;
 
     // Constructor
-    public StaffSuggestionMS(String userID) {
-        this.userID = userID;
+    public StaffSuggestionMS(String id) {
+        this.userID = id;
     }
 
     // Method to view details of a Suggestion
