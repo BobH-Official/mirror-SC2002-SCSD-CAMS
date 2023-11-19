@@ -49,6 +49,45 @@ public class StudentEnquiryMS {
     return enquiry;
   }
 
+  public void viewOwnEnquiries() {
+        
+    System.out.println("\n## ENQUIRY VIEWING ##\n");
+    Console console = System.console();
+    String camp = console.readLine(STR."""
+      Which camp do you want to view enquiry from? (leave blank to print all the camp for your faculty)
+      Enter camp name:\s""").strip();
+
+    while (camp.isEmpty()) {
+      Database.printCampsForStudent(userID);
+      camp = console.readLine(STR."""
+        Which camp do you want to view enquiry from? (leave blank to print all the camp for your faculty)
+        Enter camp name:\s""").strip();
+    }
+
+    if (faculty == null) {
+      System.out.println("No such a Camp: " + camp);
+      return;
+    } else if (!faculty.equals(Database.facultyOf(userID)) &&
+      !(faculty.equals("NTU"))) {
+      System.out.println(STR. "ERROR: you do not have access to \{ camp }." );
+      return;
+    }   
+
+     System.out.println(STR. "These are all enquiry for the camp: \{ camp }" );
+
+     List<RequestData<EnquiryStatus>> enquiries =
+      Database.getCampRequestList(camp, Database.RequestType.ENQUIRY);
+
+    for (int i = 0; i < enquiries.size(); i += 1) {
+      //only show the enquiry that student make for this camp
+      if (enquiries[i].sender() == userID){
+        System.out.print(STR. "    \{i}. " );
+        System.out.println(
+        enquiries.get(i).toString().indent(4).stripLeading());
+      }
+    }
+ }
+
   public void deleteEnquiry(String id) {
     String sender = Database.findEnquiry(id).sender();
     if (!(Objects.equals(sender, this.userID))) {
