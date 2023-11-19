@@ -1,7 +1,5 @@
 package CAMS.Data;
 
-import java.util.Objects;
-
 public class StudentCampMS {
   private final String userID;
 

@@ -20,7 +20,7 @@ class RequestList {
   }
 
   boolean delete(String request) {
-    return  requests.remove(request);
+    return requests.remove(request);
   }
 
   // Method to get the request list

@@ -1,6 +1,5 @@
 package CAMS.Operator;
 
-import CAMS.Data.Database;
 import CAMS.Data.StudentEnquiryMS;
 import CAMS.Data.StudentMS;
 

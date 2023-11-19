@@ -2,7 +2,6 @@ package CAMS.Data;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.StringJoiner;
 
 class StaffData extends CAMS.Data.UserData {
   private final List<String> campsUnderManagement;
@@ -16,7 +15,12 @@ class StaffData extends CAMS.Data.UserData {
 
   @Override
   String toCsv() {
-    return STR."\{super.toCsv().strip() },\{ String.join("&", campsUnderManagement) }";
+    return STR. "\{ super.toCsv().strip() },\{ String.join("&",
+      campsUnderManagement) }" ;
+  }
+
+  void printSelf() {
+    System.out.println(this);
   }
 
   // Methods
@@ -37,10 +41,6 @@ class StaffData extends CAMS.Data.UserData {
   // Getters
   List<String> getCampsUnderManagement() {
     return new ArrayList<>(campsUnderManagement); // Return a copy of the list
-  }
-
-  void printSelf() {
-    System.out.println(this);
   }
 
   @Override

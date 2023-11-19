@@ -46,8 +46,8 @@ abstract class UserData {
   }
 
   String toCsv() {
-    return STR. "\{ this.id },\{ this.password },\{ this.name },"+
-    STR."\{ this.email },\{ this.faculty }\n" ;
+    return STR. "\{ this.id },\{ this.password },\{ this.name }," +
+      STR. "\{ this.email },\{ this.faculty }\n" ;
   }
 
   void printSelf() {
