@@ -42,7 +42,8 @@ public class LoginMS {
           return new NoLogin();
         }
         if (((StudentData) userdata.second()).isCommitteeMember()) {
-          return new CommitteeMemberOperator(userdata.second().id());
+          return new CommitteeMemberOperator(userdata.second().id(),
+            managerCampMS);
         }
         return new StudentOperator(userdata.second().id());
       }
@@ -70,6 +71,6 @@ public class LoginMS {
     if (!student.isCommitteeMember()) {
       return new StudentOperator(id);
     }
-    return new CommitteeMemberOperator(id);
+    return new CommitteeMemberOperator(id, managerCampMS);
   }
 }

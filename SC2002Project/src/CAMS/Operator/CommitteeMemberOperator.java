@@ -10,8 +10,8 @@ public class CommitteeMemberOperator extends UserOperator {
   private final CAMS.Data.StudentEnquiryMS enquiryMS;
   private final CAMS.Data.ManagerEnquiryMS managerEnquiryMS;
   private final CAMS.Data.CommitteeSuggestionMS suggestionMS;
-
   private final CAMS.Data.StudentCampMS campMS;
+  private final CAMS.Data.CommitteeMemberCampMS managerCampMS;
 
   public CommitteeMemberOperator(String id) {
     super(id);
@@ -24,6 +24,7 @@ public class CommitteeMemberOperator extends UserOperator {
     this.suggestionMS = new CommitteeSuggestionMS(id);
 
     this.campMS = new StudentCampMS(id);
+    this.managerCampMS = new CommitteeMemberCampMS(id);
   }
 
   @Override
@@ -91,7 +92,7 @@ public class CommitteeMemberOperator extends UserOperator {
         return 0;
       }
       case "10" -> {
-        createSuggestion();
+        this.createSuggestion();
 
         return 0;
       }
@@ -122,25 +123,24 @@ public class CommitteeMemberOperator extends UserOperator {
 
   private int viewInformation() {
     return this.userMS.viewInformation();
-//    return 0;
   }
 
   private int changePassword() {
     return userMS.changePassword();
-//    return 0;
   }
 
   private void joinCamp() {
-
     String camp = userMS.joinCamp();
-    if (!campMS.addStudent(camp)) {
-      userMS.deleteCamp(camp);
+    if (campMS.addStudent(camp)) {
+      userMS.addCamp(camp);
     }
-//    return 0;
   }
 
   private void withdrawCamp() {
-//    return 0;
+    String camp = userMS.withdrawCamp();
+    if (campMS.withdrawStudent(camp)) {
+      userMS.deleteCamp(camp);
+    }
   }
 
   private void createEnquiry() {
@@ -159,30 +159,63 @@ public class CommitteeMemberOperator extends UserOperator {
   }
 
   private void viewEnquiry() {
-//    return 0;
+    enquiryMS.viewOwnEnquiries();
   }
 
   private void editEnquiry() {
-//    return 0;
+    enquiryMS.editOwnEnquiries();
   }
 
   private void deleteEnquiry() {
-//    return 0;
+    String enquiry = enquiryMS.deleteOwnEnquiry();
+    if (enquiry == null) {
+      return;
+
+    }
+
+    campMS.deleteEnquiry(enquiry);
+
+    userMS.deleteEnquiry(enquiry);
   }
 
+
   private void replyEnquiry() {
+    managerEnquiryMS.reply();
   }
 
   private void createSuggestion() {
+    String suggestion = suggestionMS.createSuggestion();
+    if (suggestion == null) {
+      return;
+    }
+    if (!managerCampMS.addSuggestion(suggestion)) {
+      suggestionMS.deleteEnquiry(suggestion);
+      return;
+    }
+    if (!userMS.addEnquiry(suggestion)) {
+      suggestionMS.deleteEnquiry(suggestion);
+      managerCampMS.deleteSuggestion(suggestion);
+    }
   }
 
   private void viewSuggestion() {
+    suggestionMS.viewOwnSuggestion();
   }
 
   private void editSuggestion() {
+    suggestionMS.editOwnSuggestion();
   }
 
-  private void deleleSuggestion() {
+  private void deleteSuggestion() {
+    String suggestion = suggestionMS.deleteOwnSuggestion();
+    if (suggestion == null) {
+      return;
+
+    }
+
+    managerCampMS.deleteSuggesion(suggestion);
+
+    userMS.deleteSuggestion(suggestion);
   }
 
   private int logout() {
@@ -192,6 +225,4 @@ public class CommitteeMemberOperator extends UserOperator {
   private int quitProgram() {
     return 2;
   }
-
-
 }

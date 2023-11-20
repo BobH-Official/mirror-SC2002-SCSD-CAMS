@@ -101,4 +101,10 @@ public class StudentEnquiryMS {
     Database.deleteEnquiry(id);
   }
 
+  public void editOwnEnquiries() {
+  }
+
+  public String deleteOwnEnquiry() {
+    return "";
+  }
 }

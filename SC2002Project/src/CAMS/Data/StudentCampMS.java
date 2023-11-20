@@ -24,4 +24,11 @@ public class StudentCampMS {
   public boolean addStudent(String camp) {
     return false;
   }
+
+  public boolean withdrawStudent(String camp) {
+    return true;
+  }
+
+  public boolean addComitteeMember(String camp) {
+  }
 }

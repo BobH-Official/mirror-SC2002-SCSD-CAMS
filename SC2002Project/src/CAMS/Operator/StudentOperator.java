@@ -100,29 +100,31 @@ public class StudentOperator extends UserOperator {
 
   private int viewInformation() {
     return this.userMS.viewInformation();
-//    return 0;
   }
 
   private int changePassword() {
     return userMS.changePassword();
-//    return 0;
   }
 
   private void joinCamp() {
-
     String camp = userMS.joinCamp();
-    if (!campMS.addStudent(camp)) {
-      userMS.deleteCamp(camp);
+    if (campMS.addStudent(camp)) {
+      userMS.addCamp(camp);
     }
-//    return 0;
   }
 
   private void withdrawCamp() {
-//    return 0;
+    String camp = userMS.withdrawCamp();
+    if (campMS.withdrawStudent(camp)) {
+      userMS.deleteCamp(camp);
+    }
   }
 
   private void joinCampAsCM() {
-//    return 3;
+    String camp = userMS.joinCampAsCM();
+    if (campMS.addComitteeMember(camp)) {
+      userMS.becomeCMOf(camp);
+    }
   }
 
   private void createEnquiry() {
@@ -141,15 +143,23 @@ public class StudentOperator extends UserOperator {
   }
 
   private void viewEnquiry() {
-//    return 0;
+    enquiryMS.viewOwnEnquiries();
   }
 
   private void editEnquiry() {
-//    return 0;
+    enquiryMS.editOwnEnquiries();
   }
 
   private void deleteEnquiry() {
-//    return 0;
+    String enquiry = enquiryMS.deleteOwnEnquiry();
+    if (enquiry == null) {
+      return;
+
+    }
+
+    campMS.deleteEnquiry(enquiry);
+
+    userMS.deleteEnquiry(enquiry);
   }
 
   private int logout() {
