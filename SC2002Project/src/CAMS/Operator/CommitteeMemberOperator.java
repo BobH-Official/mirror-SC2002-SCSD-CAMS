@@ -105,7 +105,7 @@ public class CommitteeMemberOperator extends UserOperator {
         return 0;
       }
       case "13" -> {
-        this.deleleSuggestion();
+        this.deleteSuggestion();
         return 0;
       }
       case String s when Pattern.compile("\\d+\\.?\\d*").matcher(s)
@@ -120,7 +120,7 @@ public class CommitteeMemberOperator extends UserOperator {
       }
     }
   }
-
+  
   private int viewInformation() {
     return this.userMS.viewInformation();
   }
