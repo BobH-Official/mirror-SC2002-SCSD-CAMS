@@ -2,6 +2,7 @@ package CAMS;
 
 import CAMS.Data.LoginMS;
 import CAMS.Data.Utils.CLIArgs;
+import CAMS.Operator.CommitteeMemberOperator;
 import CAMS.Operator.NoLogin;
 import CAMS.Operator.StudentOperator;
 import CAMS.Operator.UserOperator;
@@ -23,12 +24,18 @@ public class App {
     CAMS.Data.Database.initialize();
     UserOperator operator = new NoLogin();
 
-    operator = new StudentOperator("STUDENT001");
 
-    boolean result = true;
+    int result = 0;
 //    Database.studentToString();
-    while (result) {
-      result = operator.doOperation();
+    while (result == 0) {
+      operator = new StudentOperator("STUDENT001");
+      while (result == 0) {
+        result = operator.doOperation();
+        if (result == 3) {
+          operator = new CommitteeMemberOperator("STUDENT001");
+          result = 0;
+        }
+      }
     }
     System.out.println("Program exit...");
 //    Database.studentToString();

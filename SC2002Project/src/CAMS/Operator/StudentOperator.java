@@ -4,6 +4,7 @@ import CAMS.Data.StudentEnquiryMS;
 import CAMS.Data.StudentMS;
 
 import java.io.Console;
+import java.util.regex.Pattern;
 
 public class StudentOperator extends UserOperator {
 
@@ -24,42 +25,99 @@ public class StudentOperator extends UserOperator {
     this.campMS = new CAMS.Data.StudentCampMS(id);
   }
 
-  private boolean editEnquiry() {
-    return true;
-  }
-
-  private boolean joinCamp() {
-    return true;
-  }
-
-  private boolean joinCampAsCM() {
-    return true;
-  }
 
   @Override
-  public boolean doOperation() {
+  public int doOperation() {
     Console console = System.console();
     String choice = console.readLine(STR."""
       Choose your operation:
-          1. create enquiry.
-          5. logout
-          q. exit
+          INFORMATION
+              1. view information.
+              2. change password
+          CAMP
+              3. join camp
+              4. withdraw from camp
+              5. join camp as committee member
+          ENQUIRY
+              6. create enquiry.
+              7. view enquiries
+              8. edit enquiry
+              9. delete enquiry
+
+          o. logout (type in logout/o/any numbers)
+          q. quit program (type in quit/q/any letters)
       Enter your choice:\s""").strip();
 
 
     switch (choice) {
 
       case "1" -> {
-        createEnquiry();
-        return true;
+        viewInformation();
+        return 0;
       }
-      case "100", "q" -> {
-        return quitProgram();
+      case "2" -> {
+        changePassword();
+        return 0;
+      }
+      case "3" -> {
+        joinCamp();
+        return 0;
+      }
+      case "4" -> {
+        withdrawCamp();
+        return 0;
+      }
+      case "5" -> {
+        joinCampAsCM();
+        return 3;
+      }
+      case "6" -> {
+        createEnquiry();
+        return 0;
+      }
+      case "7" -> {
+        viewEnquiry();
+        return 0;
+      }
+      case "8" -> {
+        editEnquiry();
+        return 0;
+      }
+      case "9" -> {
+        deleteEnquiry();
+        return 0;
+      }
+      case String s when Pattern.compile("\\d+\\.?\\d*").matcher(s)
+        .matches() -> {
+        return logout();
+      }
+      case "o", "logout" -> {
+        return logout();
       }
       default -> {
-        return false;
+        return quitProgram();
       }
     }
+  }
+
+  private void viewInformation() {
+//    return 0;
+  }
+
+  private void changePassword() {
+//    return 0;
+  }
+
+  private void joinCamp() {
+//    return 0;
+  }
+
+  private void withdrawCamp() {
+//    return 0;
+  }
+
+  private void joinCampAsCM() {
+//    return 3;
   }
 
   private void createEnquiry() {
@@ -77,7 +135,23 @@ public class StudentOperator extends UserOperator {
     }
   }
 
-  private boolean quitProgram() {
-    return false;
+  private void viewEnquiry() {
+//    return 0;
+  }
+
+  private void editEnquiry() {
+//    return 0;
+  }
+
+  private void deleteEnquiry() {
+//    return 0;
+  }
+
+  private int logout() {
+    return 1;
+  }
+
+  private int quitProgram() {
+    return 2;
   }
 }
