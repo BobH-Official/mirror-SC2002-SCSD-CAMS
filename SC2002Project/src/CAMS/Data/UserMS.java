@@ -1,6 +1,9 @@
 package CAMS.Data;
 
+import CAMS.Data.Utils.PrintHelper;
+
 import java.io.Console;
+import java.util.Arrays;
 import java.util.Objects;
 
 public abstract class UserMS {
@@ -18,19 +21,25 @@ public abstract class UserMS {
     Console console = System.console();
     System.out.println(
       "Password should not contain empty characters in the start nor the end.");
-    String passwd1 = console.readLine("Type in your password: ").strip();
+    String passwd1 =
+      Arrays.toString(console.readPassword(/*format*/"Type in your password: "))
+        .strip();
     while (passwd1.isEmpty()) {
-      System.err.println("Password should not be empty.");
-      passwd1 = console.readLine("Type in your password: ").strip();
+      PrintHelper.printError("Password should not be empty.");
+      passwd1 = Arrays.toString(
+        console.readPassword(/*format*/"Type in your password: ")).strip();
     }
-    String passwd2 = console.readLine("Type in password, again: ").strip();
+    String passwd2 =
+      Arrays.toString(console.readPassword(/*format*/"Type in your password: "))
+        .strip();
     while (passwd2.isEmpty()) {
-      System.err.println("Password should not be empty.");
-      passwd2 = console.readLine("Type in password, again: ").strip();
+      PrintHelper.printError("Password should not be empty.");
+      passwd2 = Arrays.toString(
+        console.readPassword(/*format*/"Type in your password: ")).strip();
     }
 
     if (!passwd1.equals(passwd2)) {
-      System.err.println("Input is not equivalent.");
+      PrintHelper.printError("Input is not equivalent.");
       return 0;
     }
 
@@ -40,7 +49,7 @@ public abstract class UserMS {
           .setPassword(passwd1);
       }
       default -> {
-        System.err.println(STR. """
+        PrintHelper.printError(STR. """
         Error: user \{ userID } not found in Databse.
         Please re-login.""" );
         return 2;
@@ -59,7 +68,7 @@ public abstract class UserMS {
         Objects.requireNonNull(Database.findStudent(userID)).printSelf();
       }
       default -> {
-        System.err.println(STR. """
+        PrintHelper.printError(STR. """
         Error: user \{ userID } not found in Databse.
         Please re-login.""" );
         return 2;

@@ -2,6 +2,7 @@ package CAMS.Data;
 
 //importing the relevant database java classes
 
+import CAMS.Data.Utils.CLIArgs;
 import CAMS.Data.Utils.DateHelper;
 
 import java.io.FileOutputStream;
@@ -21,7 +22,7 @@ public class Database {
     new HashMap<>();
   private static final HashMap<String, CampData> campMap = new HashMap<>();
 
-  public static void initialize() {
+  public static void initialize(CLIArgs args) {
     Database.createStudent(/*name*/"Example Student", /*email*/
       "STUDENT001@e.ntu.edu.sg", "SCSE", "password");
 
@@ -384,6 +385,22 @@ public class Database {
     }
     System.err.println("No such object in database: " + id);
     return null;
+  }
+
+  static boolean isInDatabase(String id) {
+    if (userMap.containsKey(id)) {
+      return true;
+    } if (campMap.containsKey(id)) {
+      return true;
+    }
+    if (enquiryMap.containsKey(id)) {
+      return true;
+    }
+    if (suggestionMap.containsKey(id)) {
+      return true;
+    }
+    System.err.println("No such object in database: " + id);
+    return false;
   }
 
   static CAMS.Data.Utils.Pair<CAMS.Data.UserType, UserData> findUser(

@@ -12,7 +12,7 @@ public abstract class UserOperator {
     return 2;
   }
 
-  String id() {
+  public String id() {
     return this.id;
   }
 }

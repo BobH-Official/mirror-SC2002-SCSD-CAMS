@@ -14,7 +14,7 @@ public class StudentCampMS {
   }
 
   public boolean deleteEnquiry(String id) {
-    if (Database.facultyOf(id) == null) {
+    if (!Database.isInDatabase(id)) {
       return false;
     }
     String camp = Database.facultyOf(id);
