@@ -27,11 +27,13 @@ public class App {
 
     int result = 0;
 //    Database.studentToString();
-    while (result == 0) {
+    while (result == 0 || result == 1) {
       operator = new StudentOperator("STUDENT001");
       while (result == 0) {
         result = operator.doOperation();
         if (result == 3) {
+          System.out.println("CONGRATULATIONS! You became a Committee " +
+            "Member. Automatically re-login..");
           operator = new CommitteeMemberOperator("STUDENT001");
           result = 0;
         }

@@ -1,6 +1,7 @@
 package CAMS.Data;
 
 import java.io.Console;
+import java.util.List;
 import java.util.Objects;
 
 public class StudentEnquiryMS {
@@ -50,19 +51,22 @@ public class StudentEnquiryMS {
   }
 
   public void viewOwnEnquiries() {
-        
+
     System.out.println("\n## ENQUIRY VIEWING ##\n");
     Console console = System.console();
-    String camp = console.readLine(STR."""
-      Which camp do you want to view enquiry from? (leave blank to print all the camp for your faculty)
-      Enter camp name:\s""").strip();
+    String camp = console.readLine(
+      "Which camp do you want to view enquiry from? " +
+        "(leave blank to print all the camp for your faculty)\n" +
+        "Enter camp name: ").strip();
 
     while (camp.isEmpty()) {
       Database.printCampsForStudent(userID);
-      camp = console.readLine(STR."""
-        Which camp do you want to view enquiry from? (leave blank to print all the camp for your faculty)
-        Enter camp name:\s""").strip();
+      camp = console.readLine("Which camp do you want to view " +
+        "enquiry from? (leave blank to print all the camp for your faculty)\n" +
+        "Enter camp name: ").strip();
     }
+
+    String faculty = Database.facultyOf(camp);
 
     if (faculty == null) {
       System.out.println("No such a Camp: " + camp);
@@ -71,22 +75,22 @@ public class StudentEnquiryMS {
       !(faculty.equals("NTU"))) {
       System.out.println(STR. "ERROR: you do not have access to \{ camp }." );
       return;
-    }   
+    }
 
-     System.out.println(STR. "These are all enquiry for the camp: \{ camp }" );
+    System.out.println(STR. "These are all enquiry for the camp: \{ camp }" );
 
-     List<RequestData<EnquiryStatus>> enquiries =
+    List<RequestData<EnquiryStatus>> enquiries =
       Database.getCampRequestList(camp, Database.RequestType.ENQUIRY);
 
     for (int i = 0; i < enquiries.size(); i += 1) {
       //only show the enquiry that student make for this camp
-      if (enquiries[i].sender() == userID){
-        System.out.print(STR. "    \{i}. " );
+      if (Objects.equals(enquiries.get(i).sender(), userID)) {
+        System.out.print(STR. "    \{ i }. " );
         System.out.println(
-        enquiries.get(i).toString().indent(4).stripLeading());
+          enquiries.get(i).toString().indent(4).stripLeading());
       }
     }
- }
+  }
 
   public void deleteEnquiry(String id) {
     String sender = Database.findEnquiry(id).sender();

@@ -30,7 +30,7 @@ public class StudentOperator extends UserOperator {
   public int doOperation() {
     Console console = System.console();
     String choice = console.readLine(STR."""
-      Choose your operation:
+      Choose your operation: (role: STUDENT)
           INFORMATION
               1. view information.
               2. change password
@@ -52,12 +52,10 @@ public class StudentOperator extends UserOperator {
     switch (choice) {
 
       case "1" -> {
-        viewInformation();
-        return 0;
+        return viewInformation();
       }
       case "2" -> {
-        changePassword();
-        return 0;
+        return changePassword();
       }
       case "3" -> {
         joinCamp();
@@ -100,15 +98,22 @@ public class StudentOperator extends UserOperator {
     }
   }
 
-  private void viewInformation() {
+  private int viewInformation() {
+    return this.userMS.viewInformation();
 //    return 0;
   }
 
-  private void changePassword() {
+  private int changePassword() {
+    return userMS.changePassword();
 //    return 0;
   }
 
   private void joinCamp() {
+
+    String camp = userMS.joinCamp();
+    if (!campMS.addStudent(camp)) {
+      userMS.deleteCamp(camp);
+    }
 //    return 0;
   }
 
