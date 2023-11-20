@@ -92,6 +92,35 @@ public class StudentEnquiryMS {
     }
   }
 
+  public void editOwnSuggestion() {
+    Console console = System.console();
+    String enquiryID =
+      console.readLine("Enter the ID of your suggestion to edit: ").strip();
+    if (enquiryID == null || enquiryID.isEmpty()) {
+      System.err.println("Enquiry ID cannot be empty.");
+      return;
+    }
+
+    EnquiryData enquiry = Database.findEnquiry(enquiryID);
+    if (enquiry == null || !enquiry.sender().equals(this.userID)) {
+      System.err.println("Enquiry not found or access denied.");
+      return;
+    }
+
+    String newMessage =
+      console.readLine("Enter the new message for your enquiry: ").strip();
+    if (newMessage == null || newMessage.isEmpty()) {
+      System.err.println("New message cannot be empty.");
+      return;
+    }
+
+    enquiry.setMessage(newMessage); 
+
+    System.out.println("Enquiry updated successfully.");
+    return;
+  }
+
+
   public void deleteEnquiry(String id) {
     String sender = Database.findEnquiry(id).sender();
     if (!(Objects.equals(sender, this.userID))) {
