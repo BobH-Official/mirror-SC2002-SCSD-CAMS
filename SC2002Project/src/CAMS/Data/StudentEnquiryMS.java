@@ -93,6 +93,8 @@ public class StudentEnquiryMS {
   }
 
   public void editOwnEnquiry() {
+    //call own method viewOwnEnquiries to show the list of enquiries and their respective ids. This is to allow students to copy paste the ID.
+    viewOwnEnquiries(); 
     Console console = System.console();
     String enquiryID =
       console.readLine("Enter the ID of your suggestion to edit: ").strip();
