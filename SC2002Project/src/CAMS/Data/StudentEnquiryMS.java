@@ -92,7 +92,7 @@ public class StudentEnquiryMS {
     }
   }
 
-  public void editOwnSuggestion() {
+  public void editOwnEnquiry() {
     Console console = System.console();
     String enquiryID =
       console.readLine("Enter the ID of your suggestion to edit: ").strip();
