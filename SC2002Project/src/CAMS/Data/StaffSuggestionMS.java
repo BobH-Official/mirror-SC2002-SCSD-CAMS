@@ -114,6 +114,4 @@ public class StaffSuggestionMS {
     }
     return !pattern.matcher(strNum).matches();
   }
-
-
 }

@@ -1,5 +1,7 @@
 package CAMS.Data;
 
+import CAMS.Data.Utils.PrintHelper;
+
 import java.util.Date;
 
 class CampData {
@@ -24,7 +26,7 @@ class CampData {
     }
     if (committeeSlots > 40 || committeeSlots <= 0) {
       System.out.println(
-        "Committee Total Slots input is invalid, using default value 10.");
+        "Committee Total Slots input is invalid, using default value 40.");
       committeeSlots = 40;
     }
     this.name = name;
@@ -36,7 +38,9 @@ class CampData {
       new CAMS.Data.CampInformation(startDate, endDate, registrationClosingDate,
         userGroup, location, campTotalSlots, committeeSlots, description);
 
-    this.attendees = new CAMS.Data.CampStudentList(campTotalSlots);
+    // We assume that the number of camp committee is counted into total slots.
+    this.attendees =
+      new CAMS.Data.CampStudentList(campTotalSlots - committeeSlots);
     this.committeeMembers = new CAMS.Data.CampStudentList(committeeSlots);
     this.blacklist = new CAMS.Data.CampBlackList();
     this.enquiries = new CAMS.Data.RequestList();
@@ -51,45 +55,49 @@ class CampData {
   }
 
 
-  void addAttendee(String userID) throws IllegalStateException {
+  boolean addAttendee(String userID) {
     // Check if the user is on the blacklist.
     if (blacklist.contains(userID)) {
-      throw new IllegalStateException(
+      PrintHelper.printError(/*msg*/
         "Cannot add attendee. User is on the blacklist.");
+      return false;
     }
     // Check if the user is already a committee member.
     if (committeeMembers.contains(userID)) {
-      throw new IllegalStateException(
+      PrintHelper.printError(
         "Cannot add attendee. User is a committee member.");
+      return false;
     }
     // If checks pass, add the user as an attendee.
-    attendees.addMember(userID);
+    return attendees.addMember(userID);
   }
 
-  void addCommitteeMember(String userID) throws IllegalStateException {
+  boolean addCommitteeMember(String userID) {
     // Check if the user is on the blacklist.
     if (blacklist.contains(userID)) {
-      throw new IllegalStateException(
+      PrintHelper.printError(
         "Cannot add committee member. User is on the blacklist.");
+      return false;
     }
     // Check if the user is already an attendee.
     if (attendees.contains(userID)) {
-      throw new IllegalStateException(
+      PrintHelper.printError(
         "Cannot add committee member. User is an attendee.");
+      return false;
     }
     // If checks pass, add the user as a committee member.
-    committeeMembers.addMember(userID);
+    return committeeMembers.addMember(userID);
   }
 
-  void withdrawAttendee(String userID) throws IllegalStateException {
+  boolean withdrawAttendee(String userID) {
     // Check if the user is an attendee before attempting to remove.
     if (!attendees.contains(userID)) {
-      throw new IllegalStateException(
+      PrintHelper.printError(
         "Cannot withdraw attendee. User is not an attendee.");
+      return false;
     }
     // If the check passes, remove the user from the attendee list.
-    attendees.withdrawMember(userID);
-    blacklist.addMember(userID);
+    return attendees.withdrawMember(userID) && blacklist.addMember(userID);
   }
 
   void addEnquiry(String id) {
@@ -117,7 +125,11 @@ class CampData {
   }
 
   void toggleVisibility() {
-    this.visibility = !this.visibility;
+    if (attendees.isEmpty() && committeeMembers.isEmpty()) {
+      this.visibility = !this.visibility;
+    }
+    PrintHelper.printError(/*msg*/
+      "There are members in the camp, cannot turn off");
   }
 
   String staff() {

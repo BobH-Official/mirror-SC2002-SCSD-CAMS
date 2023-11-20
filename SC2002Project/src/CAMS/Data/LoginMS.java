@@ -28,7 +28,7 @@ public class LoginMS {
       passwd = Arrays.toString(console.readPassword("Password: ")).strip();
     }
 
-    if (!Database.isInDatabase(username)) {
+    if (Database.isNotInDatabase(username)) {
       PrintHelper.printError("User ID NOT Found");
       return new NoLogin();
     }
@@ -42,8 +42,7 @@ public class LoginMS {
           return new NoLogin();
         }
         if (((StudentData) userdata.second()).isCommitteeMember()) {
-          return new CommitteeMemberOperator(userdata.second().id(),
-            managerCampMS);
+          return new CommitteeMemberOperator(userdata.second().id());
         }
         return new StudentOperator(userdata.second().id());
       }
@@ -63,7 +62,7 @@ public class LoginMS {
   }
 
   public static UserOperator changeToCM(String id) {
-    if (!Database.isInDatabase(id)) {
+    if (Database.isNotInDatabase(id)) {
       return new StudentOperator(id);
     }
     StudentData student = Database.findStudent(id);
@@ -71,6 +70,6 @@ public class LoginMS {
     if (!student.isCommitteeMember()) {
       return new StudentOperator(id);
     }
-    return new CommitteeMemberOperator(id, managerCampMS);
+    return new CommitteeMemberOperator(id);
   }
 }

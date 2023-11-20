@@ -24,4 +24,12 @@ public class ManagerEnquiryMS {
     // 7. update the data.
 
   }
+
+  public void view() {
+    // 1. ask for which camp to view
+
+    // 2. get user input
+
+    // 3. print all enquiries.
+  }
 }

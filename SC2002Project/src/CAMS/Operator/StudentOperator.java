@@ -1,5 +1,6 @@
 package CAMS.Operator;
 
+import CAMS.Data.StudentCampMS;
 import CAMS.Data.StudentEnquiryMS;
 import CAMS.Data.StudentMS;
 
@@ -8,11 +9,11 @@ import java.util.regex.Pattern;
 
 public class StudentOperator extends UserOperator {
 
-  private final CAMS.Data.StudentMS userMS;
+  private final StudentMS userMS;
 
-  private final CAMS.Data.StudentEnquiryMS enquiryMS;
+  private final StudentEnquiryMS enquiryMS;
 
-  private final CAMS.Data.StudentCampMS campMS;
+  private final StudentCampMS campMS;
 
 
   public StudentOperator(String id) {
@@ -22,7 +23,7 @@ public class StudentOperator extends UserOperator {
 
     enquiryMS = new StudentEnquiryMS(id);
 
-    this.campMS = new CAMS.Data.StudentCampMS(id);
+    this.campMS = new StudentCampMS(id);
   }
 
 
@@ -35,14 +36,15 @@ public class StudentOperator extends UserOperator {
               1. view information.
               2. change password
           CAMP
-              3. join camp
-              4. withdraw from camp
-              5. join camp as committee member
+              3. view camps
+              4. join camp
+              5. withdraw from camp
+              6. join camp as committee member
           ENQUIRY
-              6. create enquiry.
-              7. view enquiries
-              8. edit enquiry
-              9. delete enquiry
+              7. create enquiry.
+              8. view enquiries
+              9. edit enquiry
+              10. delete enquiry
 
           o. logout (type in logout/o/any numbers)
           q. quit program (type in quit/q/any letters)
@@ -58,30 +60,34 @@ public class StudentOperator extends UserOperator {
         return changePassword();
       }
       case "3" -> {
-        joinCamp();
+        this.viewCamp();
         return 0;
       }
       case "4" -> {
-        withdrawCamp();
+        joinCamp();
         return 0;
       }
       case "5" -> {
+        withdrawCamp();
+        return 0;
+      }
+      case "6" -> {
         joinCampAsCM();
         return 3;
       }
-      case "6" -> {
+      case "7" -> {
         createEnquiry();
         return 0;
       }
-      case "7" -> {
+      case "8" -> {
         viewEnquiry();
         return 0;
       }
-      case "8" -> {
+      case "9" -> {
         editEnquiry();
         return 0;
       }
-      case "9" -> {
+      case "10" -> {
         deleteEnquiry();
         return 0;
       }
@@ -106,6 +112,10 @@ public class StudentOperator extends UserOperator {
     return userMS.changePassword();
   }
 
+  private void viewCamp() {
+    campMS.viewCamps();
+  }
+
   private void joinCamp() {
     String camp = userMS.joinCamp();
     if (campMS.addStudent(camp)) {
@@ -122,7 +132,7 @@ public class StudentOperator extends UserOperator {
 
   private void joinCampAsCM() {
     String camp = userMS.joinCampAsCM();
-    if (campMS.addComitteeMember(camp)) {
+    if (campMS.addCommitteeMember(camp)) {
       userMS.becomeCMOf(camp);
     }
   }
