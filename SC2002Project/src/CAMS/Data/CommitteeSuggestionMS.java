@@ -3,78 +3,89 @@ package CAMS.Data;
 import java.io.Console;
 
 public class CommitteeSuggestionMS {
-  private final String userID;
-  private final Console console;
+    private final String userID;
 
-  // Constructor
-  public CommitteeSuggestionMS(String userID) {
-    this.userID = userID;
-    this.console = System.console();
-  }
-
-  public boolean createSuggestion() {
-    System.out.print("Enter the name of the camp for your suggestion: ");
-    String campName = console.readLine();
-    if (campName == null || campName.trim().isEmpty()) {
-      System.err.println("Camp name cannot be empty.");
-      return false;
+    // Constructor
+    public CommitteeSuggestionMS(String userID) {
+        this.userID = userID;
     }
 
-    System.out.print("Enter your suggestion description: ");
-    String description = console.readLine();
-    if (description == null || description.trim().isEmpty()) {
-      System.err.println("Description cannot be empty.");
-      return false;
+    public boolean createSuggestion() {
+        Console console = System.console();
+        String campName = console.readLine("Enter the name of the camp for your suggestion: ").strip();
+        if (campName == null || campName.isEmpty()) {
+            System.err.println("Camp name cannot be empty.");
+            return false;
+        }
+
+        String description = console.readLine("Enter your suggestion description: ").strip();
+        if (description == null || description.isEmpty()) {
+            System.err.println("Description cannot be empty.");
+            return false;
+        }
+
+        Database.createSuggestion(this.userID, description, campName);
+        System.out.println("Suggestion created successfully.");
+        return true;
     }
 
-    Database.createSuggestion(this.userID, description, campName);
-    System.out.println("Suggestion created successfully.");
-    return true;
-  }
+    public boolean viewOwnSuggestion() {
+        Console console = System.console();
+        String suggestionID = console.readLine("Enter the ID of your suggestion to view: ").strip();
+        if (suggestionID == null || suggestionID.isEmpty()) {
+            System.err.println("Suggestion ID cannot be empty.");
+            return false;
+        }
 
-  public boolean viewOwnSuggestion() {
-    System.out.print("Enter the ID of your suggestion to view: ");
-    String suggestionID = console.readLine();
-    SuggestionData suggestion = Database.findSuggestion(suggestionID);
-    if (suggestion == null || !suggestion.sender().equals(this.userID)) {
-      System.err.println("Suggestion not found or access denied.");
-      return false;
-    }
-    System.out.println("Suggestion Details: " + suggestion);
-    return true;
-  }
-
-  public boolean editOwnSuggestion() {
-    System.out.print("Enter the ID of your suggestion to edit: ");
-    String suggestionID = console.readLine();
-    SuggestionData suggestion = Database.findSuggestion(suggestionID);
-    if (suggestion == null || !suggestion.sender().equals(this.userID)) {
-      System.err.println("Suggestion not found or access denied.");
-      return false;
+        SuggestionData suggestion = Database.findSuggestion(suggestionID);
+        if (suggestion == null || !suggestion.sender().equals(this.userID)) {
+            System.err.println("Suggestion not found or access denied.");
+            return false;
+        }
+        System.out.println("Suggestion Details: " + suggestion);
+        return true;
     }
 
-    System.out.print("Enter the new message for your suggestion: ");
-    String newMessage = console.readLine();
-    if (newMessage == null || newMessage.trim().isEmpty()) {
-      System.err.println("New message cannot be empty.");
-      return false;
+    public boolean editOwnSuggestion() {
+        Console console = System.console();
+        String suggestionID = console.readLine("Enter the ID of your suggestion to edit: ").strip();
+        if (suggestionID == null || suggestionID.isEmpty()) {
+            System.err.println("Suggestion ID cannot be empty.");
+            return false;
+        }
+
+        SuggestionData suggestion = Database.findSuggestion(suggestionID);
+        if (suggestion == null || !suggestion.sender().equals(this.userID)) {
+            System.err.println("Suggestion not found or access denied.");
+            return false;
+        }
+
+        String newMessage = console.readLine("Enter the new message for your suggestion: ").strip();
+        if (newMessage == null || newMessage.isEmpty()) {
+            System.err.println("New message cannot be empty.");
+            return false;
+        }
+
+        System.out.println("Suggestion updated successfully.");
+        return true;
     }
 
-    suggestion.setMessage(
-      newMessage); // Assuming SuggestionData has a setMessage method.
-    return true;
-  }
+    public boolean deleteOwnSuggestion() {
+        Console console = System.console();
+        String suggestionID = console.readLine("Enter the ID of your suggestion to delete: ").strip();
+        if (suggestionID == null || suggestionID.isEmpty()) {
+            System.err.println("Suggestion ID cannot be empty.");
+            return false;
+        }
 
-  public boolean deleteOwnSuggestion() {
-    System.out.print("Enter the ID of your suggestion to delete: ");
-    String suggestionID = console.readLine();
-    SuggestionData suggestion = Database.findSuggestion(suggestionID);
-    if (suggestion == null || !suggestion.sender().equals(this.userID)) {
-      System.err.println("Suggestion not found or access denied.");
-      return false;
+        SuggestionData suggestion = Database.findSuggestion(suggestionID);
+        if (suggestion == null || !suggestion.sender().equals(this.userID)) {
+            System.err.println("Suggestion not found or access denied.");
+            return false;
+        }
+
+        Database.deleteSuggestion(suggestionID);
+        System.out.println("Suggestion deleted successfully.");
+        return true;
     }
-
-    Database.deleteSuggestion(suggestionID);
-    return true;
-  }
 }
