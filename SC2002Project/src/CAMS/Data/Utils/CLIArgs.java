@@ -14,22 +14,25 @@ public class CLIArgs {
   public CLIArgs(List<String> args) {
     if (args.contains("--help") || args.contains("-h")) {
       System.out.println(STR."""
-        This is Camp Management System.
+        \033[47m\033[1m\033[30mCamp Management System\033[0m
         To use this app, you must input student data and staff data.
-        Arguments:
-            --student, -s        input student csv file
-            --staff, -t          input staff csv file
-            --camp, -c           input camp csv file
-            --enquiry, -e        input enquiry csv file
-            --suggestion, -g     input suggestion csv file
-            --db, -d             input database file
-            --output, -o         the path of output database file
-            --help, -h           print this message
-        If arguments contains "--help" or "-h", program will always print this message,
-        The program will read the last input arguments.
-        ie, when input "-s student1.csv -s student2.csv",
-        program will recognize "student2.csv"
+
+        \033[1mArguments\033[0m:
+            --student,    -s      input student csv file
+            --staff,      -t      input staff csv file
+            --camp,       -c      input camp csv file
+            --enquiry,    -e      input enquiry csv file
+            --suggestion, -g      input suggestion csv file
+            --db,         -d      input database file
+            --output,     -o      the path of output database file
+                                  (default: ./data.camsdb)
+            --help, -h            print this message
+
+        If arguments contains "--help" or "-h", program will always print this message.
+        The program will read the last input arguments. ie, when input "-s student1.csv\s
+        -s student2.csv", program will recognize "student2.csv"
         """.strip());
+      System.exit(0);
     }
     int type = 0;
     String student1 = "";
@@ -66,14 +69,14 @@ public class CLIArgs {
               store1 = arg;
             }
             default -> {
-              System.err.println("Cannot parse argument.");
+              PrintHelper.printError("Cannot parse argument.");
               System.exit(1);
             }
           }
           type = 0;
           continue;
         } else {
-          System.err.println("Cannot parse argument.");
+          PrintHelper.printError("Cannot parse argument.");
           System.exit(1);
         }
       }
@@ -100,7 +103,7 @@ public class CLIArgs {
           type = 7;
         }
         default -> {
-          System.err.println("Cannot parse argument.");
+          PrintHelper.printError("Cannot parse argument.");
           System.exit(1);
         }
       }
@@ -112,6 +115,26 @@ public class CLIArgs {
     this.suggestion = suggestion1;
     this.db = db1;
     this.storeTo = store1;
+    if (!this.db.isEmpty()) {
+      System.out.println("Reading database: " + this.db);
+    } else {
+      if (!this.student.isEmpty()) {
+        System.out.println("Reading student: " + this.db);
+      }
+      if (!this.staff.isEmpty()) {
+        System.out.println("Reading staff: " + this.db);
+      }
+      if (!this.camp.isEmpty()) {
+        System.out.println("Reading camp: " + this.db);
+      }
+      if (!this.enquiry.isEmpty()) {
+        System.out.println("Reading enquiry: " + this.db);
+      }
+      if (!this.suggestion.isEmpty()) {
+        System.out.println("Reading suggestion: " + this.db);
+      }
+    }
+    System.out.println("Store the database to: " + storeTo);
   }
 
   public String student() {

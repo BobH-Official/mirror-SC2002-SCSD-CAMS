@@ -10,7 +10,15 @@ public class StudentMS extends CAMS.Data.UserMS {
   }
 
   public String joinCamp() {
+    return "";
+  }
 
+  public void addCamp(String camp) {
+    // this is for the StudentOperation to delete camp in StudentData,
+    // if StudentCampMS failed to add
+  }
+
+  public String withdrawCamp() {
     return "";
   }
 
@@ -19,7 +27,17 @@ public class StudentMS extends CAMS.Data.UserMS {
     // if StudentCampMS failed to add
   }
 
-  public void deleteCamp() {
-    // this is for the action camp deleting.
+  public String joinCampAsCM() {
+    return "";
+  }
+
+  public void becomeCMOf(String camp) {
+  }
+
+  public boolean deleteEnquiry(String enquiry) {
+    return true;
+  }
+
+  public void deleteSuggestion(String suggestion) {
   }
 }

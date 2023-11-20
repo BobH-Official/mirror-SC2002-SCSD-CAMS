@@ -10,33 +10,34 @@ public class CommitteeSuggestionMS {
     this.userID = userID;
   }
 
-  public boolean createSuggestion() {
+  public String createSuggestion() {
     Console console = System.console();
     String campName =
       console.readLine("Enter the name of the camp for your suggestion: ")
         .strip();
-    if (campName == null || campName.isEmpty()) {
+    if (campName.isEmpty()) {
       System.err.println("Camp name cannot be empty.");
-      return false;
+      return null;
     }
 
     String description =
       console.readLine("Enter your suggestion description: ").strip();
-    if (description == null || description.isEmpty()) {
+    if (description.isEmpty()) {
       System.err.println("Description cannot be empty.");
-      return false;
+      return null;
     }
 
-    Database.createSuggestion(this.userID, description, campName);
+    String suggestionID =
+      Database.createSuggestion(this.userID, description, campName);
     System.out.println("Suggestion created successfully.");
-    return true;
+    return suggestionID;
   }
 
   public boolean viewOwnSuggestion() {
     Console console = System.console();
     String suggestionID =
       console.readLine("Enter the ID of your suggestion to view: ").strip();
-    if (suggestionID == null || suggestionID.isEmpty()) {
+    if (suggestionID.isEmpty()) {
       System.err.println("Suggestion ID cannot be empty.");
       return false;
     }
@@ -54,7 +55,7 @@ public class CommitteeSuggestionMS {
     Console console = System.console();
     String suggestionID =
       console.readLine("Enter the ID of your suggestion to edit: ").strip();
-    if (suggestionID == null || suggestionID.isEmpty()) {
+    if (suggestionID.isEmpty()) {
       System.err.println("Suggestion ID cannot be empty.");
       return false;
     }
@@ -67,7 +68,7 @@ public class CommitteeSuggestionMS {
 
     String newMessage =
       console.readLine("Enter the new message for your suggestion: ").strip();
-    if (newMessage == null || newMessage.isEmpty()) {
+    if (newMessage.isEmpty()) {
       System.err.println("New message cannot be empty.");
       return false;
     }
@@ -76,23 +77,27 @@ public class CommitteeSuggestionMS {
     return true;
   }
 
-  public boolean deleteOwnSuggestion() {
+  public String deleteOwnSuggestion() {
     Console console = System.console();
     String suggestionID =
       console.readLine("Enter the ID of your suggestion to delete: ").strip();
-    if (suggestionID == null || suggestionID.isEmpty()) {
+    if (suggestionID.isEmpty()) {
       System.err.println("Suggestion ID cannot be empty.");
-      return false;
+      return null;
     }
 
     SuggestionData suggestion = Database.findSuggestion(suggestionID);
     if (suggestion == null || !suggestion.sender().equals(this.userID)) {
       System.err.println("Suggestion not found or access denied.");
-      return false;
+      return null;
     }
 
     Database.deleteSuggestion(suggestionID);
     System.out.println("Suggestion deleted successfully.");
+    return suggestionID;
+  }
+
+  public boolean deleteEnquiry(String suggestion) {
     return true;
   }
 }

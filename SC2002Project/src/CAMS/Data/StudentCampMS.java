@@ -14,7 +14,7 @@ public class StudentCampMS {
   }
 
   public boolean deleteEnquiry(String id) {
-    if (Database.facultyOf(id) == null) {
+    if (!Database.isInDatabase(id)) {
       return false;
     }
     String camp = Database.facultyOf(id);
@@ -23,5 +23,12 @@ public class StudentCampMS {
 
   public boolean addStudent(String camp) {
     return false;
+  }
+
+  public boolean withdrawStudent(String camp) {
+    return true;
+  }
+
+  public boolean addComitteeMember(String camp) {
   }
 }
