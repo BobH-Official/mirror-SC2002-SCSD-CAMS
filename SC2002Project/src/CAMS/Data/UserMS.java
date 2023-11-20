@@ -62,7 +62,6 @@ public abstract class UserMS {
     switch (Objects.requireNonNull(Database.findUser(userID)).first()) {
       case STAFF -> {
         Objects.requireNonNull(Database.findStaff(userID)).printSelf();
-
       }
       case STUDENT -> {
         Objects.requireNonNull(Database.findStudent(userID)).printSelf();

@@ -390,7 +390,8 @@ public class Database {
   static boolean isInDatabase(String id) {
     if (userMap.containsKey(id)) {
       return true;
-    } if (campMap.containsKey(id)) {
+    }
+    if (campMap.containsKey(id)) {
       return true;
     }
     if (enquiryMap.containsKey(id)) {

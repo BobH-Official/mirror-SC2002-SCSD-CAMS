@@ -15,14 +15,14 @@ public class CommitteeSuggestionMS {
     String campName =
       console.readLine("Enter the name of the camp for your suggestion: ")
         .strip();
-    if (campName == null || campName.isEmpty()) {
+    if (campName.isEmpty()) {
       System.err.println("Camp name cannot be empty.");
       return false;
     }
 
     String description =
       console.readLine("Enter your suggestion description: ").strip();
-    if (description == null || description.isEmpty()) {
+    if (description.isEmpty()) {
       System.err.println("Description cannot be empty.");
       return false;
     }
@@ -36,7 +36,7 @@ public class CommitteeSuggestionMS {
     Console console = System.console();
     String suggestionID =
       console.readLine("Enter the ID of your suggestion to view: ").strip();
-    if (suggestionID == null || suggestionID.isEmpty()) {
+    if (suggestionID.isEmpty()) {
       System.err.println("Suggestion ID cannot be empty.");
       return false;
     }
@@ -54,7 +54,7 @@ public class CommitteeSuggestionMS {
     Console console = System.console();
     String suggestionID =
       console.readLine("Enter the ID of your suggestion to edit: ").strip();
-    if (suggestionID == null || suggestionID.isEmpty()) {
+    if (suggestionID.isEmpty()) {
       System.err.println("Suggestion ID cannot be empty.");
       return false;
     }
@@ -67,7 +67,7 @@ public class CommitteeSuggestionMS {
 
     String newMessage =
       console.readLine("Enter the new message for your suggestion: ").strip();
-    if (newMessage == null || newMessage.isEmpty()) {
+    if (newMessage.isEmpty()) {
       System.err.println("New message cannot be empty.");
       return false;
     }
@@ -80,7 +80,7 @@ public class CommitteeSuggestionMS {
     Console console = System.console();
     String suggestionID =
       console.readLine("Enter the ID of your suggestion to delete: ").strip();
-    if (suggestionID == null || suggestionID.isEmpty()) {
+    if (suggestionID.isEmpty()) {
       System.err.println("Suggestion ID cannot be empty.");
       return false;
     }
