@@ -8,7 +8,6 @@ public class StudentCampMS {
   }
 
   public boolean addEnquiry(String id) {
-
     String camp = Database.findEnquiry(id).camp();
     Database.findCamp(camp).addEnquiry(id);
     return true;
@@ -20,5 +19,9 @@ public class StudentCampMS {
     }
     String camp = Database.facultyOf(id);
     return Database.findCamp(camp).deleteEnquiry(id);
+  }
+
+  public boolean addStudent(String camp) {
+    return false;
   }
 }

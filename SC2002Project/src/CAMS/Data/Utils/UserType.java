@@ -4,4 +4,6 @@ enum UserType {
   //  functions should be `package-level private`, ie no annotation
   STUDENT,
   STAFF,
+
+  NOT_FOUND,
 }

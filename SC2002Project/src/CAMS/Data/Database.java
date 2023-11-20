@@ -359,7 +359,7 @@ public class Database {
     }
   }
 
- static String facultyOf(String id) {
+  static String facultyOf(String id) {
     if (userMap.containsKey(id)) {
       UserData data = Database.userMap.get(id);
       return data.faculty();
@@ -368,12 +368,12 @@ public class Database {
       CampData data = Database.campMap.get(id);
       return data.information().faculty();
     }
-    
+
     System.err.println("No such object in database: " + id);
     return null;
-  } 
+  }
 
-  static String campOf(String id){
+  static String campOf(String id) {
     if (enquiryMap.containsKey(id)) {
       EnquiryData data = Database.enquiryMap.get(id);
       return data.camp();
@@ -381,7 +381,7 @@ public class Database {
     if (suggestionMap.containsKey(id)) {
       SuggestionData data = Database.suggestionMap.get(id);
       return data.camp();
-    } 
+    }
     System.err.println("No such object in database: " + id);
     return null;
   }
@@ -404,7 +404,7 @@ public class Database {
       return new CAMS.Data.Utils.Pair<>(CAMS.Data.UserType.STAFF, user);
     }
 
-    return null;
+    return new CAMS.Data.Utils.Pair<>(CAMS.Data.UserType.NOT_FOUND, user);
   }
 
   enum RequestType {

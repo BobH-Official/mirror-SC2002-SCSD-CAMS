@@ -5,18 +5,21 @@ public class StudentMS extends CAMS.Data.UserMS {
     super(id);
   }
 
-  public void changePassword(String password) {
-    // TODO: should use getter, this is only for demonstration
-
-    CAMS.Data.Utils.Pair<CAMS.Data.UserType, CAMS.Data.UserData> user =
-      Database.findUser(userID);
-    if (user != null) {
-      user.second().setPassword(password);
-    }
-  }
-
   public boolean addEnquiry(String id) {
     return true;
   }
 
+  public String joinCamp() {
+
+    return "";
+  }
+
+  public void deleteCamp(String camp) {
+    // this is for the StudentOperation to delete camp in StudentData,
+    // if StudentCampMS failed to add
+  }
+
+  public void deleteCamp() {
+    // this is for the action camp deleting.
+  }
 }

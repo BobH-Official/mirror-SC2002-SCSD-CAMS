@@ -8,8 +8,8 @@ public abstract class UserOperator {
     this.id = id;
   }
 
-  public boolean doOperation() {
-    return false;
+  public int doOperation() {
+    return 2;
   }
 
   String id() {
