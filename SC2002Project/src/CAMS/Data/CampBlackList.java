@@ -1,5 +1,7 @@
 package CAMS.Data;
 
+import CAMS.Data.Utils.PrintHelper;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,11 +17,13 @@ class CampBlackList {
   }
 
   // Method to add a student to blacklist
-  void addMember(String userID) throws IllegalStateException {
+  boolean addMember(String userID) {
     if (!contains(userID)) {
       members.add(userID);
+      return true;
     } else {
-      throw new IllegalStateException("Student is already in the blacklist.");
+      PrintHelper.printError("Student is already in the blacklist.");
+      return false;
     }
   }
 

@@ -18,4 +18,8 @@ public class CommitteeMemberCampMS {
   public boolean deleteSuggesion(String suggestion) {
     return true;
   }
+
+  public void viewCamp() {
+    // print the camp the current student manages.
+  }
 }

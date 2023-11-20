@@ -6,12 +6,13 @@ import java.io.Console;
 import java.util.regex.Pattern;
 
 public class CommitteeMemberOperator extends UserOperator {
-  private final CAMS.Data.StudentMS userMS;
-  private final CAMS.Data.StudentEnquiryMS enquiryMS;
-  private final CAMS.Data.ManagerEnquiryMS managerEnquiryMS;
-  private final CAMS.Data.CommitteeSuggestionMS suggestionMS;
-  private final CAMS.Data.StudentCampMS campMS;
-  private final CAMS.Data.CommitteeMemberCampMS managerCampMS;
+  private final StudentMS userMS;
+  private final StudentEnquiryMS enquiryMS;
+  private final ManagerEnquiryMS managerEnquiryMS;
+  private final CommitteeSuggestionMS suggestionMS;
+  private final StudentCampMS campMS;
+  private final CommitteeMemberCampMS managerCampMS;
+  private final CampReportMS reportMS;
 
   public CommitteeMemberOperator(String id) {
     super(id);
@@ -24,7 +25,10 @@ public class CommitteeMemberOperator extends UserOperator {
     this.suggestionMS = new CommitteeSuggestionMS(id);
 
     this.campMS = new StudentCampMS(id);
+
     this.managerCampMS = new CommitteeMemberCampMS(id);
+
+    this.reportMS = new CampReportMS(id);
   }
 
   @Override
@@ -36,19 +40,23 @@ public class CommitteeMemberOperator extends UserOperator {
               1. view information.
               2. change password
           CAMP
-              3. join camp
-              4. withdraw from camp
+              3. view camps
+              4. join camp
+              5. withdraw from camp
           ENQUIRY
-              5. create enquiry
-              6. view enquiries
-              7. edit enquiry
-              8. delete enquiry
+              6. create enquiry
+              7. view enquiries
+              8. edit enquiry
+              9. delete enquiry
           CAMP MANAGEMENT
-              9.  reply enquiry
-              10. create suggestion
-              11. view suggestions
-              12. edit suggestion
-              13. delete suggestion
+              10. view committee camp
+              11. reply enquiry
+              12. create suggestion
+              13. view suggestions
+              14. edit suggestion
+              15. delete suggestion
+          REPORT
+              16. generate report
 
           o. logout (type in logout/o/any numbers)
           q. quit program (type in quit/q/any letters)
@@ -64,48 +72,60 @@ public class CommitteeMemberOperator extends UserOperator {
         return changePassword();
       }
       case "3" -> {
-        joinCamp();
+        this.viewCamp();
         return 0;
       }
       case "4" -> {
-        withdrawCamp();
+        joinCamp();
         return 0;
       }
       case "5" -> {
+        withdrawCamp();
+        return 0;
+      }
+      case "6" -> {
         createEnquiry();
         return 3;
       }
-      case "6" -> {
+      case "7" -> {
         viewEnquiry();
         return 0;
       }
-      case "7" -> {
+      case "8" -> {
         editEnquiry();
         return 0;
       }
-      case "8" -> {
+      case "9" -> {
         deleteEnquiry();
         return 0;
       }
-      case "9" -> {
+      case "10" -> {
+        this.viewCMCamp();
+        return 0;
+      }
+      case "11" -> {
         this.replyEnquiry();
         return 0;
       }
-      case "10" -> {
+      case "12" -> {
         this.createSuggestion();
 
         return 0;
       }
-      case "11" -> {
+      case "13" -> {
         this.viewSuggestion();
         return 0;
       }
-      case "12" -> {
+      case "14" -> {
         this.editSuggestion();
         return 0;
       }
-      case "13" -> {
+      case "15" -> {
         this.deleteSuggestion();
+        return 0;
+      }
+      case "16" -> {
+        this.createReport();
         return 0;
       }
       case String s when Pattern.compile("\\d+\\.?\\d*").matcher(s)
@@ -120,13 +140,17 @@ public class CommitteeMemberOperator extends UserOperator {
       }
     }
   }
-  
+
   private int viewInformation() {
     return this.userMS.viewInformation();
   }
 
   private int changePassword() {
     return userMS.changePassword();
+  }
+
+  private void viewCamp() {
+    campMS.viewCamps();
   }
 
   private void joinCamp() {
@@ -178,6 +202,9 @@ public class CommitteeMemberOperator extends UserOperator {
     userMS.deleteEnquiry(enquiry);
   }
 
+  private void viewCMCamp() {
+    managerCampMS.viewCamp();
+  }
 
   private void replyEnquiry() {
     managerEnquiryMS.reply();
@@ -210,12 +237,15 @@ public class CommitteeMemberOperator extends UserOperator {
     String suggestion = suggestionMS.deleteOwnSuggestion();
     if (suggestion == null) {
       return;
-
     }
 
     managerCampMS.deleteSuggesion(suggestion);
 
     userMS.deleteSuggestion(suggestion);
+  }
+
+  private void createReport() {
+    reportMS.generate();
   }
 
   private int logout() {

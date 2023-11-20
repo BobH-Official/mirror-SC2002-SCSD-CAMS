@@ -205,61 +205,19 @@ public class Database {
   static List<String> getCampsList() {
     // Implementation for getting the list of camp names
     // Return the list of camp names
-    return new ArrayList<>(campMap.keySet());
+    List<String> list = new ArrayList<>(campMap.keySet());
+    Collections.sort(list);
+    return list;
   }
 
-  // Static methods to get camp data
-  static List<String> getCampListByFaculty(String faculty) {
-    List<String> camps = new ArrayList<>();
-    for (CampData camp : campMap.values()) {
-      if (Objects.equals(camp.information().faculty(), faculty)) {
-        camps.add(camp.name());
-      }
-    }
-    return camps;
-  }
-
-  static void printCampsByFaculty(String faculty) {
-    // Implementation for printing camps by faculty
-
-    System.out.println("Camps in Faculty:");
-
-    for (CampData camp : campMap.values()) {
-      if (Objects.equals(camp.information().faculty(), faculty)) {
-        System.out.println("    Camp: " + camp.name());
-      }
-    }
-  }
-
-  static void printCampsForStudent(String id) {
-    // Implementation for printing camps by faculty
-    System.out.println("Camps:");
+  static List<CampData> getCampListForStudent(String id) {
     String faculty = Objects.requireNonNull(Database.findStudent(id)).faculty();
 
-    int index = 1;
-    System.out.print(STR."    ");
-    for (CampData camp : campMap.values()) {
-      if (Objects.equals(camp.information().faculty(), "NTU") &&
-        camp.isVisible()) {
-        if (index % 5 == 0) {
-          System.out.print(STR."\n    ");
-        }
-        System.out.print(STR. "\{ camp.name() } " );
-        index += 1;
-      }
-    }
+    List<CampData> camps = getCampListByFaculty(faculty);
+    camps.addAll(getCampListByFaculty("NTU"));
+    camps.sort(Comparator.comparing(CampData::name));
 
-    for (CampData camp : campMap.values()) {
-      if (Objects.equals(camp.information().faculty(), faculty) &&
-        camp.isVisible()) {
-        if (index % 5 == 0) {
-          System.out.print(STR."\n    ");
-        }
-        System.out.print(STR. "\{ camp.name() } " );
-        index += 1;
-      }
-    }
-    System.out.println();
+    return camps;
   }
 
   static StudentData findStudent(String id) {
@@ -274,6 +232,56 @@ public class Database {
     }
 
     return null;
+  }
+
+  // Static methods to get camp data
+  static List<CampData> getCampListByFaculty(String faculty) {
+    List<CampData> camps = new ArrayList<>();
+    List<CampData> camplist = new ArrayList<>(campMap.values());
+    camplist.sort(Comparator.comparing(CampData::name));
+    for (CampData camp : camplist) {
+      if (Objects.equals(camp.information().faculty(), faculty)) {
+        camps.add(camp);
+      }
+    }
+    return camps;
+  }
+
+  static void printCampsByFaculty(String faculty) {
+    // Implementation for printing camps by faculty
+
+    System.out.println("Camps in Faculty:");
+    List<CampData> camps = new ArrayList<>(campMap.values());
+    camps.sort(Comparator.comparing(CampData::name));
+    for (CampData camp : camps) {
+      if (Objects.equals(camp.information().faculty(), faculty)) {
+        System.out.println("    Camp: " + camp.name());
+      }
+    }
+  }
+
+  static void printCampsForStudent(String id) {
+    // Implementation for printing camps by faculty
+    System.out.println("Camps:");
+    String faculty = Objects.requireNonNull(Database.findStudent(id)).faculty();
+
+    int index = 1;
+    System.out.print(STR."    ");
+
+    List<CampData> camps = new ArrayList<>(campMap.values());
+    camps.sort(Comparator.comparing(CampData::name));
+    for (CampData camp : camps) {
+      if ((Objects.equals(camp.information().faculty(), "NTU") ||
+        Objects.equals(camp.information().faculty(), faculty)) &&
+        camp.isVisible()) {
+        if (index % 5 == 0) {
+          System.out.print(STR."\n    ");
+        }
+        System.out.print(STR. "\{ camp.name() } " );
+        index += 1;
+      }
+    }
+    System.out.println();
   }
 
   static <T extends RequestStatus> List<RequestData<T>> getCampRequestList(
@@ -333,10 +341,10 @@ public class Database {
     System.out.println("Camps:");
     List<String> camps =
       Objects.requireNonNull(Database.findStaff(id)).getCampsUnderManagement();
+    Collections.sort(camps);
     int index = 1;
     System.out.print(STR."    ");
     for (String camp : camps) {
-
       if (index % 5 == 0) {
         System.out.print(STR."\n    ");
       }
@@ -387,21 +395,21 @@ public class Database {
     return null;
   }
 
-  static boolean isInDatabase(String id) {
+  static boolean isNotInDatabase(String id) {
     if (userMap.containsKey(id)) {
-      return true;
+      return false;
     }
     if (campMap.containsKey(id)) {
-      return true;
+      return false;
     }
     if (enquiryMap.containsKey(id)) {
-      return true;
+      return false;
     }
     if (suggestionMap.containsKey(id)) {
-      return true;
+      return false;
     }
     System.err.println("No such object in database: " + id);
-    return false;
+    return true;
   }
 
   static CAMS.Data.Utils.Pair<CAMS.Data.UserType, UserData> findUser(

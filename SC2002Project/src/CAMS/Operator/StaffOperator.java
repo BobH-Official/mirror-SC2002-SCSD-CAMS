@@ -1,20 +1,19 @@
 package CAMS.Operator;
 
-import CAMS.Data.ManagerEnquiryMS;
-import CAMS.Data.StaffCampMS;
-import CAMS.Data.StaffMS;
-import CAMS.Data.StaffSuggestionMS;
+import CAMS.Data.*;
 
 import java.io.Console;
 import java.util.regex.Pattern;
 
 public class StaffOperator extends UserOperator {
-  private final CAMS.Data.StaffMS userMS;
-  private final CAMS.Data.ManagerEnquiryMS enquiryMS;
+  private final StaffMS userMS;
+  private final ManagerEnquiryMS enquiryMS;
 
-  private final CAMS.Data.StaffSuggestionMS suggestionMS;
+  private final StaffSuggestionMS suggestionMS;
 
-  private final CAMS.Data.StaffCampMS campMS;
+  private final StaffCampMS campMS;
+
+  private final CampReportMS reportMS;
 
   public StaffOperator(String id) {
     super(id);
@@ -25,6 +24,8 @@ public class StaffOperator extends UserOperator {
     this.suggestionMS = new StaffSuggestionMS(id);
 
     this.campMS = new StaffCampMS(id);
+
+    this.reportMS = new CampReportMS(id);
   }
 
   @Override
@@ -46,6 +47,8 @@ public class StaffOperator extends UserOperator {
           SUGGESTION
               9.  view suggestions
               10. approve/reject suggestions
+          REPORT
+              11. generate report
 
           o. logout (type in logout/o/any numbers)
           q. quit program (type in quit/q/any letters)
@@ -61,36 +64,39 @@ public class StaffOperator extends UserOperator {
         return changePassword();
       }
       case "3" -> {
-        joinCamp();
+        this.createCamp();
         return 0;
       }
       case "4" -> {
-        withdrawCamp();
+        this.viewCamp();
         return 0;
       }
       case "5" -> {
-        createEnquiry();
+        this.editCamp();
         return 3;
       }
       case "6" -> {
-        viewEnquiry();
+        this.deleteCamp();
         return 0;
       }
       case "7" -> {
-        editEnquiry();
+        this.viewEnquiries();
         return 0;
       }
       case "8" -> {
-        deleteEnquiry();
-        return 0;
-      }
-      case "9" -> {
         this.replyEnquiry();
         return 0;
       }
+      case "9" -> {
+        this.viewSuggestion();
+        return 0;
+      }
       case "10" -> {
-        createSuggestion();
-
+        this.editSuggestion();
+        return 0;
+      }
+      case "11" -> {
+        this.createReport();
         return 0;
       }
       case String s when Pattern.compile("\\d+\\.?\\d*").matcher(s)
@@ -116,59 +122,40 @@ public class StaffOperator extends UserOperator {
 //    return 0;
   }
 
-  private void joinCamp() {
-
-    String camp = userMS.joinCamp();
-    if (!campMS.addStudent(camp)) {
-      userMS.deleteCamp(camp);
-    }
-//    return 0;
+  private void createCamp() {
+    campMS.createCamp();
   }
 
-  private void withdrawCamp() {
-//    return 0;
+  private void viewCamp() {
+    campMS.viewCamp();
   }
 
-  private void createEnquiry() {
-    String enquiry = enquiryMS.createEnquiry();
-    if (enquiry == null) {
-      return;
-    }
-    if (!campMS.addEnquiry(enquiry)) {
-      enquiryMS.deleteEnquiry(enquiry);
-      return;
-    }
-    if (!userMS.addEnquiry(enquiry)) {
-      enquiryMS.deleteEnquiry(enquiry);
-      campMS.deleteEnquiry(enquiry);
-    }
+  private void editCamp() {
+    campMS.editCamp();
   }
 
-  private void viewEnquiry() {
-//    return 0;
+  private void deleteCamp() {
+    campMS.deleteCamp();
   }
 
-  private void editEnquiry() {
-//    return 0;
-  }
-
-  private void deleteEnquiry() {
-//    return 0;
+  private void viewEnquiries() {
+    enquiryMS.view();
   }
 
   private void replyEnquiry() {
-  }
-
-  private void createSuggestion() {
+    enquiryMS.reply();
   }
 
   private void viewSuggestion() {
+    suggestionMS.viewSuggestion();
   }
 
   private void editSuggestion() {
+    suggestionMS.suggestionActions();
   }
 
-  private void deleleSuggestion() {
+  private void createReport() {
+    reportMS.generate();
   }
 
   private int logout() {

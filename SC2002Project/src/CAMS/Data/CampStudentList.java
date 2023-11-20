@@ -1,5 +1,7 @@
 package CAMS.Data;
 
+import CAMS.Data.Utils.PrintHelper;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,31 +23,39 @@ public class CampStudentList {
   }
 
   // Method to add a student to the list, throws IllegalStateException if the operation is not possible
-  void addMember(String userID) throws IllegalStateException {
+  boolean addMember(String userID) {
     if (remainingSlots <= 0) {
-      throw new IllegalStateException(
-        "Cannot add student. No remaining slots.");
+      PrintHelper.printError("Cannot add student. No remaining slots.");
+      return false;
     }
     if (members.contains(userID)) {
-      throw new IllegalStateException(
+      PrintHelper.printError(
         "Cannot add student. Student is already in the list.");
+      return false;
     }
     members.add(userID);
     remainingSlots--;
+    return true;
   }
 
   // Method to remove a student from the list,
   // throws `IllegalStateException` if the student is not found
-  void withdrawMember(String userID) throws IllegalStateException {
+  boolean withdrawMember(String userID) {
     if (!members.remove(userID)) {
-      throw new IllegalStateException(
+      PrintHelper.printError(
         "Cannot remove student. Student not found in the list.");
+      return false;
     }
     remainingSlots++;
+    return true;
   }
 
   boolean contains(String userID) {
     return members.contains(userID);
+  }
+
+  boolean isEmpty() {
+    return members.isEmpty();
   }
 
   // Method to get the list of students
