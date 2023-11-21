@@ -14,8 +14,7 @@ class CampData {
   private final CAMS.Data.RequestList enquiries;
   private final CAMS.Data.RequestList suggestions;
   private boolean visibility;
-  private String description;
-  private String location;
+
 
   CampData(String name, String staff, String userGroup, boolean visibility,
            String description, Date startDate, Date endDate,

@@ -8,7 +8,6 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
-
 public class StaffCampMS {
   private final String userID;
 
@@ -125,7 +124,6 @@ public class StaffCampMS {
     viewCamp();
   }
 
-
 public void editCamp() {
   // 1. ask for camp name
   Scanner scanner = new Scanner(System.in);
@@ -193,7 +191,6 @@ private int getIntInput(String prompt) {
   return input;
 }
 
-
 public void deleteCamp() {
   // 1. ask for camp name
   Scanner scanner = new Scanner(System.in);
@@ -212,6 +209,11 @@ public void deleteCamp() {
   System.out.println("Camp deleted successfully!");
 }
 }
+
+
+
+
+
 
 
 
