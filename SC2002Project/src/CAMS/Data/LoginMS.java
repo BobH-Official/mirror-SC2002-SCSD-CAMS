@@ -17,10 +17,10 @@ public class LoginMS {
     Console console = System.console();
     System.out.println(
       "Login to the system using user ID(the part before @ in email).");
-    String username = console.readLine("User ID: ").strip();
+    String username = console.readLine("User ID: ").strip().toUpperCase();
     while (username.isEmpty()) {
       PrintHelper.printError("User ID should not be empty.");
-      username = console.readLine("User ID: ").strip();
+      username = console.readLine("User ID: ").strip().toUpperCase();
     }
     String passwd = console.readLine("Password: ").strip();
     while (passwd.isEmpty()) {
@@ -37,7 +37,7 @@ public class LoginMS {
     assert userdata != null;
     switch (userdata.first()) {
       case STUDENT -> {
-        if (!userdata.second().isPasswordCorrect(passwd)) {
+        if (userdata.second().isPasswordIncorrect(passwd)) {
           PrintHelper.printError("Password incorrect.");
           return new NoLogin();
         }
@@ -47,7 +47,7 @@ public class LoginMS {
         return new StudentOperator(userdata.second().id());
       }
       case STAFF -> {
-        if (!userdata.second().isPasswordCorrect(passwd)) {
+        if (userdata.second().isPasswordIncorrect(passwd)) {
           PrintHelper.printError("Password incorrect.");
           return new NoLogin();
         }

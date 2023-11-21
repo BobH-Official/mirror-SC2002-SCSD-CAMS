@@ -4,6 +4,7 @@ package CAMS.Data;
 
 import CAMS.Data.Utils.CLIArgs;
 import CAMS.Data.Utils.DateHelper;
+import CAMS.Data.Utils.Pair;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -247,6 +248,48 @@ public class Database {
     return camps;
   }
 
+  static boolean canManage(String user, String camp) {
+    Pair<CAMS.Data.UserType, UserData> data = findUser(user);
+    if (data != null) {
+      switch (data.first()) {
+
+        case STUDENT -> {
+          return ((StudentData) data.second()).isCommitteeMember() &&
+            ((StudentData) data.second()).campCommittee().equals(camp);
+        }
+        case STAFF -> {
+          return ((StaffData) data.second()).getCampsUnderManagement()
+            .contains(camp);
+        }
+        default -> {
+          return false;
+        }
+      }
+    }
+    return false;
+  }
+
+  static CAMS.Data.Utils.Pair<CAMS.Data.UserType, UserData> findUser(
+    String id) {
+    if (!userMap.containsKey(id)) {
+      // Return the corresponding UserData object
+      System.err.println(STR. "User \{ id } not found in database." );
+      return null;
+    }
+
+    UserData user = userMap.get(id);
+
+    if (user instanceof StudentData) {
+      return new CAMS.Data.Utils.Pair<>(CAMS.Data.UserType.STUDENT, user);
+    }
+
+    if (user instanceof StaffData) {
+      return new CAMS.Data.Utils.Pair<>(CAMS.Data.UserType.STAFF, user);
+    }
+
+    return new CAMS.Data.Utils.Pair<>(CAMS.Data.UserType.NOT_FOUND, user);
+  }
+
   static void printCampsByFaculty(String faculty) {
     // Implementation for printing camps by faculty
 
@@ -337,6 +380,9 @@ public class Database {
     return suggestionMap.getOrDefault(id, null);
   }
 
+
+  // Static methods to find data from the hashmaps
+
   static void printCampsForStaff(String id) {
     System.out.println("Camps:");
     List<String> camps =
@@ -352,9 +398,6 @@ public class Database {
       index += 1;
     }
   }
-
-
-  // Static methods to find data from the hashmaps
 
   static StaffData findStaff(String userID) {
     // Check if the userMap contains the specified userID
@@ -410,27 +453,6 @@ public class Database {
     }
     System.err.println("No such object in database: " + id);
     return true;
-  }
-
-  static CAMS.Data.Utils.Pair<CAMS.Data.UserType, UserData> findUser(
-    String id) {
-    if (!userMap.containsKey(id)) {
-      // Return the corresponding UserData object
-      System.err.println(STR. "User \{ id } not found in database." );
-      return null;
-    }
-
-    UserData user = userMap.get(id);
-
-    if (user instanceof StudentData) {
-      return new CAMS.Data.Utils.Pair<>(CAMS.Data.UserType.STUDENT, user);
-    }
-
-    if (user instanceof StaffData) {
-      return new CAMS.Data.Utils.Pair<>(CAMS.Data.UserType.STAFF, user);
-    }
-
-    return new CAMS.Data.Utils.Pair<>(CAMS.Data.UserType.NOT_FOUND, user);
   }
 
   enum RequestType {
