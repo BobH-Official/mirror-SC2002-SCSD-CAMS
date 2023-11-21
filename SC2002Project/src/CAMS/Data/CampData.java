@@ -14,6 +14,8 @@ class CampData {
   private final CAMS.Data.RequestList enquiries;
   private final CAMS.Data.RequestList suggestions;
   private boolean visibility;
+  private String description;
+  private String location;
 
   CampData(String name, String staff, String userGroup, boolean visibility,
            String description, Date startDate, Date endDate,
@@ -164,6 +166,14 @@ class CampData {
     System.out.println(this);
   }
 
+  public void setLocation(String location) {
+    this.location = location;
+}
+
+public void setDescription(String description) {
+    this.description = description;
+}
+
 
   @Override
   public String toString() {
@@ -201,4 +211,5 @@ class CampData {
 //        this.suggestions.toString().replace("REQUEST_LIST", "suggestions")
 //          .indent(4).strip()).indent(4)).strip();
   }
+
 }

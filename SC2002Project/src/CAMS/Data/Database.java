@@ -20,7 +20,7 @@ public class Database {
     new HashMap<>();
   private static final HashMap<String, SuggestionData> suggestionMap =
     new HashMap<>();
-  private static final HashMap<String, CampData> campMap = new HashMap<>();
+  static final HashMap<String, CampData> campMap = new HashMap<>();
 
   public static void initialize(CLIArgs args) {
     Database.createStudent(/*name*/"Example Student", /*email*/
@@ -202,7 +202,7 @@ public class Database {
     }
   }
 
-  static List<String> getCampsList() {
+  static List<CampData> getCampsList() {
     // Implementation for getting the list of camp names
     // Return the list of camp names
     List<String> list = new ArrayList<>(campMap.keySet());
