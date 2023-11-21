@@ -126,6 +126,10 @@ class StudentData extends UserData {
               Approved suggestions: \{ this.pointsForApprovedSuggestion }
       """ .strip();
     }
+  }
 
+  @Override
+  String toCsv() {
+    return STR. "\{ super.toCsv() },\{this.isCommitteeMember}\n" ;
   }
 }
