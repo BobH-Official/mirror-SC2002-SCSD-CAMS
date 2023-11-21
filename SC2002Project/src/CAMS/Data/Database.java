@@ -20,7 +20,7 @@ public class Database {
     new HashMap<>();
   private static final HashMap<String, SuggestionData> suggestionMap =
     new HashMap<>();
-  static final HashMap<String, CampData> campMap = new HashMap<>();
+  private static final HashMap<String, CampData> campMap = new HashMap<>();
 
   public static void initialize(CLIArgs args) {
     Database.createStudent(/*name*/"Example Student", /*email*/

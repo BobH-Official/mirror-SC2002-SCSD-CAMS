@@ -184,23 +184,26 @@ private int getIntInput(String prompt) {
   return input;
 }
 
+
 public void deleteCamp() {
-  // 1. ask for camp id
+  // 1. ask for camp name
   Scanner scanner = new Scanner(System.in);
-  System.out.print("Enter camp ID to delete: ");
-  String campID = scanner.nextLine();
+  System.out.print("Enter camp name to delete: ");
+  String campName = scanner.nextLine();
 
   // 2. check if the camp exists
-  if (!Database.getCampsList().contains(campID)) {
-      System.out.println("Camp not found. Please enter a valid camp ID.");
+  CampData campToDelete = Database.findCamp(campName);
+  if (campToDelete == null) {
+      System.out.println("Camp not found. Please enter a valid camp name.");
       return;
   }
 
-  // 3. delete the camp directly from the map
-  Database.campMap.remove(campID);
-
+  // 3. delete the camp
+  Database.deleteCamp(campName);
   System.out.println("Camp deleted successfully!");
 }
-
-
 }
+
+
+
+

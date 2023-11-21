@@ -166,11 +166,11 @@ class CampData {
     System.out.println(this);
   }
 
-  public void setLocation(String location) {
+  void setLocation(String location) {
     this.location = location;
 }
 
-public void setDescription(String description) {
+  void setDescription(String description) {
     this.description = description;
 }
 
