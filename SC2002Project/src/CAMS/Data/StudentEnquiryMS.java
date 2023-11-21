@@ -140,9 +140,8 @@ public class StudentEnquiryMS {
         STR. "Error: User \{ this.userID }: do not have access to the data, failed to delete." );
       return null; 
     }
-    else{
-      return enquiryID; 
-    }
+    
+    return enquiryID; 
   } 
 
   public void deleteEnquiry(String id) {
