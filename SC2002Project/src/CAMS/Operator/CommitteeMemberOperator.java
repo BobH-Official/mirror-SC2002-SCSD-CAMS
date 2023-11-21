@@ -197,7 +197,6 @@ public class CommitteeMemberOperator extends UserOperator {
     String enquiry = enquiryMS.deleteOwnEnquiry();
     if (enquiry == null) {
       return;
-
     }
 
     campMS.deleteEnquiry(enquiry);
@@ -223,7 +222,7 @@ public class CommitteeMemberOperator extends UserOperator {
       suggestionMS.deleteSuggestion(suggestion);
       return;
     }
-    if (!userMS.addEnquiry(suggestion)) {
+    if (!userMS.addSuggestion(suggestion)) {
       suggestionMS.deleteSuggestion(suggestion);
       managerCampMS.deleteSuggestion(suggestion);
     }
