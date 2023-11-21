@@ -110,6 +110,7 @@ class StudentData extends UserData {
       \{ super.toString() }
           Camp joined: \{ this.campAttendee.toString().replace("]", "")
         .replace("[", "") }
+          Enquiries number: \{ this.ownEnquiry.size() }
           Committee Member: \{ this.isCommitteeMember }
           \{ this.isCommitteeMember ? "" : STR. "Camp Committee: \{ }" }
       """ .strip();
@@ -117,6 +118,12 @@ class StudentData extends UserData {
       return STR. """
       \{ super.toString() }
           Committee Member: \{ this.isCommitteeMember }
+          Camp Committee: \{ this.campAsCommitteeMember }
+          Suggestions number: \{ this.ownSuggestions.size() }
+          Point:
+              Replying enquiry:     \{ this.pointsForReplyingEnquiry }
+              Giving suggestion"    \{ this.pointsForGivingSuggestions }
+              Approved suggestions: \{ this.pointsForApprovedSuggestion }
       """ .strip();
     }
 
