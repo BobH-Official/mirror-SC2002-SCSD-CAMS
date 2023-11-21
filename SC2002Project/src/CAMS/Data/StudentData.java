@@ -1,16 +1,19 @@
 package CAMS.Data;
 
-import java.util.ArrayList;
+import CAMS.Data.Utils.DateRangeList;
+
+import java.util.HashSet;
 import java.util.List;
 
-class StudentData extends CAMS.Data.UserData {
-  private final List<String> campAttendee;
-  private final List<String> ownEnquiry; // Assuming integer IDs for enquiries
-  private final CAMS.Data.DateRangeList datesOccupied;
+class StudentData extends UserData {
+  private final HashSet<String> campAttendee;
+  private final HashSet<String> ownEnquiry;
+  // Assuming integer IDs for enquiries
+  private final DateRangeList datesOccupied;
   // Assuming DataRangeList is a defined class
   private final boolean isCommitteeMember;
   private final String campAsCommitteeMember; // Assuming camp ID is a string
-  private final List<String> ownSuggestions;
+  private final HashSet<String> ownSuggestions;
   private int pointsForGivingSuggestions;
   private int pointsForApprovedSuggestion;
   private int pointsForReplyingEnquiry;
@@ -18,16 +21,15 @@ class StudentData extends CAMS.Data.UserData {
 
   StudentData(String name, String email, String faculty, String password) {
     super(name, email, faculty, password);
-    this.campAttendee = new ArrayList<>();
-    this.ownEnquiry = new ArrayList<>();
-    this.datesOccupied =
-      new CAMS.Data.DateRangeList(); // Assuming default constructor
+    this.campAttendee = new HashSet<>();
+    this.ownEnquiry = new HashSet<>();
+    this.datesOccupied = new DateRangeList(); // Assuming default constructor
     this.isCommitteeMember = false;
     this.campAsCommitteeMember = "";
     this.pointsForGivingSuggestions = 0;
     this.pointsForApprovedSuggestion = 0;
     this.pointsForReplyingEnquiry = 0;
-    this.ownSuggestions = new ArrayList<>();
+    this.ownSuggestions = new HashSet<>();
   }
 
   boolean isCommitteeMember() {
@@ -65,19 +67,19 @@ class StudentData extends CAMS.Data.UserData {
   }
 
   List<String> getCampAsAttendee() {
-    return campAttendee;
+    return campAttendee.stream().toList();
   }
 
   List<String> getOwnEnquiries() {
-    return ownEnquiry;
+    return ownEnquiry.stream().toList();
   }
 
-  CAMS.Data.DateRangeList getDatesOccupied() {
+  DateRangeList getDatesOccupied() {
     return datesOccupied;
   }
 
   List<String> getOwnSuggestions() {
-    return ownSuggestions;
+    return ownSuggestions.stream().toList();
   }
 
   void joinAsAttendeeOf(String camp) {
@@ -103,7 +105,27 @@ class StudentData extends CAMS.Data.UserData {
 
   @Override
   public String toString() {
-    return (super.toString() + "Committee Member: " + isCommitteeMember).indent(
-      4);
+    if (this.isCommitteeMember) {
+      return STR. """
+      \{ super.toString() }
+          Camp joined: \{ this.campAttendee.toString().replace("]", "")
+        .replace("[", "") }
+          Enquiries number: \{ this.ownEnquiry.size() }
+          Committee Member: \{ this.isCommitteeMember }
+          \{ this.isCommitteeMember ? "" : STR. "Camp Committee: \{ }" }
+      """ .strip();
+    } else {
+      return STR. """
+      \{ super.toString() }
+          Committee Member: \{ this.isCommitteeMember }
+          Camp Committee: \{ this.campAsCommitteeMember }
+          Suggestions number: \{ this.ownSuggestions.size() }
+          Point:
+              Replying enquiry:     \{ this.pointsForReplyingEnquiry }
+              Giving suggestion"    \{ this.pointsForGivingSuggestions }
+              Approved suggestions: \{ this.pointsForApprovedSuggestion }
+      """ .strip();
+    }
+
   }
 }

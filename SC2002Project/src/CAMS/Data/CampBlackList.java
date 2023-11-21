@@ -3,13 +3,15 @@ package CAMS.Data;
 import CAMS.Data.Utils.PrintHelper;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 
 class CampBlackList {
-  private final List<String> members;
+  private final HashSet<String> members;
 
   CampBlackList() {
-    this.members = new ArrayList<>();
+    this.members = new HashSet<>();
   }
 
   String toCsv() {
@@ -44,10 +46,12 @@ class CampBlackList {
 
   @Override
   public String toString() {
+    List<String> memList = new ArrayList<>(members.stream().toList());
+    Collections.sort(memList);
     StringBuilder strBuilder = new StringBuilder("BLACKLIST:\n");
     for (int i = 0; i < members.size(); i += 1) {
       strBuilder.append("    ").append(i + 1).append(". ")
-        .append(members.get(i)).append("\n");
+        .append(memList.get(i)).append("\n");
     }
     return strBuilder.toString().strip();
   }

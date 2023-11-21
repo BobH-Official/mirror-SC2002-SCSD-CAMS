@@ -5,6 +5,7 @@ package CAMS.Data;
 import CAMS.Data.Utils.CLIArgs;
 import CAMS.Data.Utils.DateHelper;
 import CAMS.Data.Utils.Pair;
+import CAMS.Data.Utils.PrintHelper;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -24,8 +25,30 @@ public class Database {
   private static final HashMap<String, CampData> campMap = new HashMap<>();
 
   public static void initialize(CLIArgs args) {
-    Database.createStudent(/*name*/"Example Student", /*email*/
+    List<List<List<String>>> csvList = new ArrayList<>();
+  }
+
+  public static void initialize() {
+    Database.createStudent(/*name*/"Example Student 1", /*email*/
       "STUDENT001@e.ntu.edu.sg", "SCSE", "password");
+    Database.createStudent(/*name*/"Example Student 2", /*email*/
+      "STUDENT002@e.ntu.edu.sg", "EEE", "password");
+    Database.createStudent(/*name*/"Example Student 3", /*email*/
+      "STUDENT003@e.ntu.edu.sg", "SCSE", "password");
+    Database.createStudent(/*name*/"Example Student 4", /*email*/
+      "STUDENT004@e.ntu.edu.sg", "EEE", "password");
+    Database.createStudent(/*name*/"Example Student 5", /*email*/
+      "STUDENT005@e.ntu.edu.sg", "SCSE", "password");
+
+    Database.createStaff("Example Staff 1", /*email*/
+      "STAFF001@e.ntu.edu.sg", "SCSE", "password",
+      List.of(new String[]{"Camp1", "Camp2", "Camp5"}));
+    Database.createStaff("Example Staff 2", /*email*/
+      "STAFF002@e.ntu.edu.sg", "SCSE", "password",
+      List.of(new String[]{"Camp7", "Camp8"}));
+    Database.createStaff("Example Staff 3", /*email*/
+      "STAFF003@e.ntu.edu.sg", "EEE", "password",
+      List.of(new String[]{"Camp3", "Camp4", "Camp6", "Camp9"}));
 
     Database.createCamp("Camp1", "STAFF001", "NTU", true, "Camp one one one",
       DateHelper.get(2023, 12, 11), DateHelper.get(2023, 12, 13),
@@ -34,25 +57,25 @@ public class Database {
     Database.createCamp("Camp2", "STAFF001", "SCSE", true, "Camp one one one",
       DateHelper.get(2023, 12, 11), DateHelper.get(2023, 12, 13),
       DateHelper.get(2023, 12, 10), "Block N4", 10, 40);
-    Database.createCamp("Camp3", "STAFF001", "SCSE", true, "Camp one one one",
+    Database.createCamp("Camp3", "STAFF003", "EEE", false, "Camp one one one",
       DateHelper.get(2023, 12, 11), DateHelper.get(2023, 12, 13),
       DateHelper.get(2023, 12, 10), "Block N4", 10, 40);
-    Database.createCamp("Camp4", "STAFF001", "NTU", true, "Camp one one one",
+    Database.createCamp("Camp4", "STAFF003", "NTU", true, "Camp one one one",
       DateHelper.get(2023, 12, 11), DateHelper.get(2023, 12, 13),
       DateHelper.get(2023, 12, 10), "Block N4", 10, 40);
-    Database.createCamp("Camp5", "STAFF001", "NTU", true, "Camp one one one",
+    Database.createCamp("Camp5", "STAFF001", "NTU", false, "Camp one one one",
       DateHelper.get(2023, 12, 11), DateHelper.get(2023, 12, 13),
       DateHelper.get(2023, 12, 10), "Block N4", 10, 40);
-    Database.createCamp("Camp6", "STAFF001", "EEE", true, "Camp one one one",
+    Database.createCamp("Camp6", "STAFF003", "EEE", true, "Camp one one one",
       DateHelper.get(2023, 12, 11), DateHelper.get(2023, 12, 13),
       DateHelper.get(2023, 12, 10), "Block N4", 10, 40);
-    Database.createCamp("Camp7", "STAFF001", "SCSE", true, "Camp one one one",
+    Database.createCamp("Camp7", "STAFF002", "SCSE", true, "Camp one one one",
       DateHelper.get(2023, 12, 11), DateHelper.get(2023, 12, 13),
       DateHelper.get(2023, 12, 10), "Block N4", 10, 40);
-    Database.createCamp("Camp8", "STAFF001", "SCSE", true, "Camp one one one",
+    Database.createCamp("Camp8", "STAFF002", "SCSE", true, "Camp one one one",
       DateHelper.get(2023, 12, 11), DateHelper.get(2023, 12, 13),
       DateHelper.get(2023, 12, 10), "Block N4", 10, 40);
-    Database.createCamp("Camp9", "STAFF001", "SCSE", true, "Camp one one one",
+    Database.createCamp("Camp9", "STAFF003", "EEE", true, "Camp one one one",
       DateHelper.get(2023, 12, 11), DateHelper.get(2023, 12, 13),
       DateHelper.get(2023, 12, 10), "Block N4", 10, 40);
   }
@@ -62,6 +85,13 @@ public class Database {
     // create a new student data object and then add it into the user hashmap
     StudentData studentData = new StudentData(name, email, faculty, password);
     userMap.put(studentData.id(), studentData);
+  }
+
+  static void createStaff(String name, String email, String faculty,
+                          String password, List<String> camps) {
+    // create a new staff data object and then add it into the user hashmap
+    StaffData staffData = new StaffData(name, email, faculty, password, camps);
+    userMap.put(staffData.id(), staffData);
   }
 
   static boolean createCamp(String name, String staff, String userGroup,
@@ -81,13 +111,6 @@ public class Database {
         committeeSlots);
     campMap.put(campData.name(), campData);
     return true;
-  }
-
-  static void createStaff(String name, String email, String faculty,
-                          String password, List<String> camps) {
-    // create a new staff data object and then add it into the user hashmap
-    StaffData staffData = new StaffData(name, email, faculty, password, camps);
-    userMap.put(staffData.id(), staffData);
   }
 
   static String createEnquiry(String sender, String message, String camp) {
@@ -124,21 +147,40 @@ public class Database {
           </files>
         </container>
         """.strip().getBytes(StandardCharsets.UTF_8));
-      zipOut.putNextEntry(new ZipEntry("staff.csv"));
-      zipOut.write(
-        Database.getCsvUsers().strip().getBytes(StandardCharsets.UTF_8));
+      String[] filenames =
+        {"staff.csv", "student.csv", "camp.csv", "enquiry.csv",
+          "suggestion.csv"};
+      for (String file : filenames) {
+        zipOut.putNextEntry(new ZipEntry(file));
+        switch (file) {
+          case "staff.csv" -> {
+            zipOut.write(
+              Database.getCsvStaff().strip().getBytes(StandardCharsets.UTF_8));
+          }
+          case "student.csv" -> {
+            zipOut.write(Database.getCsvStudent().strip()
+              .getBytes(StandardCharsets.UTF_8));
+          }
+          case "camp.csv" -> {
+            zipOut.write(
+              Database.getCsvCamp().strip().getBytes(StandardCharsets.UTF_8));
+          }
+          case "enquiry.csv" -> {
+            zipOut.write(Database.getCsvEnquiries().strip()
+              .getBytes(StandardCharsets.UTF_8));
+          }
+          case "suggestion.csv" -> {
+            zipOut.write(Database.getCsvSuggestions().strip()
+              .getBytes(StandardCharsets.UTF_8));
+          }
+          default -> {
+          }
+        }
+      }
       zipOut.close();
     } catch (IOException e) {
       System.err.println(e.getLocalizedMessage());
     }
-  }
-
-  static String getCsvUsers() {
-    String str = "userID,password,name,email,faculty\n";
-    for (UserData user : userMap.values()) {
-      str = str.concat(user.toCsv());
-    }
-    return str.strip();
   }
 
   static String getCsvStaff() {
@@ -171,6 +213,14 @@ public class Database {
     return str.strip();
   }
 
+  static String getCsvEnquiries() {
+    String str = "id,sender,camp,status,message,reply";
+    for (EnquiryData enquiries : enquiryMap.values()) {
+      str = str.concat(enquiries.toCsv());
+    }
+    return str.strip();
+  }
+
   static String getCsvSuggestions() {
     String str = "id,sender,camp,status,message";
     for (SuggestionData suggestion : suggestionMap.values()) {
@@ -179,10 +229,10 @@ public class Database {
     return str.strip();
   }
 
-  static String getCsvSEnquiries() {
-    String str = "id,sender,camp,status,message,reply";
-    for (EnquiryData enquiries : enquiryMap.values()) {
-      str = str.concat(enquiries.toCsv());
+  static String getCsvUsers() {
+    String str = "userID,password,name,email,faculty\n";
+    for (UserData user : userMap.values()) {
+      str = str.concat(user.toCsv());
     }
     return str.strip();
   }
@@ -198,8 +248,14 @@ public class Database {
   }
 
   static void deleteCamp(String id) {
-    if (!campMap.containsKey(id)) {
-      campMap.remove(id);
+    if (campMap.containsKey(id)) {
+      if (campMap.get(id).hasMembers()) {
+        campMap.remove(id);
+      } else {
+        PrintHelper.printError(STR. "Error: can not delete the camp \{ id }." +
+          "There are members in the camp.");
+      }
+
     }
   }
 

@@ -1,31 +1,31 @@
-package CAMS.Data;
+package CAMS.Data.Utils;
 
 import java.util.Date;
 
-class DateRange {
+public class DateRange {
   // TODO: functions should be `private-level private`, ie no annotation
   private Date start;
   private Date end;
 
-  DateRange(Date start, Date end) {
+  public DateRange(Date start, Date end) {
     this.start = start;
     this.end = end;
   }
 
 
-  Date start() {
+  public Date start() {
     return this.start;
   }
 
-  void setStart(Date date) {
+  public void setStart(Date date) {
     this.start = date;
   }
 
-  Date end() {
+  public Date end() {
     return this.end;
   }
 
-  void setEnd(Date date) {
+  public void setEnd(Date date) {
     this.end = date;
   }
 
@@ -44,27 +44,27 @@ class DateRange {
     return STR. "DateRange: \{ this.start } to \{ this.end }" ;
   }
 
-  boolean isClashing(CAMS.Data.DateRange range) {
+  public boolean isClashing(CAMS.Data.Utils.DateRange range) {
     return (this.start.getTime() <= range.end.getTime()) &&
       (this.end.getTime() >= range.start.getTime());
   }
 
-  boolean isNotClashing(CAMS.Data.DateRange range) {
+  public boolean isNotClashing(CAMS.Data.Utils.DateRange range) {
     return !((this.start.getTime() <= range.end.getTime()) &&
       (this.end.getTime() >= range.start.getTime()));
   }
 
-  boolean isClashing(Date date) {
+  public boolean isClashing(Date date) {
     return (this.start.getTime() <= date.getTime()) &&
       (this.end.getTime() >= date.getTime());
   }
 
-  boolean isNotClashing(Date date) {
+  public boolean isNotClashing(Date date) {
     return !((this.start.getTime() <= date.getTime()) &&
       (this.end.getTime() >= date.getTime()));
   }
 
-  void printSelf() {
+  public void printSelf() {
     System.out.println(this);
   }
 }

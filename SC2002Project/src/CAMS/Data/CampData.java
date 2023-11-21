@@ -134,6 +134,10 @@ class CampData {
       "There are members in the camp, cannot turn off");
   }
 
+  boolean hasMembers() {
+    return attendees.isEmpty() && committeeMembers.isEmpty();
+  }
+
   String staff() {
     return this.staff;
   }

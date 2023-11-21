@@ -53,8 +53,19 @@ abstract class UserData {
   void printSelf() {
     System.out.println("STUDENT  : ");
     System.out.println("  ID     : " + this.id);
-
     System.out.println("  NAME : " + this.name);
+    System.out.println(this);
+  }
+
+  @Override
+  public String toString() {
+    return STR. """
+      USER:
+          ID: \{ this.id }
+          NAME: \{ this.name }
+          FACULTY: \{ this.faculty }
+          EMAIL: \{ this.email }
+      """ .strip();
   }
 
 

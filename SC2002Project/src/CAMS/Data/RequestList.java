@@ -1,13 +1,15 @@
 package CAMS.Data;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 
 class RequestList {
-  private final List<String> requests;
+  private final HashSet<String> requests;
 
   RequestList() {
-    this.requests = new ArrayList<>();
+    this.requests = new HashSet<>();
   }
 
   String toCsv() {
@@ -35,10 +37,12 @@ class RequestList {
 
   @Override
   public String toString() {
+    List<String> reqList = new ArrayList<>(requests.stream().toList());
+    Collections.sort(reqList);
     StringBuilder strBuilder = new StringBuilder("REQUEST_LIST:\n");
     for (int i = 0; i < requests.size(); i += 1) {
       strBuilder.append("    ").append(i + 1).append(". ")
-        .append(requests.get(i)).append("\n");
+        .append(reqList.get(i)).append("\n");
     }
     return strBuilder.toString().strip();
   }

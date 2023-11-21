@@ -3,18 +3,20 @@ package CAMS.Data;
 import CAMS.Data.Utils.PrintHelper;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 
 
 public class CampStudentList {
-  private final List<String> members;
+  private final HashSet<String> members;
   private final int slotLimit;
   private int remainingSlots;
 
   // Constructor with slot limit parameter
   CampStudentList(int slotLimit) {
     this.slotLimit = slotLimit;
-    this.members = new ArrayList<>();
+    this.members = new HashSet<>();
     this.remainingSlots = this.slotLimit;
   }
 
@@ -79,9 +81,11 @@ public class CampStudentList {
     strBuilder.append("    remainingSlots: ").append(remainingSlots)
       .append("\n");
     strBuilder.append("    members:\n");
+    List<String> memList = new ArrayList<>(members.stream().toList());
+    Collections.sort(memList);
     for (int i = 0; i < members.size(); i += 1) {
       strBuilder.append("        ").append(i + 1).append(". ")
-        .append(members.get(i)).append("\n");
+        .append(memList.get(i)).append("\n");
     }
     return strBuilder.toString().strip();
   }

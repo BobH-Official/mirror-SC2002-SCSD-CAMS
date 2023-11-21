@@ -32,31 +32,22 @@ public class StaffSuggestionMS {
       console.readLine("Enter the ID of the suggestion you want to act on: ")
         .strip();
 
-    //Not sure why choice is needed here
-    /*String choice = "1";
-
-    while (isNotNumeric(choice)) {
-      System.out.println("Please enter a valid number");
-      choice = "2";
-    }*/
-
-
     // 3. you ask for action
     System.out.println("\nChoose your action:");
     System.out.println("1. Approve this suggestion.");
     System.out.println("2. Reject this suggestion.");
 
-    String actionChoiceStr;
-    int actionChoice;
+    String actionChoice;
+//    int actionChoice;
 
     // Loop until a valid numeric choice is entered
     while (true) {
-      actionChoiceStr = console.readLine("Type in your choice: ").strip();
-      if (isNotNumeric(actionChoiceStr)) {
+      actionChoice = console.readLine("Type in your choice: ").strip();
+      if (isNotNumeric(actionChoice)) {
         System.out.println("Invalid input. Please enter a numeric choice.");
       } else {
         // Change numeric string to an integer
-        actionChoice = Integer.parseInt(actionChoiceStr);
+//        actionChoice = Integer.parseInt(actionChoiceStr);
         break;
       }
     }
@@ -69,16 +60,16 @@ public class StaffSuggestionMS {
     }
 
     switch (actionChoice) {
-      case 1:
+      case "1" -> {
         suggestion.approve();
+
         System.out.println("Suggestion approved for ID: " + suggestionID);
-        break;
-      case 2:
+      }
+      case "2" -> {
         suggestion.reject();
         System.out.println("Suggestion rejected for ID: " + suggestionID);
-        break;
-      default:
-        System.out.println("Invalid choice.");
+      }
+      default -> System.out.println("Invalid choice.");
     }
   }
 
