@@ -141,32 +141,41 @@ public void editCamp() {
 
   // 3. ask for which field to edit
   System.out.println("Select field to edit:");
-  System.out.println("1. Camp Description");
+  System.out.println("1. Description");
   System.out.println("2. Location");
 
-  int choice = getIntInput("Enter your choice (1 or 2): ");
+  // 4. get the new input
+  int choice;
+  do {
+      System.out.print("Enter your choice (1-2): ");
+      while (!scanner.hasNextInt()) {
+          System.out.println("Invalid input. Please enter a number.");
+          scanner.next(); // Consume the invalid input
+      }
+      choice = scanner.nextInt();
+      scanner.nextLine(); // Consume the newline character
+  } while (choice < 1 || choice > 2);
 
-  // 4. get the input
+  // 5. update the camp data using pattern match switch
   String newValue;
   switch (choice) {
-      case 1:
+      case 1 -> {
           System.out.print("Enter new camp description: ");
           newValue = scanner.nextLine();
           campToEdit.setDescription(newValue);
-          break;
-      case 2:
+      }
+      case 2 -> {
           System.out.print("Enter new location: ");
           newValue = scanner.nextLine();
           campToEdit.setLocation(newValue);
-          break;
-      default:
-          System.out.println("Invalid choice. Please enter 1 or 2.");
-          return;
+      }
+      default -> System.out.println("Invalid choice. Please enter 1 or 2.");
   }
 
-  // 5. update the camp data
+  // 6. print success message
   System.out.println("Camp data updated successfully!");
 }
+
 
 // Helper method to get integer input
 private int getIntInput(String prompt) {
