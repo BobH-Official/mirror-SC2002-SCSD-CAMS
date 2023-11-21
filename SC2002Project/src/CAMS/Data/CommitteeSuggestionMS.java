@@ -97,7 +97,9 @@ public class CommitteeSuggestionMS {
     return suggestionID;
   }
 
-  public boolean deleteEnquiry(String suggestion) {
+  public boolean deleteSuggestion(String suggestion) {
+    Database.deleteSuggestion(suggestion);
+    System.out.println("Suggestion deleted successfully.");
     return true;
   }
 }

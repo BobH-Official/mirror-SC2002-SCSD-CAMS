@@ -220,11 +220,11 @@ public class CommitteeMemberOperator extends UserOperator {
       return;
     }
     if (!managerCampMS.addSuggestion(suggestion)) {
-      suggestionMS.deleteEnquiry(suggestion);
+      suggestionMS.deleteSuggestion(suggestion);
       return;
     }
     if (!userMS.addEnquiry(suggestion)) {
-      suggestionMS.deleteEnquiry(suggestion);
+      suggestionMS.deleteSuggestion(suggestion);
       managerCampMS.deleteSuggestion(suggestion);
     }
   }
