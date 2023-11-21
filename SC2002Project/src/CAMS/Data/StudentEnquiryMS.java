@@ -55,7 +55,7 @@ public class StudentEnquiryMS {
     viewOwnEnquiries();
     Console console = System.console();
     String enquiryID =
-      console.readLine("Enter the ID of your suggestion to edit: ").strip();
+      console.readLine("Enter the ID of your enquiry to edit: ").strip();
     if (enquiryID.isEmpty()) {
       System.err.println("Enquiry ID cannot be empty.");
       return;
