@@ -203,6 +203,10 @@ public class Database {
   }
 
   public static void storeDB(String path) {
+
+    // https://stackoverflow.com/questions/2836646/java-serializable-object-to-byte-array
+    // try not to use csv
+
     try (final FileOutputStream fos = new FileOutputStream(path)) {
       ZipOutputStream zipOut = new ZipOutputStream(fos);
 //      ZipEntry zipEntry = ;
