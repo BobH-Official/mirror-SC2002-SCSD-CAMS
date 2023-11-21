@@ -121,6 +121,9 @@ public class StudentOperator extends UserOperator {
 
   private void joinCamp() {
     String camp = userMS.joinCamp();
+    if (camp == null) {
+      return;
+    }
     if (campMS.addStudent(camp)) {
       userMS.addCamp(camp);
     }
@@ -128,6 +131,9 @@ public class StudentOperator extends UserOperator {
 
   private void withdrawCamp() {
     String camp = userMS.withdrawCamp();
+    if (camp == null) {
+      return;
+    }
     if (campMS.withdrawStudent(camp)) {
       userMS.deleteCamp(camp);
     }
@@ -135,6 +141,9 @@ public class StudentOperator extends UserOperator {
 
   private void joinCampAsCM() {
     String camp = userMS.joinCampAsCM();
+    if (camp == null) {
+      return;
+    }
     if (campMS.addCommitteeMember(camp)) {
       userMS.becomeCMOf(camp);
     }
@@ -168,7 +177,6 @@ public class StudentOperator extends UserOperator {
     String enquiry = enquiryMS.deleteOwnEnquiry();
     if (enquiry == null) {
       return;
-
     }
 
     campMS.deleteEnquiry(enquiry);
