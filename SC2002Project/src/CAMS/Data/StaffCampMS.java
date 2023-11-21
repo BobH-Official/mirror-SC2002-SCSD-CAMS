@@ -72,18 +72,14 @@ public class StaffCampMS {
     }
 }
 
-  public void viewCamp() {
+public void viewCamp() {
     // 1. ask for filter, default alphabetically
     // (the get camps funcs in Database returns alphabetically)
     Scanner scanner = new Scanner(System.in);
-    System.out.print("Enter filter : ");
+    System.out.print("Enter filter (date, location, etc.) [default: alphabetical] : ");
     String filter = scanner.nextLine();
 
-    // 2. get the camp list from database, and sort the list
-    // for student,
-    // call Database.getCampListForStudent(String userID)
-    // for sorting, use switch to match Comparator, default to use name.
-    // camps.sort(Comparator.comparing(CampData::name));
+    // 2. get the camp list from the database, and sort the list based on the selected filter
     List<CampData> camps;
     if ("student".equalsIgnoreCase(filter)) {
         camps = Database.getCampListForStudent(userID);
@@ -91,87 +87,105 @@ public class StaffCampMS {
         camps = Database.getCampsList();
     }
 
-    Collections.sort(camps, Comparator.comparing(CampData::name));
+    // Sort the list based on the selected filter
+    switch (filter.toLowerCase()) {
+        case "date":
+            Collections.sort(camps, Comparator.comparing(CampData().information().startDate()));
+            break;
+        case "location":
+            Collections.sort(camps, Comparator.comparing(CampData().information().location()));
+            break;
+        // Add more cases for other filters if needed
+        default:
+            Collections.sort(camps, Comparator.comparing(CampData::name));
+            break;
+    }
 
     // 3. print the names
     System.out.println("Available Camps:");
     for (int i = 0; i < camps.size(); i++) {
         System.out.println((i + 1) + ". " + camps.get(i).name());
     }
-    
 
     // 4. ask for the index
     System.out.println("Enter the index of the camp to view (e/q to exit): ");
-    String userInput=scanner.nextLine();
+    String userInput = scanner.nextLine();
 
     // 5. if is out of index, or input e/q, to exit the function
-    if(userInput=="e"||userInput=="q"){
-      return;
+    if ("e".equalsIgnoreCase(userInput) || "q".equalsIgnoreCase(userInput)) {
+        return;
     }
 
-    int index = Integer.parseInt(userInput) - 1;
+    int index;
+    try {
+        index = Integer.parseInt(userInput) - 1;
+    } catch (NumberFormatException e) {
+        System.out.println("Invalid input. Please enter a valid index.");
+        viewCamp();
+        return;
+    }
 
     // 6. print the camp details
     if (index >= 0 && index < camps.size()) {
-      CampData selectedCamp = camps.get(index);
-      System.out.println("Camp Details:");
-      System.out.println(selectedCamp);
-  } else {
-      System.out.println("Invalid index. Please try again.");
-  }
+        CampData selectedCamp = camps.get(index);
+        System.out.println("Camp Details:");
+        System.out.println(selectedCamp);
+    } else {
+        System.out.println("Invalid index. Please try again.");
+    }
 
     // 7. return to step 3, unless step 5. is true
     viewCamp();
-  }
+}
 
 public void editCamp() {
-  // 1. ask for camp name
-  Scanner scanner = new Scanner(System.in);
-  System.out.print("Enter camp name to edit: ");
-  String campName = scanner.nextLine();
+    // 1. ask for camp name
+    Scanner scanner = new Scanner(System.in);
+    System.out.print("Enter camp name to edit: ");
+    String campName = scanner.nextLine();
 
-  // 2. check if the camp exists
-  CampData campToEdit = Database.findCamp(campName);
-  if (campToEdit == null) {
-      System.out.println("Camp not found. Please enter a valid camp name.");
-      return;
-  }
+    // 2. check if the camp exists
+    CampData campToEdit = Database.findCamp(campName);
+    if (campToEdit == null) {
+        System.out.println("Camp not found. Please enter a valid camp name.");
+        return;
+    }
 
-  // 3. ask for which field to edit
-  System.out.println("Select field to edit:");
-  System.out.println("1. Description");
-  System.out.println("2. Location");
+    // 3. ask for which field to edit
+    System.out.println("Select field to edit:");
+    System.out.println("1. Description");
+    System.out.println("2. Location");
 
-  // 4. get the new input
-  int choice;
-  do {
-      System.out.print("Enter your choice (1-2): ");
-      while (!scanner.hasNextInt()) {
-          System.out.println("Invalid input. Please enter a number.");
-          scanner.next(); // Consume the invalid input
-      }
-      choice = scanner.nextInt();
-      scanner.nextLine(); // Consume the newline character
-  } while (choice < 1 || choice > 2);
+    // 4. get the new input
+    int choice;
+    do {
+        System.out.print("Enter your choice (1-2): ");
+        while (!scanner.hasNextInt()) {
+            System.out.println("Invalid input. Please enter a number.");
+            scanner.next(); // Consume the invalid input
+        }
+        choice = scanner.nextInt();
+        scanner.nextLine(); // Consume the newline character
+    } while (choice < 1 || choice > 2);
 
-  // 5. update the camp data using pattern match switch
-  String newValue;
-  switch (choice) {
-      case 1 -> {
-          System.out.print("Enter new camp description: ");
-          newValue = scanner.nextLine();
-          campToEdit.setDescription(newValue);
-      }
-      case 2 -> {
-          System.out.print("Enter new location: ");
-          newValue = scanner.nextLine();
-          campToEdit.setLocation(newValue);
-      }
-      default -> System.out.println("Invalid choice. Please enter 1 or 2.");
-  }
+    // 5. update the camp data using pattern match switch
+    String newValue;
+    switch (choice) {
+        case 1 -> {
+            System.out.print("Enter new camp description: ");
+            newValue = scanner.nextLine();
+            CampData().information().setDescription(newValue);
+        }
+        case 2 -> {
+            System.out.print("Enter new location: ");
+            newValue = scanner.nextLine();
+            CampData().information().setLocation(newValue);
+        }
+        default -> System.out.println("Invalid choice. Please enter 1 or 2.");
+    }
 
-  // 6. print success message
-  System.out.println("Camp data updated successfully!");
+    // 6. print success message
+    System.out.println("Camp data updated successfully!");
 }
 
 

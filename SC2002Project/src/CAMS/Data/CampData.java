@@ -169,13 +169,6 @@ class CampData {
     System.out.println(this);
   }
 
-  void setLocation(String location) {
-    this.location = location;
-}
-
-  void setDescription(String description) {
-    this.description = description;
-}
 
 
   @Override
