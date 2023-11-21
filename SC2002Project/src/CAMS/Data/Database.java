@@ -2,10 +2,7 @@ package CAMS.Data;
 
 //importing the relevant database java classes
 
-import CAMS.Data.Utils.CLIArgs;
-import CAMS.Data.Utils.DateHelper;
-import CAMS.Data.Utils.Pair;
-import CAMS.Data.Utils.PrintHelper;
+import CAMS.Data.Utils.*;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -25,7 +22,99 @@ public class Database {
   private static final HashMap<String, CampData> campMap = new HashMap<>();
 
   public static void initialize(CLIArgs args) {
-    List<List<List<String>>> csvList = new ArrayList<>();
+    List<List<List<String>>> csvList;
+    if (!args.db().isBlank()) {
+      csvList = CSVHelper.readDB(args.db());
+    } else {
+      csvList = new ArrayList<>();
+      if (args.staff().isBlank()) {
+        csvList.add(new ArrayList<>());
+      } else {
+        csvList.add(CSVHelper.readCSV(args.staff()));
+      }
+      if (args.student().isBlank()) {
+        csvList.add(new ArrayList<>());
+      } else {
+        csvList.add(CSVHelper.readCSV(args.student()));
+      }
+      if (args.camp().isBlank()) {
+        csvList.add(new ArrayList<>());
+      } else {
+        csvList.add(CSVHelper.readCSV(args.camp()));
+      }
+      if (args.enquiry().isBlank()) {
+        csvList.add(new ArrayList<>());
+      } else {
+        csvList.add(CSVHelper.readCSV(args.enquiry()));
+      }
+      if (args.suggestion().isBlank()) {
+        csvList.add(new ArrayList<>());
+      } else {
+        csvList.add(CSVHelper.readCSV(args.suggestion()));
+      }
+    }
+
+    for (int i = 0; i < csvList.size(); i += 1) {
+    }
+  }
+
+  private static void staffFromCsv(List<List<String>> list) {
+    list.removeFirst();
+    for (List<String> li : list) {
+      List<String> info = new ArrayList<>();
+//      String userID, password, name, email, faculty, camps;
+      for (String i : li) {
+        info.addLast(i);
+      }
+      if (li.size() < 6) {
+        info.addLast("");
+      }
+      Database.createStaff(info.get(2), info.get(3), info.get(4), info.get(1),
+        List.of(info.get(5).split("&")));
+    }
+  }
+
+  static void createStaff(String name, String email, String faculty,
+                          String password, List<String> camps) {
+    // create a new staff data object and then add it into the user hashmap
+    StaffData staffData = new StaffData(name, email, faculty, password, camps);
+    userMap.put(staffData.id(), staffData);
+  }
+
+  private static void studentFromCsv(List<List<String>> list) {
+    list.removeFirst();
+    for (List<String> li : list) {
+      List<String> info = new ArrayList<>();
+//      String userID, password, name, email, faculty;
+      for (String i : li) {
+        info.addLast(i);
+      }
+      if (li.size() < 6) {
+        info.addLast("");
+      }
+      Database.createStudent(info.get(2), info.get(3), info.get(4),
+        info.get(1));
+    }
+
+  }
+
+  static void createStudent(String name, String email, String faculty,
+                            String password) {
+    // create a new student data object and then add it into the user hashmap
+    StudentData studentData = new StudentData(name, email, faculty, password);
+    userMap.put(studentData.id(), studentData);
+  }
+
+  private static void campFromCsv(List<List<String>> list) {
+
+  }
+
+  private static void enquiryFromCsv(List<List<String>> list) {
+
+  }
+
+  private static void suggestionFromCsv(List<List<String>> list) {
+
   }
 
   public static void initialize() {
@@ -78,20 +167,6 @@ public class Database {
     Database.createCamp("Camp9", "STAFF003", "EEE", true, "Camp one one one",
       DateHelper.get(2023, 12, 11), DateHelper.get(2023, 12, 13),
       DateHelper.get(2023, 12, 10), "Block N4", 10, 40);
-  }
-
-  static void createStudent(String name, String email, String faculty,
-                            String password) {
-    // create a new student data object and then add it into the user hashmap
-    StudentData studentData = new StudentData(name, email, faculty, password);
-    userMap.put(studentData.id(), studentData);
-  }
-
-  static void createStaff(String name, String email, String faculty,
-                          String password, List<String> camps) {
-    // create a new staff data object and then add it into the user hashmap
-    StaffData staffData = new StaffData(name, email, faculty, password, camps);
-    userMap.put(staffData.id(), staffData);
   }
 
   static boolean createCamp(String name, String staff, String userGroup,
