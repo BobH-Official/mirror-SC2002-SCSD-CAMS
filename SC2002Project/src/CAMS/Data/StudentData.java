@@ -17,6 +17,7 @@ class StudentData extends UserData {
   private int pointsForGivingSuggestions;
   private int pointsForApprovedSuggestion;
   private int pointsForReplyingEnquiry;
+  private int points; 
   // Assuming integer IDs for suggestions
 
   StudentData(String name, String email, String faculty, String password) {
@@ -29,6 +30,7 @@ class StudentData extends UserData {
     this.pointsForGivingSuggestions = 0;
     this.pointsForApprovedSuggestion = 0;
     this.pointsForReplyingEnquiry = 0;
+    this.points = 0; 
     this.ownSuggestions = new HashSet<>();
   }
 
@@ -41,17 +43,23 @@ class StudentData extends UserData {
     return this.campAsCommitteeMember;
   }
 
+  int points(){
+    return this.points
+    }
 
   void increasePointsForGivingSuggestions() {
     this.pointsForGivingSuggestions++;
+    this.points++;
   }
 
   void increasePointsForApprovedSuggestions() {
     this.pointsForApprovedSuggestion++;
+    this.points = this.points + 2; 
   }
 
   void increasePointsForReplyingEnquiry() {
     this.pointsForReplyingEnquiry++;
+    this.points++;
   }
 
   int pointsForGivingSuggestions() {
