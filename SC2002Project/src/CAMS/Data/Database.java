@@ -25,6 +25,10 @@ public class Database {
   private static final HashMap<String, CampData> campMap = new HashMap<>();
 
   public static void initialize(CLIArgs args) {
+    List<List<List<String>>> csvList = new ArrayList<>();
+  }
+
+  public static void initialize() {
     Database.createStudent(/*name*/"Example Student 1", /*email*/
       "STUDENT001@e.ntu.edu.sg", "SCSE", "password");
     Database.createStudent(/*name*/"Example Student 2", /*email*/

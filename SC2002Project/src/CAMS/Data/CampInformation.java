@@ -1,9 +1,11 @@
 package CAMS.Data;
 
+import CAMS.Data.Utils.DateRange;
+
 import java.util.Date;
 
 class CampInformation {
-  private final CAMS.Data.DateRange dates;
+  private final DateRange dates;
   private Date registrationClosingDate;
   private String faculty;
   private String location;
@@ -14,7 +16,7 @@ class CampInformation {
   CampInformation(Date startDate, Date endDate, Date registrationClosingDate,
                   String userGroup, String location, int totalSlots,
                   int committeeSlots, String description) {
-    this.dates = new CAMS.Data.DateRange(startDate, endDate);
+    this.dates = new DateRange(startDate, endDate);
     this.registrationClosingDate = registrationClosingDate;
     this.faculty = userGroup;
     this.location = location;
