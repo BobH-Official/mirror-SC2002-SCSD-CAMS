@@ -56,15 +56,16 @@ abstract class UserData {
     System.out.println("  NAME : " + this.name);
     System.out.println(this);
   }
+
   @Override
   public String toString() {
-    return STR."""
+    return STR. """
       USER:
-          ID: \{this.id}
-          NAME: \{this.name}
-          FACULTY: \{this.faculty}
-          EMAIL: \{this.email}
-      """.strip();
+          ID: \{ this.id }
+          NAME: \{ this.name }
+          FACULTY: \{ this.faculty }
+          EMAIL: \{ this.email }
+      """ .strip();
   }
 
 

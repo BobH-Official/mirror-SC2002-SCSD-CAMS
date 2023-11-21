@@ -1,23 +1,23 @@
-package CAMS.Data;
+package CAMS.Data.Utils;
 
-import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 
-class DateRangeList {
+public class DateRangeList {
   // TODO: functions should be `package-level private`, ie no annotation
 
-  final List<CAMS.Data.DateRange> dates;
+  private final HashSet<DateRange> dates;
 
-  DateRangeList(List<CAMS.Data.DateRange> dates) {
-    this.dates = dates;
+  public DateRangeList(List<DateRange> dates) {
+    this.dates = new HashSet<>(dates);
   }
 
-  DateRangeList() {
-    this.dates = new ArrayList<>();
+  public DateRangeList() {
+    this.dates = new HashSet<>();
   }
 
-  void addDateRange(CAMS.Data.DateRange range) throws Exception {
+  public void addDateRange(DateRange range) throws Exception {
     if (this.isNotClashing(range)) {
       this.dates.add(range);
     } else {
@@ -25,8 +25,8 @@ class DateRangeList {
     }
   }
 
-  boolean isNotClashing(CAMS.Data.DateRange range) {
-    for (CAMS.Data.DateRange rg : this.dates) {
+  public boolean isNotClashing(DateRange range) {
+    for (DateRange rg : this.dates) {
       if (rg.isNotClashing(range)) {
         return true;
       }
@@ -34,12 +34,12 @@ class DateRangeList {
     return false;
   }
 
-  void removeDateRange(CAMS.Data.DateRange range) {
+  public void removeDateRange(DateRange range) {
     dates.remove(range);
   }
 
-  boolean isClashing(CAMS.Data.DateRange range) {
-    for (CAMS.Data.DateRange rg : this.dates) {
+  public boolean isClashing(DateRange range) {
+    for (DateRange rg : this.dates) {
       if (rg.isClashing(range)) {
         return true;
       }
@@ -47,8 +47,8 @@ class DateRangeList {
     return false;
   }
 
-  boolean isClashing(Date date) {
-    for (CAMS.Data.DateRange rg : this.dates) {
+  public boolean isClashing(Date date) {
+    for (DateRange rg : this.dates) {
       if (rg.isClashing(date)) {
         return true;
       }
@@ -56,8 +56,8 @@ class DateRangeList {
     return false;
   }
 
-  boolean isNotClashing(Date date) {
-    for (CAMS.Data.DateRange rg : this.dates) {
+  public boolean isNotClashing(Date date) {
+    for (DateRange rg : this.dates) {
       if (rg.isNotClashing(date)) {
         return true;
       }
@@ -65,14 +65,14 @@ class DateRangeList {
     return false;
   }
 
-  void printSelf() {
+  public void printSelf() {
     System.out.println(this);
   }
 
   @Override
   public String toString() {
     String str = "";
-    for (CAMS.Data.DateRange date : this.dates) {
+    for (DateRange date : this.dates) {
       str = str.concat(date.toString()).concat("\n");
     }
 
