@@ -139,10 +139,10 @@ public class Database {
         <?xml version="1.0" encoding="UTF-8"?>
         <container version="1.0" xmlns="ntu:sc2002:cams:xmlns:container">
           <files>
-            <file full-path="staff.csv" media-type="text/csv" />
-            <file full-path="student.csv" media-type="text/csv" />
             <file full-path="camp.csv" media-type="text/csv" />
             <file full-path="enquiry.csv" media-type="text/csv" />
+            <file full-path="staff.csv" media-type="text/csv" />
+            <file full-path="student.csv" media-type="text/csv" />
             <file full-path="suggestion.csv" media-type="text/csv" />
           </files>
         </container>
@@ -214,7 +214,7 @@ public class Database {
   }
 
   static String getCsvEnquiries() {
-    String str = "id,sender,camp,status,message,reply";
+    String str = "id,sender,camp,status,message,reply\n";
     for (EnquiryData enquiries : enquiryMap.values()) {
       str = str.concat(enquiries.toCsv());
     }
@@ -222,7 +222,7 @@ public class Database {
   }
 
   static String getCsvSuggestions() {
-    String str = "id,sender,camp,status,message";
+    String str = "id,sender,camp,status,message\n";
     for (SuggestionData suggestion : suggestionMap.values()) {
       str = str.concat(suggestion.toCsv());
     }
