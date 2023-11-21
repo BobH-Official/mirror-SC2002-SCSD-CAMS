@@ -59,11 +59,24 @@ public class StaffSuggestionMS {
       return;
     }
 
+    String senderID = suggestion.sender();
+
+    // Retrieve student who made suggestion using userID from suggestion
+    StudentData student = Database.findStudent(senderID);
+
+    if (student != null && student.isCommitteeMember()){
+      // Award points for making a suggestion
+      student.increasePointsForGivingSuggestions();
+    }
+
     switch (actionChoice) {
       case "1" -> {
         suggestion.approve();
-
         System.out.println("Suggestion approved for ID: " + suggestionID);
+        if (student != null && student.isCommitteeMember()){
+          //award additional points for approval
+          student.increasePointsForApprovedSuggestions();
+        }
       }
       case "2" -> {
         suggestion.reject();
