@@ -103,7 +103,20 @@ class StudentData extends CAMS.Data.UserData {
 
   @Override
   public String toString() {
-    return (super.toString() + "Committee Member: " + isCommitteeMember).indent(
-      4);
+    if (this.isCommitteeMember) {
+      return STR. """
+      \{ super.toString() }
+          Camp joined: \{ this.campAttendee.toString().replace("]", "")
+        .replace("[", "") }
+          Committee Member: \{ this.isCommitteeMember }
+          \{ this.isCommitteeMember ? "" : STR. "Camp Committee: \{ }" }
+      """ .strip();
+    } else {
+      return STR. """
+      \{ super.toString() }
+          Committee Member: \{ this.isCommitteeMember }
+      """ .strip();
+    }
+
   }
 }

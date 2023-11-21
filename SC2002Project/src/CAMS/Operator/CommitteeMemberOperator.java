@@ -142,7 +142,9 @@ public class CommitteeMemberOperator extends UserOperator {
   }
 
   private int viewInformation() {
-    return this.userMS.viewInformation();
+    int result = this.userMS.viewInformation();
+    System.console().readLine("Enter enter to continue..");
+    return result;
   }
 
   private int changePassword() {
@@ -184,6 +186,7 @@ public class CommitteeMemberOperator extends UserOperator {
 
   private void viewEnquiry() {
     enquiryMS.viewOwnEnquiries();
+    System.console().readLine("Enter enter to continue..");
   }
 
   private void editEnquiry() {
@@ -204,6 +207,7 @@ public class CommitteeMemberOperator extends UserOperator {
 
   private void viewCMCamp() {
     managerCampMS.viewCamp();
+    System.console().readLine("Enter enter to continue..");
   }
 
   private void replyEnquiry() {
@@ -227,6 +231,7 @@ public class CommitteeMemberOperator extends UserOperator {
 
   private void viewSuggestion() {
     suggestionMS.viewOwnSuggestion();
+    System.console().readLine("Enter enter to continue..");
   }
 
   private void editSuggestion() {
