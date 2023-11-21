@@ -145,7 +145,7 @@ public class StudentEnquiryMS {
     }
   } 
 
-  public String deleteEnquiry(String id) {
+  public void deleteEnquiry(String id) {
       Database.deleteEnquiry(id);
   }
 }
