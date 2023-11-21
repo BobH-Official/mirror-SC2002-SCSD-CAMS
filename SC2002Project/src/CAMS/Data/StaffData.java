@@ -16,7 +16,7 @@ class StaffData extends CAMS.Data.UserData {
   @Override
   String toCsv() {
     return STR. "\{ super.toCsv().strip() },\{ String.join("&",
-      campsUnderManagement) }" ;
+      campsUnderManagement) }\n" ;
   }
 
   void printSelf() {

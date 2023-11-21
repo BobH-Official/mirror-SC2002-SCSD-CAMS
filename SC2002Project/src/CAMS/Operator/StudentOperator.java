@@ -105,7 +105,9 @@ public class StudentOperator extends UserOperator {
   }
 
   private int viewInformation() {
-    return this.userMS.viewInformation();
+    int result = this.userMS.viewInformation();
+    System.console().readLine("Enter enter to continue..");
+    return result;
   }
 
   private int changePassword() {
@@ -114,6 +116,7 @@ public class StudentOperator extends UserOperator {
 
   private void viewCamp() {
     campMS.viewCamps();
+    System.console().readLine("Enter enter to continue..");
   }
 
   private void joinCamp() {
@@ -154,6 +157,7 @@ public class StudentOperator extends UserOperator {
 
   private void viewEnquiry() {
     enquiryMS.viewOwnEnquiries();
+    System.console().readLine("Enter enter to continue..");
   }
 
   private void editEnquiry() {

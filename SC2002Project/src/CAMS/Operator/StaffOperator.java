@@ -113,8 +113,9 @@ public class StaffOperator extends UserOperator {
   }
 
   private int viewInformation() {
-    return this.userMS.viewInformation();
-//    return 0;
+    int result = this.userMS.viewInformation();
+    System.console().readLine("Enter enter to continue..");
+    return result;
   }
 
   private int changePassword() {
@@ -128,6 +129,7 @@ public class StaffOperator extends UserOperator {
 
   private void viewCamp() {
     campMS.viewCamp();
+    System.console().readLine("Enter enter to continue..");
   }
 
   private void editCamp() {
@@ -140,6 +142,7 @@ public class StaffOperator extends UserOperator {
 
   private void viewEnquiries() {
     enquiryMS.view();
+    System.console().readLine("Enter enter to continue..");
   }
 
   private void replyEnquiry() {
@@ -148,6 +151,7 @@ public class StaffOperator extends UserOperator {
 
   private void viewSuggestion() {
     suggestionMS.viewSuggestion();
+    System.console().readLine("Enter enter to continue..");
   }
 
   private void editSuggestion() {

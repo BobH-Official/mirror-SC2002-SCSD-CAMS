@@ -59,6 +59,7 @@ public abstract class UserMS {
   }
 
   public int viewInformation() {
+    System.out.println("## VIEW INFORMATION ##");
     switch (Objects.requireNonNull(Database.findUser(userID)).first()) {
       case STAFF -> {
         Objects.requireNonNull(Database.findStaff(userID)).printSelf();
