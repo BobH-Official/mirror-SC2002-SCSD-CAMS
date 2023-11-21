@@ -13,12 +13,12 @@ abstract class UserData {
     this.name = userName;
     this.email = email;
     this.faculty = faculty;
-    this.id = email.split("@", 2)[0];
+    this.id = email.split("@", 2)[0].toUpperCase();
     this.password = password;
   }
 
-  boolean isPasswordCorrect(String passwd) {
-    return this.password.equals(passwd);
+  boolean isPasswordIncorrect(String passwd) {
+    return !this.password.equals(passwd);
   }
 
   void setPassword(String password) {
