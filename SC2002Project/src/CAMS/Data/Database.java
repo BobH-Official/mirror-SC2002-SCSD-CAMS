@@ -338,7 +338,7 @@ public class Database {
     }
   }
 
-  static List<String> getCampsList() {
+  static List<CampData> getCampsList() {
     // Implementation for getting the list of camp names
     // Return the list of camp names
     List<String> list = new ArrayList<>(campMap.keySet());

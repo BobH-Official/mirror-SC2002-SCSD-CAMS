@@ -15,6 +15,7 @@ class CampData {
   private final CAMS.Data.RequestList suggestions;
   private boolean visibility;
 
+
   CampData(String name, String staff, String userGroup, boolean visibility,
            String description, Date startDate, Date endDate,
            Date registrationClosingDate, String location, int campTotalSlots,
@@ -169,6 +170,7 @@ class CampData {
   }
 
 
+
   @Override
   public String toString() {
     return STR. """
@@ -205,4 +207,5 @@ class CampData {
 //        this.suggestions.toString().replace("REQUEST_LIST", "suggestions")
 //          .indent(4).strip()).indent(4)).strip();
   }
+
 }
