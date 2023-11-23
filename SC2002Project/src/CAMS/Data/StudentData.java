@@ -10,13 +10,14 @@ class StudentData extends UserData {
   private final HashSet<String> ownEnquiry;
   // Assuming integer IDs for enquiries
   private final DateRangeList datesOccupied;
-  // Assuming DataRangeList is a defined class
-  private final boolean isCommitteeMember;
-  private final String campAsCommitteeMember; // Assuming camp ID is a string
   private final HashSet<String> ownSuggestions;
+  // Assuming DataRangeList is a defined class
+  private boolean isCommitteeMember;
+  private String campAsCommitteeMember; // Assuming camp ID is a string
   private int pointsForGivingSuggestions;
   private int pointsForApprovedSuggestion;
   private int pointsForReplyingEnquiry;
+  private int points; 
   // Assuming integer IDs for suggestions
 
   StudentData(String name, String email, String faculty, String password) {
@@ -29,6 +30,7 @@ class StudentData extends UserData {
     this.pointsForGivingSuggestions = 0;
     this.pointsForApprovedSuggestion = 0;
     this.pointsForReplyingEnquiry = 0;
+    this.points = 0; 
     this.ownSuggestions = new HashSet<>();
   }
 
@@ -41,17 +43,23 @@ class StudentData extends UserData {
     return this.campAsCommitteeMember;
   }
 
+  int points(){
+    return this.points
+    }
 
   void increasePointsForGivingSuggestions() {
     this.pointsForGivingSuggestions++;
+    this.points++;
   }
 
   void increasePointsForApprovedSuggestions() {
     this.pointsForApprovedSuggestion++;
+    this.points = this.points + 2; 
   }
 
   void increasePointsForReplyingEnquiry() {
     this.pointsForReplyingEnquiry++;
+    this.points++;
   }
 
   int pointsForGivingSuggestions() {
@@ -70,6 +78,10 @@ class StudentData extends UserData {
     return campAttendee.stream().toList();
   }
 
+  String getCampAsCommitteeMember() {
+    return campAsCommitteeMember;
+  }
+
   List<String> getOwnEnquiries() {
     return ownEnquiry.stream().toList();
   }
@@ -82,8 +94,14 @@ class StudentData extends UserData {
     return ownSuggestions.stream().toList();
   }
 
-  void joinAsAttendeeOf(String camp) {
-    this.campAttendee.add(camp);
+  boolean joinAsAttendeeOf(String camp) {
+    return this.campAttendee.add(camp);
+  }
+
+  void joinAsCommitteeMemberOf(String camp) {
+    this.isCommitteeMember = true;
+    this.campAsCommitteeMember = camp;
+    this.campAttendee.remove(camp);
   }
 
   void withdrawFrom(String camp) {
@@ -102,6 +120,10 @@ class StudentData extends UserData {
     this.ownSuggestions.add(suggestionId);
   }
 
+  @Override
+  String toCsv() {
+    return STR. "\{ super.toCsv() },\{ this.isCommitteeMember }\n" ;
+  }
 
   @Override
   public String toString() {
@@ -126,10 +148,5 @@ class StudentData extends UserData {
               Approved suggestions: \{ this.pointsForApprovedSuggestion }
       """ .strip();
     }
-  }
-
-  @Override
-  String toCsv() {
-    return STR. "\{ super.toCsv() },\{this.isCommitteeMember}\n" ;
   }
 }

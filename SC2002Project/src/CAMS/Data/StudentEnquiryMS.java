@@ -1,5 +1,6 @@
 package CAMS.Data;
 
+
 import java.io.Console;
 import java.util.List;
 import java.util.Objects;
@@ -47,7 +48,7 @@ public class StudentEnquiryMS {
     \{ Database.findEnquiry(enquiry) }
     """ .strip());
 
-    return enquiry;
+    return enquiry; 
   }
 
   public void editOwnEnquiry() {
@@ -55,7 +56,7 @@ public class StudentEnquiryMS {
     viewOwnEnquiries();
     Console console = System.console();
     String enquiryID =
-      console.readLine("Enter the ID of your suggestion to edit: ").strip();
+      console.readLine("Enter the ID of your enquiry to edit: ").strip();
     if (enquiryID.isEmpty()) {
       System.err.println("Enquiry ID cannot be empty.");
       return;
@@ -121,19 +122,29 @@ public class StudentEnquiryMS {
     }
   }
 
-  public void deleteEnquiry(String id) {
-    String sender = Database.findEnquiry(id).sender();
+
+  public String deleteOwnEnquiry() {
+
+    //call own method viewOwnEnquiries to show the list of enquiries and their respective ids. This is to allow students to copy paste the ID.
+    viewOwnEnquiries();  
+    String enquiryID =
+      console.readLine("Enter the ID of your enquiry to delete: ").strip();
+    if (enquiryID.isEmpty()) {
+      System.err.println("Enquiry ID cannot be empty.");
+      return null;
+    }
+    
+    String sender = Database.findEnquiry(enquiryID).sender();
     if (!(Objects.equals(sender, this.userID))) {
       System.err.println(
         STR. "Error: User \{ this.userID }: do not have access to the data, failed to delete." );
+      return null; 
     }
-    Database.deleteEnquiry(id);
-  }
+    
+    return enquiryID; 
+  } 
 
-  public void editOwnEnquiries() {
-  }
-
-  public String deleteOwnEnquiry() {
-    return "";
+  public void deleteEnquiry(String id) {
+      Database.deleteEnquiry(id);
   }
 }
